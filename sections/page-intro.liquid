@@ -9,9 +9,31 @@
     {%- if section.blocks.size > 0 -%}
       <nav class="page-intro__links" aria-label="{{ 'general.on_this_page' | t }}">
         {%- for block in section.blocks -%}
-          <a class="link" href="#{{ block.settings.anchor | handleize }}" {{ block.shopify_attributes }}>
-            {{- block.settings.label | escape -}}
-          </a>
+          {%- liquid
+            assign has_content = true
+            case block.settings.content_source
+              when 'homes'
+                if metaobjects.home_installation.values_count == 0
+                  assign has_content = false
+                endif
+              when 'press'
+                if metaobjects.press_article.values_count == 0
+                  assign has_content = false
+                endif
+              when 'events'
+                if metaobjects.event.values_count == 0
+                  assign has_content = false
+                endif
+            endcase
+            if request.design_mode
+              assign has_content = true
+            endif
+          -%}
+          {%- if has_content -%}
+            <a class="link" href="#{{ block.settings.anchor | handleize }}" {{ block.shopify_attributes }}>
+              {{- block.settings.label | escape -}}
+            </a>
+          {%- endif -%}
         {%- endfor -%}
       </nav>
     {%- endif -%}
@@ -88,6 +110,19 @@
           "id": "anchor",
           "label": "t:labels.anchor",
           "info": "t:info.anchor"
+        },
+        {
+          "type": "select",
+          "id": "content_source",
+          "label": "t:labels.content_source",
+          "info": "t:info.content_source",
+          "options": [
+            { "value": "always", "label": "t:options.content_source.always" },
+            { "value": "homes", "label": "t:options.content_source.homes" },
+            { "value": "press", "label": "t:options.content_source.press" },
+            { "value": "events", "label": "t:options.content_source.events" }
+          ],
+          "default": "always"
         }
       ]
     }

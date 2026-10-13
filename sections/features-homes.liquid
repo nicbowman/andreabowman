@@ -1,50 +1,75 @@
 {%- liquid
   assign entries = metaobjects.home_installation.values
   assign limit = section.settings.items_to_show
+  assign only_designers = section.settings.only_with_designer
+
+  assign shown = 0
+  for entry in entries
+    if only_designers and entry.designer.value == blank
+      continue
+    endif
+    assign shown = shown | plus: 1
+  endfor
 -%}
 
-<section
-  id="{{ section.settings.anchor | handleize | default: section.id }}"
-  class="page-width feature-list feature-homes"
-  aria-labelledby="Heading-{{ section.id }}"
->
-  <div class="section-heading">
-    <h2 id="Heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
-  </div>
+{%- if shown > 0 or request.design_mode -%}
+  <section
+    id="{{ section.settings.anchor | handleize | default: section.id }}"
+    class="page-width feature-list feature-homes"
+    aria-labelledby="Heading-{{ section.id }}"
+  >
+    <div class="section-heading">
+      <h2 id="Heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+    </div>
 
-  {%- if entries.size > 0 -%}
-    <ul class="feature-homes__grid" role="list">
-      {%- for entry in entries limit: limit -%}
-        {%- liquid
-          assign title = entry.title.value
-          assign painting = entry.painting.value
-          assign designer = entry.designer.value
-        -%}
-        <li>
-          <figure class="feature-homes__item">
-            {% render 'cover-image', image: entry.image.value, ratio: '4-5', alt: title %}
-            <figcaption class="feature-caption">
-              <span class="feature-caption__title">{{ title | escape }}</span>
-              {%- if painting or designer != blank -%}
-                <span class="feature-caption__meta">
-                  {%- if painting -%}
-                    <a href="{{ painting.url }}">{{ painting.title | escape }}</a>.
-                  {%- endif -%}
-                  {%- if designer != blank -%}
-                    {%- if painting -%}{{ ' ' }}{%- endif -%}
-                    {{- 'features.interiors_by' | t: designer: designer -}}
-                  {%- endif -%}
-                </span>
-              {%- endif -%}
-            </figcaption>
-          </figure>
-        </li>
-      {%- endfor -%}
-    </ul>
-  {%- elsif request.design_mode -%}
-    <p class="text-muted">{{ 'features.empty_homes' | t }}</p>
-  {%- endif -%}
-</section>
+    {%- if shown > 0 -%}
+      <ul class="feature-homes__grid" role="list">
+        {%- assign count = 0 -%}
+        {%- for entry in entries -%}
+          {%- liquid
+            assign title = entry.title.value
+            assign painting = entry.painting.value
+            assign designer = entry.designer.value
+            assign designer_url = entry.designer_url.value
+            if only_designers and designer == blank
+              continue
+            endif
+            if count >= limit
+              break
+            endif
+            assign count = count | plus: 1
+          -%}
+          <li>
+            <figure class="feature-homes__item">
+              {% render 'cover-image', image: entry.image.value, ratio: '4-5', alt: title, captioned: true %}
+              <figcaption class="feature-caption">
+                <span class="feature-caption__title">{{ title | escape }}</span>
+                {%- if painting or designer != blank -%}
+                  <span class="feature-caption__meta">
+                    {%- if painting -%}
+                      <a href="{{ painting.url }}">{{ painting.title | escape }}</a>.
+                    {%- endif -%}
+                    {%- if designer != blank -%}
+                      {%- if painting -%}{{ ' ' }}{%- endif -%}
+                      {%- if designer_url != blank -%}
+                        {%- capture designer_link -%}<a href="{{ designer_url }}" rel="noopener" target="_blank">{{ designer | escape }}<span class="visually-hidden"> {{ 'accessibility.new_window' | t }}</span></a>{%- endcapture -%}
+                        {{- 'features.interiors_by_html' | t: designer: designer_link -}}
+                      {%- else -%}
+                        {{- 'features.interiors_by' | t: designer: designer -}}
+                      {%- endif -%}
+                    {%- endif -%}
+                  </span>
+                {%- endif -%}
+              </figcaption>
+            </figure>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <p class="text-muted">{{ 'features.empty_homes' | t }}</p>
+    {%- endif -%}
+  </section>
+{%- endif -%}
 
 {% stylesheet %}
   .feature-homes__grid {
@@ -90,6 +115,12 @@
       "id": "heading",
       "label": "t:labels.heading",
       "default": "In homes"
+    },
+    {
+      "type": "checkbox",
+      "id": "only_with_designer",
+      "label": "t:labels.only_with_designer",
+      "default": false
     },
     {
       "type": "range",

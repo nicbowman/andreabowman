@@ -1,0 +1,17 @@
+{% doc %}
+  One testimonial: the quote and who said it.
+
+  @param {object} entry - A testimonial metaobject
+  @param {boolean} [hidden] - Render hidden (used when several rotate)
+
+  @example
+  {% render 'testimonial-quote', entry: section.settings.testimonial %}
+{% enddoc %}
+
+<figure class="page-width testimonial__inner" {% if hidden %}hidden{% endif %}>
+  <blockquote class="testimonial__quote">{{ entry.quote.value | escape | newline_to_br }}</blockquote>
+  <figcaption class="testimonial__cite">
+    {{- entry.name.value | escape -}}
+    {%- if entry.role.value != blank -%}, {{ entry.role.value | escape }}{%- endif -%}
+  </figcaption>
+</figure>

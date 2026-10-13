@@ -1,3 +1,13 @@
+{%- liquid
+  assign with_images = 0
+  for block in section.blocks
+    if block.settings.image
+      assign with_images = with_images | plus: 1
+    endif
+  endfor
+-%}
+
+{%- if with_images > 0 or request.design_mode -%}
 <section class="page-width image-row" aria-labelledby="Heading-{{ section.id }}">
   <div class="section-heading">
     <h2 id="Heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
@@ -6,12 +16,16 @@
   {%- if section.blocks.size > 0 -%}
     <ul class="image-row__grid" role="list">
       {%- for block in section.blocks -%}
+        {%- if block.settings.image == blank and request.design_mode == false -%}
+          {%- continue -%}
+        {%- endif -%}
         <li {{ block.shopify_attributes }}>
           <figure class="image-row__item">
             {% render 'cover-image',
               image: block.settings.image,
               ratio: '1-1',
               alt: block.settings.caption,
+              captioned: true,
               sizes: '(min-width: 1320px) 380px, (min-width: 750px) 30vw, 100vw'
             %}
             {%- if block.settings.caption != blank -%}
@@ -23,6 +37,7 @@
     </ul>
   {%- endif -%}
 </section>
+{%- endif -%}
 
 {% stylesheet %}
   .image-row {
