@@ -35,6 +35,7 @@
         {%- endif -%}
 
         <input type="hidden" name="contact[Link]" value="{{ shop.url }}{{ product.url }}">
+        <input type="hidden" name="contact[Enquiry]" value="{{ 'products.enquiry.type_enquiry' | t | escape }}">
 
         <label class="field" for="ProductEnquiry-painting">
           {{- 'products.enquiry.painting' | t -}}
@@ -92,6 +93,28 @@
           >
         </label>
 
+        <fieldset class="choice-group">
+          <legend class="choice-group__legend">{{ 'forms.preferred_contact' | t }}</legend>
+          <div class="choice-group__options">
+            {%- assign methods = 'forms.method_email,forms.method_phone,forms.method_whatsapp' | split: ',' -%}
+            {%- for method in methods -%}
+              {%- assign method_label = method | t -%}
+              <label class="choice" for="ProductEnquiry-method-{{ forloop.index }}">
+                <input
+                  type="radio"
+                  id="ProductEnquiry-method-{{ forloop.index }}"
+                  name="contact[Preferred contact]"
+                  value="{{ method_label | escape }}"
+                  {% if forloop.first %}
+                    checked
+                  {% endif %}
+                >
+                <span>{{ method_label }}</span>
+              </label>
+            {%- endfor -%}
+          </div>
+        </fieldset>
+
         <label class="field" for="ProductEnquiry-message">
           {{- 'products.enquiry.message' | t -}}
           <textarea
@@ -106,6 +129,7 @@
         </label>
 
         <button class="button product-enquiry__submit" type="submit">{{ 'products.enquiry.submit' | t }}</button>
+        {% render 'consent-note' %}
       {%- endif -%}
     {%- endform -%}
   </div>

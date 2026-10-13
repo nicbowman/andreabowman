@@ -1,0 +1,112 @@
+{% doc %}
+  Draws the painting to scale beside a 1.7 m figure, from a dimensions string such as "120 x 105 x 4 cm"
+  (width first, then height). Renders nothing if the dimensions cannot be read.
+
+  @param {string} dimensions - The painting's dimensions metafield value
+  @param {image} [image] - The painting image, shown inside the drawn canvas
+  @param {string} title - The painting title, for the accessible description
+
+  @example
+  {% render 'scale-figure', dimensions: product.metafields.custom.dimensions.value, image: product.featured_image, title: product.title %}
+{% enddoc %}
+
+{%- liquid
+  assign parts = dimensions | downcase | remove: 'cm' | split: 'x'
+  assign width = parts[0] | strip | plus: 0
+  assign height = parts[1] | strip | plus: 0
+-%}
+
+{%- if width > 0 and height > 0 -%}
+  {%- liquid
+    assign person_height = 170
+    assign gap = 50
+    assign person_width = 46
+    assign centre_height = 150
+    assign half = height | divided_by: 2.0
+    assign top_from_floor = centre_height | plus: half
+    if top_from_floor < person_height
+      assign scene_height = person_height | plus: 10
+    else
+      assign scene_height = top_from_floor | plus: 10
+    endif
+    assign floor_y = scene_height
+    assign painting_y = floor_y | minus: top_from_floor
+    assign person_x = width | plus: gap
+    assign scene_width = person_x | plus: person_width | plus: 4
+    assign head_cy = floor_y | minus: person_height | plus: 11
+    assign body_y = floor_y | minus: 150
+    assign legs_y = floor_y | minus: 82
+    assign label = 'products.scale_label' | t: title: title, dimensions: dimensions
+  -%}
+  <figure class="scale-figure">
+    <svg
+      class="scale-figure__svg"
+      viewBox="-2 -2 {{ scene_width | plus: 4 }} {{ scene_height | plus: 4 }}"
+      role="img"
+      aria-label="{{ label | escape }}"
+    >
+      <defs>
+        <clipPath id="ScaleClip-{{ width }}-{{ height }}">
+          <rect x="0" y="{{ painting_y }}" width="{{ width }}" height="{{ height }}"></rect>
+        </clipPath>
+      </defs>
+      <line class="scale-figure__floor" x1="-2" x2="{{ scene_width | plus: 2 }}" y1="{{ floor_y }}" y2="{{ floor_y }}"></line>
+      {%- if image -%}
+        <image
+          href="{{ image | image_url: width: 400 }}"
+          x="0"
+          y="{{ painting_y }}"
+          width="{{ width }}"
+          height="{{ height }}"
+          preserveAspectRatio="xMidYMid slice"
+          clip-path="url(#ScaleClip-{{ width }}-{{ height }})"
+        ></image>
+      {%- endif -%}
+      <rect class="scale-figure__canvas" x="0" y="{{ painting_y }}" width="{{ width }}" height="{{ height }}"></rect>
+      <g class="scale-figure__person">
+        <circle cx="{{ person_x | plus: 23 }}" cy="{{ head_cy }}" r="11"></circle>
+        <rect x="{{ person_x | plus: 5 }}" y="{{ body_y }}" width="36" height="74" rx="16"></rect>
+        <rect x="{{ person_x | plus: 9 }}" y="{{ legs_y }}" width="12" height="82" rx="5"></rect>
+        <rect x="{{ person_x | plus: 25 }}" y="{{ legs_y }}" width="12" height="82" rx="5"></rect>
+      </g>
+    </svg>
+    <figcaption class="scale-figure__caption">{{ 'products.scale_caption' | t }}</figcaption>
+  </figure>
+{%- endif -%}
+
+{% stylesheet %}
+  .scale-figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .scale-figure__svg {
+    width: 100%;
+    max-width: 240px;
+    height: auto;
+    max-height: 200px;
+    overflow: visible;
+  }
+
+  .scale-figure__floor {
+    stroke: var(--color-hairline);
+    stroke-width: 1.5;
+  }
+
+  .scale-figure__canvas {
+    fill: none;
+    stroke: var(--color-ink);
+    stroke-width: 0.8;
+  }
+
+  .scale-figure__person {
+    fill: var(--color-field-line);
+  }
+
+  .scale-figure__caption {
+    font-size: var(--text-size-label);
+    color: var(--color-muted);
+  }
+{% endstylesheet %}

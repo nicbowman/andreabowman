@@ -1,9 +1,21 @@
 {%- liquid
   assign source = section.settings.collection
   assign limit = section.settings.products_to_show | plus: 0
+
+  assign eligible = 0
+  for item in source.products limit: 24
+    if item.id == product.id
+      continue
+    endif
+    assign item_tags = item.tags | join: '|' | downcase | split: '|'
+    if item_tags contains 'sold'
+      continue
+    endif
+    assign eligible = eligible | plus: 1
+  endfor
 -%}
 
-{%- if source and source.products_count > 0 -%}
+{%- if eligible >= 3 or request.design_mode and eligible > 0 -%}
   <section class="page-width section more-works" aria-labelledby="MoreWorksHeading-{{ section.id }}">
     <div class="section-heading">
       <h2 id="MoreWorksHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
