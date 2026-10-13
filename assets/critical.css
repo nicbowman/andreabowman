@@ -23,12 +23,14 @@
   --text-size-h1: 50px;
   --text-size-h2: 34px;
   --text-size-h3: 26px;
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --dur-fast: 250ms;
-  --dur-base: 500ms;
-  --dur-slow: 700ms;
-  --dur-swap: 300ms;
-  --reveal-distance: 12px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-fade: cubic-bezier(0.33, 0, 0.2, 1);
+  --dur-fast: 300ms;
+  --dur-base: 600ms;
+  --dur-slow: 1000ms;
+  --dur-swap: 450ms;
+  --dur-image: 1100ms;
+  --reveal-distance: 16px;
   --header-height: 89px;
   --transition-colour: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }
@@ -476,28 +478,8 @@ select.field__input {
 }
 
 /* Motion (see CLAUDE.md). Hidden start states only apply under .js-motion,
-   which an inline script sets on <html> when reduced motion is not requested. */
-
-@view-transition {
-  navigation: auto;
-}
-
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: var(--dur-swap);
-  animation-timing-function: var(--ease-out);
-}
-
-@keyframes motion-enter {
-  from {
-    opacity: 0;
-    transform: translateY(var(--reveal-distance));
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
+   which an inline script sets on <html> when reduced motion is not requested.
+   Opacity eases gently (--ease-fade) so nothing pops; movement decelerates softly (--ease-out). */
 
 @keyframes motion-fade {
   from {
@@ -508,16 +490,90 @@ select.field__input {
   }
 }
 
-.js-motion main {
-  animation: motion-enter var(--dur-slow) var(--ease-out) both;
+@keyframes motion-rise {
+  from {
+    transform: translateY(var(--reveal-distance));
+  }
+  to {
+    transform: none;
+  }
 }
 
+@keyframes motion-settle {
+  from {
+    transform: scale(1.025);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes motion-settle-hero {
+  from {
+    transform: scale(1.045);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes motion-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes motion-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Page transitions: the old page fades away quickly, the new one fades and rises in.
+   The header is its own layer, so it stays still between pages. */
+@view-transition {
+  navigation: auto;
+}
+
+.shopify-section-group-header-group {
+  view-transition-name: site-header;
+}
+
+::view-transition-old(root) {
+  animation: motion-fade-out 280ms var(--ease-fade) both;
+}
+
+::view-transition-new(root) {
+  animation:
+    motion-fade var(--dur-swap) var(--ease-fade) 80ms both,
+    motion-rise var(--dur-slow) var(--ease-out) 80ms both;
+  --reveal-distance: 10px;
+}
+
+::view-transition-group(site-header) {
+  animation-duration: var(--dur-swap);
+  animation-timing-function: var(--ease-fade);
+}
+
+/* First visit only: after a page transition the content is already in place. */
+.js-motion:not(.via-transition) main {
+  animation:
+    motion-fade var(--dur-slow) var(--ease-fade) both,
+    motion-rise var(--dur-slow) var(--ease-out) both;
+}
+
+/* Scroll reveals */
 .js-motion .reveal {
   opacity: 0;
   transform: translateY(var(--reveal-distance));
   transition:
-    opacity var(--dur-slow) var(--ease-out) var(--reveal-delay, 0ms),
-    transform var(--dur-slow) var(--ease-out) var(--reveal-delay, 0ms);
+    opacity var(--dur-slow) var(--ease-fade) var(--reveal-delay, 0ms),
+    transform calc(var(--dur-slow) * 1.2) var(--ease-out) var(--reveal-delay, 0ms);
 }
 
 .js-motion .reveal.is-revealed {
@@ -525,20 +581,51 @@ select.field__input {
   transform: none;
 }
 
-/* Images fade in over the mount colour once loaded */
+/* Section heading hairlines draw across from the left as the heading appears */
+.js-motion .section-heading.reveal {
+  position: relative;
+  border-bottom-color: transparent;
+}
+
+.js-motion .section-heading.reveal::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background-color: var(--color-hairline);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform calc(var(--dur-slow) * 1.4) var(--ease-out) 150ms;
+}
+
+.js-motion .section-heading.reveal.is-revealed::after {
+  transform: scaleX(1);
+}
+
+/* Images fade in over the mount colour and settle from a faint scale once loaded.
+   Fill mode is backwards so hover transforms work after the image has settled. */
 .js-motion .fade-image {
   opacity: 0;
-  transition: opacity var(--dur-base) var(--ease-out);
+  transition: opacity var(--dur-image) var(--ease-fade);
 }
 
 .js-motion .fade-image.is-loaded {
   opacity: 1;
+  animation: motion-settle calc(var(--dur-image) * 1.3) var(--ease-out) backwards;
+}
+
+.js-motion .hero__image.fade-image.is-loaded {
+  animation: motion-settle-hero 2200ms var(--ease-out) backwards;
 }
 
 /* Success messages fade in where the form was */
 .js-motion .form-message[role='status'],
 .js-motion .site-footer__message[role='status'] {
-  animation: motion-fade var(--dur-base) var(--ease-out) both;
+  animation:
+    motion-fade var(--dur-base) var(--ease-fade) both,
+    motion-rise var(--dur-slow) var(--ease-out) both;
 }
 
 /* Sticky header: a soft translucent ivory over the hero so the nav always reads,

@@ -8,6 +8,9 @@
     <script>
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         document.documentElement.classList.add('js-motion');
+        window.addEventListener('pagereveal', function (event) {
+          if (event.viewTransition) document.documentElement.classList.add('via-transition');
+        });
       }
     </script>
     <script src="{{ 'motion.js' | asset_url }}" defer="defer"></script>
