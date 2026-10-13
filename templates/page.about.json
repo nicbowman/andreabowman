@@ -1,0 +1,181 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "intro": {
+      "type": "portrait-intro",
+      "settings": {
+        "heading": "My story",
+        "lead": "<p>[Opening line in Andrea's own voice: who she is and what she paints, in one or two sentences.]</p>",
+        "text": "<p>[Where she grew up, how she came to painting, and how long she has been working.]</p>"
+      }
+    },
+    "how_i_work": {
+      "type": "narrow-text",
+      "blocks": {
+        "text_1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>[How a painting begins: what she is drawn to, such as landscape, weathered surfaces or memory.]</p><p>[Her materials and process: how the layers and textures are built up, and how long a painting takes.]</p>"
+          }
+        },
+        "quote_1": {
+          "type": "quote",
+          "settings": {
+            "quote": "[One line from Andrea about what she hopes people feel when they live with her work.]"
+          }
+        },
+        "text_2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>[How she knows a painting is finished, and what happens next for it.]</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_1",
+        "quote_1",
+        "text_2"
+      ],
+      "settings": {
+        "heading": "How I work",
+        "background": "oatmeal"
+      }
+    },
+    "studio": {
+      "type": "image-row",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "caption": "The studio, [area]"
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "caption": "Materials and tools"
+          }
+        },
+        "image_3": {
+          "type": "image",
+          "settings": {
+            "caption": "Work in progress"
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2",
+        "image_3"
+      ],
+      "settings": {
+        "heading": "In the studio"
+      }
+    },
+    "background": {
+      "type": "year-lists",
+      "blocks": {
+        "exhibitions": {
+          "type": "group",
+          "settings": {
+            "heading": "Exhibitions"
+          }
+        },
+        "exhibition_1": {
+          "type": "entry",
+          "settings": {
+            "year": "[Year]",
+            "text": "[Exhibition name], [venue]"
+          }
+        },
+        "exhibition_2": {
+          "type": "entry",
+          "settings": {
+            "year": "[Year]",
+            "text": "[Exhibition name], [venue]"
+          }
+        },
+        "collections": {
+          "type": "group",
+          "settings": {
+            "heading": "Collections"
+          }
+        },
+        "collection_1": {
+          "type": "entry",
+          "settings": {
+            "year": "[Year]",
+            "text": "[Private or corporate collection], [city]"
+          }
+        },
+        "collection_2": {
+          "type": "entry",
+          "settings": {
+            "year": "[Year]",
+            "text": "[Private or corporate collection], [city]"
+          }
+        },
+        "training": {
+          "type": "group",
+          "settings": {
+            "heading": "Training"
+          }
+        },
+        "training_1": {
+          "type": "entry",
+          "settings": {
+            "year": "[Year]",
+            "text": "[Course, school or mentor]"
+          }
+        },
+        "training_2": {
+          "type": "entry",
+          "settings": {
+            "year": "[Year]",
+            "text": "[Course, school or mentor]"
+          }
+        }
+      },
+      "block_order": [
+        "exhibitions",
+        "exhibition_1",
+        "exhibition_2",
+        "collections",
+        "collection_1",
+        "collection_2",
+        "training",
+        "training_1",
+        "training_2"
+      ],
+      "settings": {
+        "heading": "Background"
+      }
+    },
+    "cta": {
+      "type": "cta-band",
+      "settings": {
+        "heading": "See the paintings",
+        "primary_label": "Available works",
+        "primary_url": "shopify://collections/available-works",
+        "secondary_label": "Get in touch",
+        "secondary_url": "shopify://pages/contact",
+        "background": "oatmeal"
+      }
+    }
+  },
+  "order": [
+    "intro",
+    "how_i_work",
+    "studio",
+    "background",
+    "cta"
+  ]
+}

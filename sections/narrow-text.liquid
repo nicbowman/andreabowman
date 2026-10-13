@@ -1,0 +1,111 @@
+<section class="narrow-text narrow-text--{{ section.settings.background }}">
+  <div class="page-width narrow-text__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="narrow-text__heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'text' -%}
+          <div class="rte" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+        {%- when 'quote' -%}
+          {%- if block.settings.quote != blank -%}
+            <blockquote class="narrow-text__quote" {{ block.shopify_attributes }}>
+              {{- block.settings.quote | escape | newline_to_br -}}
+            </blockquote>
+          {%- endif -%}
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .narrow-text--oatmeal {
+    background-color: var(--color-oatmeal);
+  }
+
+  .narrow-text__inner {
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding-block: var(--section-space-small);
+  }
+
+  .narrow-text__heading {
+    line-height: 1.25;
+  }
+
+  .narrow-text__quote {
+    margin-block: 20px;
+    font-size: 28px;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 749px) {
+    .narrow-text__quote {
+      margin-block: 8px;
+      font-size: 23px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.narrow_text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "t:labels.background",
+      "options": [
+        { "value": "ivory", "label": "t:options.background.ivory" },
+        { "value": "oatmeal", "label": "t:options.background.oatmeal" }
+      ],
+      "default": "oatmeal"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "t:general.text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:labels.text",
+          "default": "<p>[Text]</p>"
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "name": "t:general.pull_quote",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "t:labels.quote",
+          "default": "[Pull quote]"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.narrow_text",
+      "blocks": [
+        { "type": "text" },
+        { "type": "quote" },
+        { "type": "text" }
+      ]
+    }
+  ]
+}
+{% endschema %}

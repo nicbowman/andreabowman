@@ -1,0 +1,101 @@
+<section class="page-width portrait-intro">
+  <div class="portrait-intro__media">
+    {% render 'cover-image',
+      image: section.settings.image,
+      ratio: '4-5',
+      alt: section.settings.heading,
+      sizes: '(min-width: 1320px) 560px, (min-width: 990px) 45vw, 100vw'
+    %}
+  </div>
+
+  <div class="portrait-intro__text">
+    <h1>{{ section.settings.heading | default: page.title | escape }}</h1>
+    {%- if section.settings.lead != blank -%}
+      <div class="text-lead">{{ section.settings.lead }}</div>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <div class="rte">{{ section.settings.text }}</div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .portrait-intro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 96px;
+    padding-top: 80px;
+    padding-bottom: var(--section-space);
+  }
+
+  .portrait-intro__media {
+    flex: 1 1 480px;
+  }
+
+  .portrait-intro__text {
+    flex: 1 1 420px;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  @media (max-width: 989px) {
+    .portrait-intro {
+      gap: var(--block-gap);
+    }
+  }
+
+  @media (max-width: 749px) {
+    .portrait-intro {
+      gap: 40px;
+      padding-top: 24px;
+    }
+
+    .portrait-intro__media,
+    .portrait-intro__text {
+      flex-basis: 100%;
+    }
+
+    .portrait-intro .text-lead {
+      font-size: 19px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.portrait_intro",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image",
+      "info": "t:info.portrait_image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "info": "t:info.page_intro_heading"
+    },
+    {
+      "type": "richtext",
+      "id": "lead",
+      "label": "t:labels.lead",
+      "default": "<p>[Opening line]</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:labels.text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.portrait_intro"
+    }
+  ]
+}
+{% endschema %}
