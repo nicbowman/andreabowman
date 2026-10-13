@@ -10,12 +10,12 @@
 :root {
   --page-width: 1320px;
   --page-gutter: 48px;
-  --section-space: 104px;
-  --section-space-large: 112px;
-  --section-space-small: 96px;
-  --page-top: 56px;
-  --block-gap: 72px;
-  --heading-rule-space: 44px;
+  --section-space: 80px;
+  --section-space-large: 88px;
+  --section-space-small: 72px;
+  --page-top: 40px;
+  --block-gap: 56px;
+  --heading-rule-space: 32px;
   --text-size-body: 17px;
   --text-size-small: 15px;
   --text-size-caption: 14px;
@@ -31,30 +31,30 @@
   --dur-swap: 450ms;
   --dur-image: 1100ms;
   --reveal-distance: 16px;
-  --header-height: 89px;
+  --header-height: 71px;
   --transition-colour: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }
 
 @media (max-width: 989px) {
   :root {
     --page-gutter: 32px;
-    --section-space: 84px;
-    --section-space-large: 88px;
-    --section-space-small: 80px;
-    --page-top: 40px;
-    --block-gap: 48px;
+    --section-space: 64px;
+    --section-space-large: 68px;
+    --section-space-small: 60px;
+    --page-top: 32px;
+    --block-gap: 40px;
   }
 }
 
 @media (max-width: 749px) {
   :root {
     --page-gutter: 20px;
-    --section-space: 60px;
-    --section-space-large: 64px;
-    --section-space-small: 60px;
+    --section-space: 52px;
+    --section-space-large: 56px;
+    --section-space-small: 48px;
     --page-top: 24px;
-    --block-gap: 40px;
-    --heading-rule-space: 32px;
+    --block-gap: 32px;
+    --heading-rule-space: 24px;
     --text-size-h1: 34px;
     --text-size-h2: 26px;
     --text-size-h3: 22px;
@@ -276,7 +276,7 @@ a:hover {
   justify-content: space-between;
   align-items: baseline;
   gap: 16px;
-  padding-bottom: 26px;
+  padding-bottom: 18px;
   margin-bottom: var(--heading-rule-space);
   border-bottom: 1px solid var(--color-hairline);
 }

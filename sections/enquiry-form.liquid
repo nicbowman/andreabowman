@@ -176,6 +176,11 @@
     padding-block: var(--section-space-small);
   }
 
+  /* On ivory straight after a page intro, the form continues the intro rather than starting a new band */
+  .shopify-section:has(> .page-intro) + .shopify-section > .enquiry--ivory .enquiry__inner {
+    padding-top: 8px;
+  }
+
   .enquiry__intro {
     flex: 1 1 380px;
     max-width: 460px;

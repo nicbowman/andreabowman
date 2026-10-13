@@ -44,10 +44,10 @@
   .page-intro {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-end;
-    gap: var(--block-gap);
+    align-items: flex-start;
+    gap: 24px var(--block-gap);
     padding-top: var(--page-top);
-    padding-bottom: calc(var(--page-top) + 8px);
+    padding-bottom: var(--page-top);
   }
 
   .page-intro__heading {
@@ -70,9 +70,9 @@
 
   @media (max-width: 749px) {
     .page-intro {
-      gap: 24px;
+      gap: 20px;
       padding-top: var(--page-top);
-      padding-bottom: 40px;
+      padding-bottom: 28px;
     }
   }
 {% endstylesheet %}
