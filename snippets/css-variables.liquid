@@ -1,18 +1,40 @@
+{% doc %}
+  Outputs the font faces and the design tokens from theme settings as CSS custom properties.
+
+  @example
+  {% render 'css-variables' %}
+{% enddoc %}
+
+{%- liquid
+  assign font_light = settings.type_body_font
+  assign font_regular = settings.type_body_font | font_modify: 'weight', '400'
+  assign font_medium = settings.type_body_font | font_modify: 'weight', '500'
+-%}
+
 {% style %}
-  {% # Loads all font variantions with display: swap %}
-  {{ settings.type_primary_font | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {{ font_light | font_face: font_display: 'swap' }}
+  {%- if font_regular %}{{ font_regular | font_face: font_display: 'swap' }}{% endif %}
+  {%- if font_medium %}{{ font_medium | font_face: font_display: 'swap' }}{% endif %}
 
   :root {
-    --font-primary--family: {{ settings.type_primary_font.family }}, {{ settings.type_primary_font.fallback_families }};
-    --font-primary--style: {{ settings.type_primary_font.style }};
-    --font-primary--weight: {{ settings.type_primary_font.weight }};
-    --page-width: {{ settings.max_page_width }};
-    --page-margin: {{ settings.min_page_margin }}px;
-    --color-background: {{ settings.background_color }};
-    --color-foreground: {{ settings.foreground_color }};
-    --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+    --font-family: {{ font_light.family }}, 'Helvetica Neue', {{ font_light.fallback_families }};
+    --font-weight-light: {{ font_light.weight }};
+    --font-weight-regular: {{ font_regular.weight | default: 400 }};
+    --font-weight-medium: {{ font_medium.weight | default: 500 }};
+
+    --color-ivory: {{ settings.color_ivory }};
+    --color-oatmeal: {{ settings.color_oatmeal }};
+    --color-mount: {{ settings.color_mount }};
+    --color-hairline: {{ settings.color_hairline }};
+    --color-field-line: {{ settings.color_field_line }};
+    --color-ink: {{ settings.color_ink }};
+    --color-ink-soft: {{ settings.color_ink_soft }};
+    --color-muted: {{ settings.color_muted }};
+    --color-moss: {{ settings.color_moss }};
+
+    --color-on-moss: {{ settings.color_ivory }};
+    --color-on-moss-soft: {{ settings.color_ivory | color_modify: 'alpha', 0.78 }};
+    --color-on-moss-line: {{ settings.color_ivory | color_modify: 'alpha', 0.22 }};
+    --color-on-moss-field: {{ settings.color_ivory | color_modify: 'alpha', 0.5 }};
   }
 {% endstyle %}
