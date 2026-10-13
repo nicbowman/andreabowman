@@ -55,6 +55,9 @@
     "phone_placeholder_text": "[phone number]",
     "subscribe": "Subscribe"
   },
+  "general": {
+    "image_placeholder": "Image to be added"
+  },
   "gift_card": {
     "add_to_apple_wallet": "Add to Apple Wallet",
     "card": "Gift card",

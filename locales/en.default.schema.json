@@ -9,9 +9,12 @@
     "collections_grid": "Collections grid",
     "colors": "Colours",
     "column": "Column",
+    "featured_works": "Featured works",
     "footer": "Footer",
     "group": "Group",
     "header": "Header",
+    "hero": "Hero image",
+    "image_with_text": "Image with text",
     "layout": "Layout",
     "more_works": "More works",
     "page": "Page",
@@ -20,6 +23,7 @@
     "product_enquiry": "Painting enquiry",
     "row": "Row",
     "search": "Search",
+    "split_text": "Heading and text",
     "text": "Text",
     "typography": "Typography"
   },
@@ -27,11 +31,13 @@
     "bottom_bar": "Bottom bar",
     "contact_details": "Contact details",
     "newsletter": "Newsletter",
-    "sold_paintings": "Sold paintings"
+    "sold_paintings": "Sold paintings",
+    "tabs": "Tabs"
   },
   "info": {
     "breadcrumb_collection": "Breadcrumb link for available paintings",
     "breadcrumb_sold_collection": "Breadcrumb link for sold paintings",
+    "caption_colour": "Choose the colour that reads best over the photograph",
     "color_field_line": "Form field underlines on oatmeal",
     "color_hairline": "Dividers and borders",
     "color_ink": "Text",
@@ -42,16 +48,26 @@
     "color_muted": "Captions, labels and metadata",
     "color_oatmeal": "Alternate section background",
     "colors": "The paintings are the colour. These defaults are the approved palette, so change them with care.",
+    "featured_collection": "Paintings shown in the grid",
     "font": "Jost Light is the approved typeface. Regular and Medium weights load automatically.",
     "header_menu": "Use up to 5 links: Works, Features, My story, For designers, Contact.",
+    "heading_tag": "Use Page title once per page, for the main heading",
+    "hero_image": "A lifestyle or installation photograph, at least 2400px wide. It fills the full width.",
+    "lifestyle_image": "A lifestyle or installation photograph. It fills the frame and is not mounted.",
     "logo_text": "Shown in capitals with wide letter spacing.",
     "more_works_collection": "Sold paintings and the current painting are skipped",
     "redirect_collection": "Visitors who reach /cart are sent here. Defaults to available works.",
+    "region_label": "Read out by screen readers, not shown",
     "sold_heading": "Used instead of the heading when the painting is tagged sold"
   },
   "labels": {
     "alignment": "Alignment",
     "available_collection": "Available collection",
+    "background": "Background",
+    "button_label": "Button label",
+    "button_url": "Button link",
+    "caption": "Caption",
+    "caption_colour": "Caption colour",
     "collection": "Collection",
     "color_field_line": "Field line",
     "color_hairline": "Hairline",
@@ -68,8 +84,16 @@
     "grid_gap": "Grid spacing",
     "grid_item_width": "Grid item width",
     "heading": "Heading",
+    "heading_tag": "Heading level",
+    "height": "Height",
+    "image": "Image",
+    "image_position": "Image position",
+    "image_ratio": "Image shape",
     "instagram_url": "Instagram link",
     "layout_direction": "Layout direction",
+    "link_label": "Link label",
+    "link_style": "Link style",
+    "link_url": "Link",
     "logo_text": "Logo text",
     "menu": "Menu",
     "name_text": "Name",
@@ -77,6 +101,7 @@
     "products_per_page": "Paintings per page",
     "products_to_show": "Paintings to show",
     "redirect_collection": "Send visitors to",
+    "region_label": "Accessible name",
     "shipping_note": "Shipping note",
     "sold_collection": "Sold collection",
     "sold_heading": "Heading for sold paintings",
@@ -85,6 +110,7 @@
     "tagline": "Tagline",
     "text": "Text",
     "text_style": "Text style",
+    "vertical_alignment": "Vertical alignment",
     "works_collection": "Works collection"
   },
   "options": {
@@ -93,9 +119,35 @@
       "left": "Left",
       "right": "Right"
     },
+    "background": {
+      "ivory": "Ivory",
+      "oatmeal": "Oatmeal"
+    },
+    "colour": {
+      "dark": "Dark",
+      "light": "Light"
+    },
     "direction": {
       "horizontal": "Horizontal",
       "vertical": "Vertical"
+    },
+    "heading_tag": {
+      "page_title": "Page title",
+      "section_title": "Section title"
+    },
+    "height": {
+      "medium": "Medium",
+      "tall": "Tall"
+    },
+    "link_style": {
+      "link": "Text link",
+      "primary": "Primary button",
+      "secondary": "Outline button"
+    },
+    "ratio": {
+      "landscape": "Landscape 4:3",
+      "portrait": "Portrait 4:5",
+      "square": "Square"
     },
     "size": {
       "large": "Large",
@@ -105,6 +157,10 @@
       "normal": "Normal text",
       "subtitle": "Subtitle",
       "title": "Title"
+    },
+    "vertical_alignment": {
+      "bottom": "Bottom",
+      "top": "Top"
     }
   }
 }
