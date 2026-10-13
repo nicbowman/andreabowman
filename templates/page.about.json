@@ -12,9 +12,10 @@
     "intro": {
       "type": "portrait-intro",
       "settings": {
+        "image": "shopify://shop_images/portrait-artist.jpg",
         "heading": "My story",
-        "lead": "<p>[Opening line in Andrea's own voice: who she is and what she paints, in one or two sentences.]</p>",
-        "text": "<p>[Where she grew up, how she came to painting, and how long she has been working.]</p>"
+        "lead": "<p>I'm Andrea Bowman, an abstract painter working from a studio in Cape Town. I paint large, layered canvases about the places where land meets water.</p>",
+        "text": "<p>I grew up close to the sea, and the colours of that coastline have stayed with me: wet sand, kelp, rust on old railings, the green of fynbos after rain. I have painted full time for more than a decade, after years of drawing and printmaking.</p>"
       }
     },
     "how_i_work": {
@@ -23,19 +24,19 @@
         "text_1": {
           "type": "text",
           "settings": {
-            "text": "<p>[How a painting begins: what she is drawn to, such as landscape, weathered surfaces or memory.]</p><p>[Her materials and process: how the layers and textures are built up, and how long a painting takes.]</p>"
+            "text": "<p>A painting usually begins with a place rather than a picture: a walk along the Atlantic seaboard, a weathered wall, the light at the end of a winter afternoon. I lay down the first colours quickly and loosely, then live with the canvas for a while before going back in.</p><p>I build each surface over weeks, sometimes months. Acrylic and oil, sand, plaster and gold leaf go on, are scraped back with palette knives and squeegees, then layered again. Lines are scratched into wet paint, and the edges of earlier layers are left to show through, so every painting carries its own history.</p>"
           }
         },
         "quote_1": {
           "type": "quote",
           "settings": {
-            "quote": "[One line from Andrea about what she hopes people feel when they live with her work.]"
+            "quote": "I hope people feel a kind of quiet when they live with one of my paintings, the way you breathe out when you reach the sea."
           }
         },
         "text_2": {
           "type": "text",
           "settings": {
-            "text": "<p>[How she knows a painting is finished, and what happens next for it.]</p>"
+            "text": "<p>A painting is finished when I stop wanting to change it. It is signed on the back, varnished, photographed and given its title, and then it waits in the studio for the home it belongs in.</p>"
           }
         }
       },
@@ -55,19 +56,22 @@
         "image_1": {
           "type": "image",
           "settings": {
-            "caption": "The studio, [area]"
+            "image": "shopify://shop_images/studio-surface.jpg",
+            "caption": "A surface in progress"
           }
         },
         "image_2": {
           "type": "image",
           "settings": {
-            "caption": "Materials and tools"
+            "image": "shopify://shop_images/studio-wall.jpg",
+            "caption": "Drying on the studio wall"
           }
         },
         "image_3": {
           "type": "image",
           "settings": {
-            "caption": "Work in progress"
+            "image": "shopify://shop_images/studio-gold.jpg",
+            "caption": "Gold leaf, before varnishing"
           }
         }
       },
@@ -92,15 +96,15 @@
         "exhibition_1": {
           "type": "entry",
           "settings": {
-            "year": "[Year]",
-            "text": "[Exhibition name], [venue]"
+            "year": "2025",
+            "text": "Tidelines, solo exhibition, Cape Town"
           }
         },
         "exhibition_2": {
           "type": "entry",
           "settings": {
-            "year": "[Year]",
-            "text": "[Exhibition name], [venue]"
+            "year": "2024",
+            "text": "Salt and Ochre, group exhibition, Stellenbosch"
           }
         },
         "collections": {
@@ -112,15 +116,15 @@
         "collection_1": {
           "type": "entry",
           "settings": {
-            "year": "[Year]",
-            "text": "[Private or corporate collection], [city]"
+            "year": "2025",
+            "text": "Private collection, Constantia"
           }
         },
         "collection_2": {
           "type": "entry",
           "settings": {
-            "year": "[Year]",
-            "text": "[Private or corporate collection], [city]"
+            "year": "2024",
+            "text": "Boutique hotel collection, Franschhoek"
           }
         },
         "training": {
@@ -132,15 +136,15 @@
         "training_1": {
           "type": "entry",
           "settings": {
-            "year": "[Year]",
-            "text": "[Course, school or mentor]"
+            "year": "2014",
+            "text": "Mentorship in mixed media and surface work, Cape Town"
           }
         },
         "training_2": {
           "type": "entry",
           "settings": {
-            "year": "[Year]",
-            "text": "[Course, school or mentor]"
+            "year": "2010",
+            "text": "Drawing and printmaking studies, Cape Town"
           }
         }
       },

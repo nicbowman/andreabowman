@@ -12,7 +12,8 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "caption": "[Featured painting title], [year]",
+        "image": "shopify://shop_images/hero-bronze-room.jpg",
+        "caption": "Bronze Horizon, 2025",
         "caption_colour": "light",
         "height": "tall",
         "label": "Featured painting"
@@ -44,6 +45,7 @@
     "features": {
       "type": "image-with-text",
       "settings": {
+        "image": "shopify://shop_images/feature-quiet-ground.jpg",
         "image_ratio": "landscape",
         "image_position": "left",
         "heading": "In homes, in the press",

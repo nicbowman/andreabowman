@@ -42,14 +42,14 @@
           "type": "column",
           "settings": {
             "title": "Reservations",
-            "text": "<p>Reserve a painting for a residential or hospitality project while your client decides. [How long a reservation is held.]</p>"
+            "text": "<p>Reserve a painting for a residential or hospitality project while your client decides. Reservations are held for 14 days and can be extended once.</p>"
           }
         },
         "sizes": {
           "type": "column",
           "settings": {
             "title": "Sizes",
-            "text": "<p>[The sizes Andrea works in, and whether she paints commissions to suit a particular wall.]</p>"
+            "text": "<p>Most paintings are between 80 and 160 cm on the longest side. For larger projects, Andrea can paint a commission to suit a particular wall and palette.</p>"
           }
         }
       },
@@ -66,7 +66,7 @@
       "type": "enquiry-form",
       "settings": {
         "heading": "Trade enquiries",
-        "text": "<p>Tell Andrea about your project and ask for the trade pack. She replies personally [within two working days].</p>",
+        "text": "<p>Tell Andrea about your project and ask for the trade pack. She replies personally within two working days.</p>",
         "show_project_fields": true,
         "enquiry_type": "Trade enquiry",
         "message_placeholder": "Rooms, colours, sizes or paintings you have in mind",
