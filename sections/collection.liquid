@@ -12,9 +12,25 @@
     %}
   </div>
 
-  {%- if collection.description != blank -%}
-    <div class="rte works__intro">{{ collection.description }}</div>
-  {%- endif -%}
+  {%- liquid
+    assign intro = collection.description
+    if intro == blank
+      assign intro = section.settings.intro
+    endif
+    if collection.handle == section.settings.sold_collection.handle
+      assign count_text = 'collections.count_sold' | t: count: collection.products_count
+    else
+      assign count_text = 'collections.count_available' | t: count: collection.products_count
+    endif
+  -%}
+  <div class="works__intro">
+    {%- if intro != blank -%}
+      <div class="rte">{{ intro }}</div>
+    {%- endif -%}
+    {%- if collection.products_count > 0 -%}
+      <p class="text-caption works__count">{{ count_text }}</p>
+    {%- endif -%}
+  </div>
 
   {%- paginate collection.products by per_page -%}
     {%- if collection.products.size > 0 -%}
@@ -80,9 +96,21 @@
   }
 
   .works__intro {
-    max-width: 640px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px 40px;
     margin-top: calc(var(--heading-rule-space) * -0.5);
     margin-bottom: var(--heading-rule-space);
+  }
+
+  .works__intro .rte {
+    max-width: 640px;
+  }
+
+  .works__count {
+    font-variant-numeric: tabular-nums;
   }
 
   .works__empty {
@@ -155,6 +183,13 @@
       "type": "collection",
       "id": "sold_collection",
       "label": "t:labels.sold_collection"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "t:labels.intro",
+      "info": "t:info.works_intro",
+      "default": "<p>Original paintings, each one of a kind. Every painting can be viewed in person by appointment.</p>"
     },
     {
       "type": "range",
