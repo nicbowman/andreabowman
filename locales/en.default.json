@@ -35,6 +35,17 @@
     "tabs_label": "Paintings",
     "title": "Collections"
   },
+  "contact": {
+    "email": "Email",
+    "message": "Message",
+    "name": "Name",
+    "phone": "Phone (optional)",
+    "project": "Project",
+    "project_placeholder": "Type of project and location",
+    "studio": "Studio name",
+    "timeline": "Timeline",
+    "timeline_placeholder": "When the room needs to be finished"
+  },
   "customers": {
     "login": {
       "email": "Email",
