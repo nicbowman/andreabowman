@@ -1,0 +1,72 @@
+{%- liquid
+  assign source = section.settings.collection
+  assign limit = section.settings.products_to_show | plus: 0
+-%}
+
+{%- if source and source.products_count > 0 -%}
+  <section class="page-width section more-works" aria-labelledby="MoreWorksHeading-{{ section.id }}">
+    <div class="section-heading">
+      <h2 id="MoreWorksHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      <a class="link" href="{{ source.url }}">{{ 'products.view_all' | t }}</a>
+    </div>
+
+    <ul class="product-grid" role="list">
+      {%- assign shown = 0 -%}
+      {%- for item in source.products limit: 24 -%}
+        {%- liquid
+          if shown >= limit
+            break
+          endif
+          if item.id == product.id
+            continue
+          endif
+          assign item_tags = item.tags | join: '|' | downcase | split: '|'
+          if item_tags contains 'sold'
+            continue
+          endif
+          assign shown = shown | plus: 1
+        -%}
+        <li>{% render 'product-card', product: item %}</li>
+      {%- endfor -%}
+    </ul>
+  </section>
+{%- endif -%}
+
+{% stylesheet %}
+  .more-works {
+    padding-bottom: var(--section-space-large);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.more_works",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "More available works"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:labels.collection",
+      "info": "t:info.more_works_collection"
+    },
+    {
+      "type": "select",
+      "id": "products_to_show",
+      "label": "t:labels.products_to_show",
+      "options": [
+        { "value": "3", "label": "3" },
+        { "value": "6", "label": "6" }
+      ],
+      "default": "3"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}
