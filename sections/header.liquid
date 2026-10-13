@@ -60,13 +60,40 @@
 </header>
 
 {% javascript %}
-  document.addEventListener('keydown', function (event) {
-    if (event.key !== 'Escape') return;
-    var drawer = document.querySelector('.site-header__drawer[open]');
-    if (!drawer) return;
-    drawer.removeAttribute('open');
-    drawer.querySelector('summary').focus();
-  });
+  (function () {
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    /* Close with a short fade instead of snapping shut. */
+    function closeDrawer(drawer, returnFocus) {
+      if (!drawer || !drawer.open || drawer.classList.contains('is-closing')) return;
+      var finish = function () {
+        drawer.classList.remove('is-closing');
+        drawer.removeAttribute('open');
+        if (returnFocus) drawer.querySelector('summary').focus();
+      };
+      if (reduceMotion.matches || !document.documentElement.classList.contains('js-motion')) {
+        finish();
+        return;
+      }
+      drawer.classList.add('is-closing');
+      window.setTimeout(finish, 300);
+    }
+
+    document.addEventListener('click', function (event) {
+      var summary = event.target.closest('.site-header__toggle');
+      if (!summary) return;
+      var drawer = summary.parentElement;
+      if (drawer.open) {
+        event.preventDefault();
+        closeDrawer(drawer, false);
+      }
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key !== 'Escape') return;
+      closeDrawer(document.querySelector('.site-header__drawer[open]'), true);
+    });
+  })();
 {% endjavascript %}
 
 {% stylesheet %}
@@ -170,17 +197,24 @@
   }
 
   .js-motion .site-header__drawer[open] .site-header__drawer-nav {
-    animation: motion-fade var(--dur-swap) var(--ease-out) both;
+    animation: motion-fade var(--dur-swap) var(--ease-fade) both;
   }
 
-  .js-motion .site-header__drawer[open] .site-header__drawer-menu li {
-    animation: motion-enter var(--dur-base) var(--ease-out) both;
+  .js-motion .site-header__drawer.is-closing .site-header__drawer-nav {
+    animation: motion-fade-out 300ms var(--ease-fade) both;
   }
 
-  .js-motion .site-header__drawer[open] .site-header__drawer-menu li:nth-child(2) { animation-delay: 50ms; }
-  .js-motion .site-header__drawer[open] .site-header__drawer-menu li:nth-child(3) { animation-delay: 100ms; }
-  .js-motion .site-header__drawer[open] .site-header__drawer-menu li:nth-child(4) { animation-delay: 150ms; }
-  .js-motion .site-header__drawer[open] .site-header__drawer-menu li:nth-child(5) { animation-delay: 200ms; }
+  .js-motion .site-header__drawer[open]:not(.is-closing) .site-header__drawer-menu li {
+    animation:
+      motion-fade var(--dur-base) var(--ease-fade) both,
+      motion-rise var(--dur-slow) var(--ease-out) both;
+    animation-delay: calc(80ms + var(--item-index, 0) * 60ms);
+  }
+
+  .site-header__drawer-menu li:nth-child(2) { --item-index: 1; }
+  .site-header__drawer-menu li:nth-child(3) { --item-index: 2; }
+  .site-header__drawer-menu li:nth-child(4) { --item-index: 3; }
+  .site-header__drawer-menu li:nth-child(5) { --item-index: 4; }
 
   .site-header__drawer-menu li {
     border-top: 1px solid var(--color-hairline);
