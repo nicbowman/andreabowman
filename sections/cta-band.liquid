@@ -1,0 +1,101 @@
+<section class="cta-band cta-band--{{ section.settings.background }}">
+  <div class="page-width cta-band__inner">
+    <h2 class="cta-band__heading">{{ section.settings.heading | escape }}</h2>
+
+    <div class="cta-band__actions">
+      {%- if section.settings.primary_label != blank and section.settings.primary_url != blank -%}
+        <a class="button" href="{{ section.settings.primary_url }}">{{ section.settings.primary_label | escape }}</a>
+      {%- endif -%}
+      {%- if section.settings.secondary_label != blank and section.settings.secondary_url != blank -%}
+        <a class="button button--secondary" href="{{ section.settings.secondary_url }}">
+          {{- section.settings.secondary_label | escape -}}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .cta-band--oatmeal {
+    background-color: var(--color-oatmeal);
+  }
+
+  .cta-band__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding-block: 120px;
+  }
+
+  .cta-band__heading {
+    line-height: 1.25;
+  }
+
+  .cta-band__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .cta-band__actions .button--secondary {
+    padding: 19px 40px;
+  }
+
+  @media (max-width: 749px) {
+    .cta-band__inner {
+      gap: 28px;
+      padding-block: 80px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.cta_band",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "t:labels.primary_label"
+    },
+    {
+      "type": "url",
+      "id": "primary_url",
+      "label": "t:labels.primary_url"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "t:labels.secondary_label"
+    },
+    {
+      "type": "url",
+      "id": "secondary_url",
+      "label": "t:labels.secondary_url"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "t:labels.background",
+      "options": [
+        { "value": "ivory", "label": "t:options.background.ivory" },
+        { "value": "oatmeal", "label": "t:options.background.oatmeal" }
+      ],
+      "default": "oatmeal"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.cta_band"
+    }
+  ]
+}
+{% endschema %}
