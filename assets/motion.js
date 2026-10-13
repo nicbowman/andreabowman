@@ -4,7 +4,7 @@
   var root = document.documentElement;
   if (!root.classList.contains('js-motion')) return;
 
-  var STAGGER = 70;
+  var STAGGER = 90;
   var MAX_STAGGERED = 6;
 
   var REVEAL_SELECTORS = [
@@ -60,7 +60,7 @@
         el.classList.add('is-revealed');
         observer.unobserve(el);
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0, rootMargin: '0px 0px -6% 0px' });
 
     pending.forEach(function (el) {
       el.classList.add('reveal');

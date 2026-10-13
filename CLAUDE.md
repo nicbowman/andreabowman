@@ -101,22 +101,22 @@ Navigation (from the admin menu, max 5 items): Works, Features, My story, For de
 Motion should feel slow, soft and settled, like things coming to rest. Nothing bounces, slides far or loops.
 
 Tokens (CSS custom properties):
-- `--ease-out: cubic-bezier(0.22, 1, 0.36, 1)` for everything
-- `--dur-fast: 250ms` (colour, underline, focus), `--dur-base: 500ms` (hover, crossfades), `--dur-slow: 700ms` (entrances, reveals)
-- Reveal distance: 12px upward. Stagger: 70ms between items, max 6 items staggered.
+- `--ease-out: cubic-bezier(0.16, 1, 0.3, 1)` for movement (transform), `--ease-fade: cubic-bezier(0.33, 0, 0.2, 1)` for opacity, so fades never pop
+- `--dur-fast: 300ms` (colour, underline, focus), `--dur-base: 600ms` (hover), `--dur-swap: 450ms` (crossfades, page transitions), `--dur-slow: 1000ms` (entrances, reveals), `--dur-image: 1100ms` (image fades)
+- Reveal distance: 16px upward. Stagger: 90ms between items, max 6 items staggered.
 
 Build these:
-1. Page entrance: main content fades in and rises 12px over `--dur-slow` on load.
+1. Page entrance: on a first visit only, main content fades in and rises over `--dur-slow`. After a page transition it does not run again (the transition already brings the page in).
 2. Scroll reveals: section headings, text blocks and grid items fade up once when 15% visible (IntersectionObserver, unobserve after firing). Grid items stagger by 70ms in reading order. Content is never hidden waiting for JS: add the hidden start state only via a `js-motion` class set on `<html>` by an inline script.
 3. Painting cards: on hover or focus the painting scales to 1.02 inside its mount (mount does not move, `overflow: hidden`) over `--dur-base`; the title underline draws in from the left.
-4. Image loading: images fade from opacity 0 to 1 over `--dur-base` once loaded, on the mount colour. No layout shift.
+4. Image loading: images fade from opacity 0 to 1 over `--dur-image` once loaded, on the mount colour, and settle from scale 1.025 (hero 1.045) to 1. No layout shift. Section heading hairlines draw in from the left as the heading reveals.
 5. Product thumbnails: the main image crossfades over 300ms when a thumbnail is chosen.
 6. Lightbox (zoom): opens and closes with a fade plus scale from 0.98 over 300ms; focus is trapped while open and Escape closes it.
 7. Buttons and links: background, colour and border transition over `--dur-fast`. Text link underlines draw in from left to right.
 8. Header: translucent ivory with a soft blur over the hero, so the navigation reads on any photograph, then fades to a solid ivory background with a hairline bottom border after scrolling past the hero, over 300ms.
-9. Mobile menu: full-screen ivory overlay fades in over 300ms; menu items fade up with a 50ms stagger.
+9. Mobile menu: full-screen ivory overlay fades in over `--dur-swap`; menu items fade up with a 60ms stagger; closing fades out over 300ms.
 10. Forms: field underline darkens to ink on focus over `--dur-fast`; the success message fades in where the form was.
-11. Page transitions: soft crossfade between pages with the View Transitions API (`@view-transition { navigation: auto; }`), 300ms. Browsers without support load normally.
+11. Page transitions: View Transitions API (`@view-transition { navigation: auto; }`). The old page fades out over 280ms; the new page fades and rises in over `--dur-swap`. The header has its own `view-transition-name` so it stays still. Browsers without support load normally.
 
 Rules:
 - Animate only `opacity` and `transform`. Never animate width, height, top, left, margin or box-shadow.
