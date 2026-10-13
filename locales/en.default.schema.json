@@ -43,7 +43,8 @@
     "testimonial": "Testimonial",
     "text": "Text",
     "typography": "Typography",
-    "year_lists": "Year lists"
+    "year_lists": "Year lists",
+    "size_guide": "Size guide"
   },
   "headers": {
     "appearance": "Appearance",
@@ -106,7 +107,9 @@
     "whatsapp_number": "International format, e.g. +27 82 000 0000. Shows a WhatsApp chat link.",
     "works_intro": "Shown under the heading when the collection has no description of its own.",
     "year_lists": "Add a List heading block, then the entries that belong under it. Drag blocks to reorder.",
-    "show_heading": "The page is already named in the navigation, so the title is hidden by default. Search engines and screen readers still read it."
+    "show_heading": "The page is already named in the navigation, so the title is hidden by default. Search engines and screen readers still read it.",
+    "page_heading": "Makes the heading the page’s main title (h1), starts the section just below the header and loads the image first. Use it on the first section of a page only.",
+    "size_guide_collection": "Paintings are drawn to scale from their Dimensions field (width x height), beside a 1.7 m figure. Paintings without dimensions are skipped."
   },
   "labels": {
     "alignment": "Alignment",
@@ -200,7 +203,10 @@
     "whatsapp_number": "WhatsApp number",
     "works_collection": "Works collection",
     "year": "Year",
-    "show_heading": "Show the page title"
+    "show_heading": "Show the page title",
+    "columns_style": "Style",
+    "icon": "Icon",
+    "page_heading": "Use as the page title"
   },
   "options": {
     "alignment": {
@@ -256,6 +262,25 @@
     "vertical_alignment": {
       "bottom": "Bottom",
       "top": "Top"
+    },
+    "columns_style": {
+      "plain": "Plain",
+      "cards": "Cards",
+      "steps": "Numbered steps"
+    },
+    "icon": {
+      "none": "None",
+      "document": "Document",
+      "calendar": "Calendar",
+      "ruler": "Ruler",
+      "palette": "Palette",
+      "truck": "Delivery",
+      "frame": "Frame",
+      "certificate": "Certificate",
+      "eye": "Viewing",
+      "home": "Home",
+      "mail": "Email",
+      "pin": "Location"
     }
   }
 }

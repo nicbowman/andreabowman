@@ -42,6 +42,8 @@ Expose these as theme settings (colour pickers) with these defaults. No other co
 - Content max-width 1320px, horizontal padding 48px (20px on mobile).
 - Section vertical padding about 72 to 88px on desktop (about 48 to 56px on mobile). Header about 71px tall. Page intros start 40px below the header, with the title top-aligned beside the intro text. Section heading rules: 18px below the heading, 32px above the content.
 - First screen rule: at 1440x800 the key content of every page (the painting, the first row of works, the form, the first content block) must be in view without scrolling. Hero and painting mount heights are capped to the viewport. Avoid large empty areas on the first screen of a page.
+- Pages reached from the navigation do not repeat their name as a visible title: the h1 stays (visually hidden) for search engines and screen readers, and the intro is one left-aligned line. A page may open with a different, descriptive visible h1 (e.g. For designers).
+- Icons: only the theme's own thin line set in `snippets/icon.liquid` (1.25px stroke, current text colour, always beside text, decorative). Use them for arrows on text links, contact methods, reassurance lines and feature cards. No icon fonts or libraries, no filled or coloured icons.
 - Fully responsive. Grids collapse to 2 columns on tablet and 1 on mobile; header nav collapses to a simple menu on mobile.
 
 ## The painting image rule (critical)

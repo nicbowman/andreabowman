@@ -1,23 +1,44 @@
-<section class="page-width columns" aria-labelledby="Heading-{{ section.id }}">
-  <div class="section-heading">
-    <h2 id="Heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
-  </div>
+<section class="columns columns--{{ section.settings.background }} columns--{{ section.settings.style }}" aria-labelledby="Heading-{{ section.id }}">
+  <div class="page-width columns__inner">
+    <div class="section-heading">
+      <h2 id="Heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+    </div>
 
-  {%- if section.blocks.size > 0 -%}
-    <ul class="columns__grid" role="list">
-      {%- for block in section.blocks -%}
-        <li class="columns__item" {{ block.shopify_attributes }}>
-          <h3 class="columns__title">{{ block.settings.title | escape }}</h3>
-          <div class="rte">{{ block.settings.text }}</div>
-        </li>
-      {%- endfor -%}
-    </ul>
-  {%- endif -%}
+    {%- if section.blocks.size > 0 -%}
+      <{% if section.settings.style == 'steps' %}ol{% else %}ul{% endif %} class="columns__grid" role="list">
+        {%- for block in section.blocks -%}
+          <li class="columns__item" {{ block.shopify_attributes }}>
+            {%- if section.settings.style == 'steps' -%}
+              <span class="columns__number" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            {%- endif -%}
+            {%- if block.settings.icon != 'none' -%}
+              {% render 'icon', name: block.settings.icon, class: 'icon--large columns__icon' %}
+            {%- endif -%}
+            <h3 class="columns__title">
+              {%- if section.settings.style == 'steps' -%}
+                <span class="visually-hidden">{{ 'general.step' | t: number: forloop.index }}: </span>
+              {%- endif -%}
+              {{- block.settings.title | escape -}}
+            </h3>
+            <div class="rte">{{ block.settings.text }}</div>
+          </li>
+        {%- endfor -%}
+      </{% if section.settings.style == 'steps' %}ol{% else %}ul{% endif %}>
+    {%- endif -%}
+  </div>
 </section>
 
 {% stylesheet %}
-  .columns {
+  .columns--oatmeal {
+    background-color: var(--color-oatmeal);
+  }
+
+  .columns__inner {
     padding-bottom: var(--section-space);
+  }
+
+  .columns--oatmeal .columns__inner {
+    padding-top: var(--section-space);
   }
 
   .columns__grid {
@@ -34,10 +55,61 @@
     gap: 14px;
   }
 
+  .columns__icon {
+    margin-bottom: 10px;
+    color: var(--color-moss);
+  }
+
   .columns__title {
     font-size: 19px;
     font-weight: var(--font-weight-regular);
     line-height: 1.4;
+  }
+
+  /* Cards: each item in a quiet panel, ivory on oatmeal or oatmeal on ivory */
+  .columns--cards .columns__grid {
+    gap: 24px;
+  }
+
+  .columns--cards .columns__item {
+    padding: 40px 36px 44px;
+    background-color: var(--color-oatmeal);
+  }
+
+  .columns--cards.columns--oatmeal .columns__item {
+    background-color: var(--color-ivory);
+  }
+
+  /* Steps: a large light numeral on a hairline that runs on to the next step */
+  .columns__number {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 14px;
+    font-size: var(--text-size-h2);
+    line-height: 1;
+    color: var(--color-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .columns__number::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: var(--color-hairline);
+  }
+
+  .columns--steps .columns__item:last-child .columns__number::after {
+    background-color: transparent;
+  }
+
+  .columns--steps .section-heading {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .columns--steps .section-heading::after {
+    display: none;
   }
 
   @media (max-width: 989px) {
@@ -51,6 +123,18 @@
       grid-template-columns: minmax(0, 1fr);
       gap: 40px;
     }
+
+    .columns--cards .columns__grid {
+      gap: 16px;
+    }
+
+    .columns--cards .columns__item {
+      padding: 32px 24px 36px;
+    }
+
+    .columns--steps .columns__item .columns__number::after {
+      background-color: var(--color-hairline);
+    }
   }
 {% endstylesheet %}
 
@@ -63,6 +147,27 @@
       "id": "heading",
       "label": "t:labels.heading",
       "default": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "t:labels.columns_style",
+      "options": [
+        { "value": "plain", "label": "t:options.columns_style.plain" },
+        { "value": "cards", "label": "t:options.columns_style.cards" },
+        { "value": "steps", "label": "t:options.columns_style.steps" }
+      ],
+      "default": "plain"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "t:labels.background",
+      "options": [
+        { "value": "ivory", "label": "t:options.background.ivory" },
+        { "value": "oatmeal", "label": "t:options.background.oatmeal" }
+      ],
+      "default": "ivory"
     }
   ],
   "blocks": [
@@ -70,6 +175,26 @@
       "type": "column",
       "name": "t:general.column",
       "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:labels.icon",
+          "options": [
+            { "value": "none", "label": "t:options.icon.none" },
+            { "value": "document", "label": "t:options.icon.document" },
+            { "value": "calendar", "label": "t:options.icon.calendar" },
+            { "value": "ruler", "label": "t:options.icon.ruler" },
+            { "value": "palette", "label": "t:options.icon.palette" },
+            { "value": "truck", "label": "t:options.icon.truck" },
+            { "value": "frame", "label": "t:options.icon.frame" },
+            { "value": "certificate", "label": "t:options.icon.certificate" },
+            { "value": "eye", "label": "t:options.icon.eye" },
+            { "value": "home", "label": "t:options.icon.home" },
+            { "value": "mail", "label": "t:options.icon.mail" },
+            { "value": "pin", "label": "t:options.icon.pin" }
+          ],
+          "default": "none"
+        },
         {
           "type": "text",
           "id": "title",

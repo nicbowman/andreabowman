@@ -266,7 +266,9 @@
     color: var(--color-on-moss-soft);
   }
 
-  .site-footer__consent {
+  /* Higher specificity than the consent note's own muted colour, which is too dark on moss */
+  .site-footer .site-footer__consent,
+  .site-footer .site-footer__consent a {
     color: var(--color-on-moss-soft);
   }
 

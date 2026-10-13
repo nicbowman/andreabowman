@@ -341,6 +341,12 @@ a:hover {
   padding-bottom: var(--section-space);
 }
 
+/* Sections on ivory that only pad their foot rely on the ivory section above for space.
+   After an oatmeal band they need their own space above, or the heading sits on the band's edge. */
+.shopify-section:has(> [class*='--oatmeal']) + .shopify-section > :is(.feature-list, .year-lists, .featured-works, .columns--ivory, .size-guide--ivory) {
+  padding-top: var(--section-space);
+}
+
 /* Captions under photos: name, then muted detail */
 
 .feature-caption {
