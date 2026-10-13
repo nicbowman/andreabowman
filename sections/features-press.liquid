@@ -38,9 +38,10 @@
               <h3 class="feature-press__headline">{{ entry.headline.value | escape }}</h3>
             </div>
             {%- if url != blank -%}
-              <a class="link feature-press__link" href="{{ url }}" target="_blank" rel="noopener">
+              <a class="link link--icon feature-press__link" href="{{ url }}" target="_blank" rel="noopener">
                 {{- 'features.read_article' | t -}}
                 <span class="visually-hidden">: {{ entry.headline.value | escape }} {{ 'accessibility.new_window' | t }}</span>
+                {%- render 'icon', name: 'arrow-up-right', class: 'icon--small' -%}
               </a>
             {%- endif -%}
           </article>

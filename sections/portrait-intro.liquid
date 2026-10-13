@@ -10,7 +10,10 @@
   </div>
 
   <div class="portrait-intro__text">
-    <h1>{{ section.settings.heading | default: page.title | escape }}</h1>
+    {%- comment -%} The page is already named in the navigation, so the title is visually hidden unless chosen {%- endcomment -%}
+    <h1{% unless section.settings.show_heading %} class="visually-hidden"{% endunless %}>
+      {{- section.settings.heading | default: page.title | escape -}}
+    </h1>
     {%- if section.settings.lead != blank -%}
       <div class="text-lead">{{ section.settings.lead }}</div>
     {%- endif -%}
@@ -80,6 +83,13 @@
       "id": "heading",
       "label": "t:labels.heading",
       "info": "t:info.page_intro_heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "t:labels.show_heading",
+      "info": "t:info.show_heading",
+      "default": false
     },
     {
       "type": "richtext",

@@ -26,7 +26,10 @@
 
     {%- form 'contact', id: 'ProductEnquiry', class: 'product-enquiry__form' -%}
       {%- if form.posted_successfully? -%}
-        <p class="form-message" role="status">{{ 'products.enquiry.success' | t }}</p>
+        <p class="form-message form-message--success" role="status">
+          {%- render 'icon', name: 'check' -%}
+          <span>{{ 'products.enquiry.success' | t }}</span>
+        </p>
       {%- else -%}
         {%- if form.errors -%}
           <div class="form-message" role="alert" id="ProductEnquiryErrors">

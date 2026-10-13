@@ -67,17 +67,18 @@
           <div class="site-footer__column">
             <span class="site-footer__label">{{ 'footer.contact' | t }}</span>
             {%- if email != blank -%}
-              <a href="mailto:{{ email }}">{{ email | escape }}</a>
+              <a class="site-footer__contact" href="mailto:{{ email }}">{%- render 'icon', name: 'mail' -%}{{ email | escape }}</a>
             {%- elsif request.design_mode -%}
               <span>{{ 'footer.email_placeholder_text' | t }}</span>
             {%- endif -%}
             {%- if phone != blank -%}
-              <a href="tel:{{ phone | remove: ' ' }}">{{ phone | escape }}</a>
+              <a class="site-footer__contact" href="tel:{{ phone | remove: ' ' }}">{%- render 'icon', name: 'phone' -%}{{ phone | escape }}</a>
             {%- elsif request.design_mode -%}
               <span>{{ 'footer.phone_placeholder_text' | t }}</span>
             {%- endif -%}
             {%- if whatsapp != blank -%}
-              <a href="https://wa.me/{{ whatsapp }}" rel="noopener" target="_blank">
+              <a class="site-footer__contact" href="https://wa.me/{{ whatsapp }}" rel="noopener" target="_blank">
+                {%- render 'icon', name: 'chat' -%}
                 {{- 'footer.whatsapp' | t -}}
                 <span class="visually-hidden">{{ 'accessibility.new_window' | t }}</span>
               </a>
@@ -89,7 +90,8 @@
           <div class="site-footer__column">
             <span class="site-footer__label">{{ 'footer.follow' | t }}</span>
             {%- if instagram != blank -%}
-              <a href="{{ instagram }}" rel="noopener" target="_blank">
+              <a class="site-footer__contact" href="{{ instagram }}" rel="noopener" target="_blank">
+                {%- render 'icon', name: 'instagram' -%}
                 {{- 'footer.instagram' | t -}}
                 <span class="visually-hidden">{{ 'accessibility.new_window' | t }}</span>
               </a>
@@ -227,6 +229,16 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
+
+  .site-footer__contact {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .site-footer__contact .icon {
+    color: var(--color-on-moss-soft);
   }
 
   .site-footer__label {

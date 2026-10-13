@@ -105,7 +105,8 @@
     "testimonial": "Leave blank to show the first testimonial",
     "whatsapp_number": "International format, e.g. +27 82 000 0000. Shows a WhatsApp chat link.",
     "works_intro": "Shown under the heading when the collection has no description of its own.",
-    "year_lists": "Add a List heading block, then the entries that belong under it. Drag blocks to reorder."
+    "year_lists": "Add a List heading block, then the entries that belong under it. Drag blocks to reorder.",
+    "show_heading": "The page is already named in the navigation, so the title is hidden by default. Search engines and screen readers still read it."
   },
   "labels": {
     "alignment": "Alignment",
@@ -198,7 +199,8 @@
     "view_all_label": "View all link label",
     "whatsapp_number": "WhatsApp number",
     "works_collection": "Works collection",
-    "year": "Year"
+    "year": "Year",
+    "show_heading": "Show the page title"
   },
   "options": {
     "alignment": {

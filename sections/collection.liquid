@@ -3,15 +3,6 @@
 -%}
 
 <div class="page-width works">
-  <div class="section-heading">
-    <h1 class="h2">{{ collection.title | escape }}</h1>
-    {% render 'works-tabs',
-      available: section.settings.available_collection,
-      sold: section.settings.sold_collection,
-      current_handle: collection.handle
-    %}
-  </div>
-
   {%- liquid
     assign intro = collection.description
     if intro == blank
@@ -23,10 +14,19 @@
       assign count_text = 'collections.count_available' | t: count: collection.products_count
     endif
   -%}
-  <div class="works__intro">
-    {%- if intro != blank -%}
-      <div class="rte">{{ intro }}</div>
-    {%- endif -%}
+  {%- comment -%} The tabs already say which works are shown, so the collection title is for search engines and screen readers only {%- endcomment -%}
+  <h1 class="visually-hidden">{{ collection.title | escape }}</h1>
+
+  {%- if intro != blank -%}
+    <div class="rte works__intro">{{ intro }}</div>
+  {%- endif -%}
+
+  <div class="section-heading works__bar">
+    {% render 'works-tabs',
+      available: section.settings.available_collection,
+      sold: section.settings.sold_collection,
+      current_handle: collection.handle
+    %}
     {%- if collection.products_count > 0 -%}
       <p class="text-caption works__count">{{ count_text }}</p>
     {%- endif -%}
@@ -54,7 +54,10 @@
     {%- if paginate.pages > 1 -%}
       <nav class="pagination" aria-label="{{ 'collections.pagination_label' | t }}">
         {%- if paginate.previous -%}
-          <a class="pagination__step" href="{{ paginate.previous.url }}">{{ 'collections.previous' | t }}</a>
+          <a class="pagination__step" href="{{ paginate.previous.url }}">
+            {%- render 'icon', name: 'arrow-left', class: 'icon--small' -%}
+            {{- 'collections.previous' | t -}}
+          </a>
         {%- else -%}
           <span class="pagination__step" aria-hidden="true"></span>
         {%- endif -%}
@@ -80,7 +83,10 @@
         </ul>
 
         {%- if paginate.next -%}
-          <a class="pagination__step pagination__step--next" href="{{ paginate.next.url }}">{{ 'collections.next' | t }}</a>
+          <a class="pagination__step pagination__step--next" href="{{ paginate.next.url }}">
+            {{- 'collections.next' | t -}}
+            {%- render 'icon', name: 'arrow-right', class: 'icon--small' -%}
+          </a>
         {%- else -%}
           <span class="pagination__step" aria-hidden="true"></span>
         {%- endif -%}
@@ -96,17 +102,24 @@
   }
 
   .works__intro {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px 40px;
-    margin-top: calc(var(--heading-rule-space) * -0.5);
-    margin-bottom: var(--heading-rule-space);
+    max-width: 760px;
+    margin-bottom: var(--page-top);
+    font-size: 21px;
+    line-height: 1.6;
   }
 
-  .works__intro .rte {
-    max-width: 640px;
+  .works__intro p {
+    color: var(--color-ink-soft);
+  }
+
+  .works__bar {
+    align-items: center;
+  }
+
+  .works__bar .works-tabs {
+    gap: 40px;
+    font-size: var(--text-size-body);
+    letter-spacing: 0.02em;
   }
 
   .works__count {
@@ -140,6 +153,12 @@
     justify-self: end;
   }
 
+  a.pagination__step {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
   .pagination__pages {
     display: flex;
     gap: 24px;
@@ -162,6 +181,10 @@
   @media (max-width: 749px) {
     .works {
       padding-top: var(--page-top);
+    }
+
+    .works__intro {
+      font-size: 19px;
     }
 
     .pagination {

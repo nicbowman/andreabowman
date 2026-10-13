@@ -25,7 +25,10 @@
           {%- when 'secondary' -%}
             <a class="button button--secondary split-text__action" href="{{ section.settings.link_url }}">{{ section.settings.link_label | escape }}</a>
           {%- else -%}
-            <a class="link split-text__action" href="{{ section.settings.link_url }}">{{ section.settings.link_label | escape }}</a>
+            <a class="link link--icon split-text__action" href="{{ section.settings.link_url }}">
+              {{- section.settings.link_label | escape -}}
+              {% render 'icon', name: 'arrow-right', class: 'icon--small' %}
+            </a>
         {%- endcase -%}
       {%- endif -%}
     </div>
