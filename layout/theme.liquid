@@ -4,6 +4,12 @@
     {% render 'meta-tags' %}
     {% render 'css-variables' %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+    <script>
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('js-motion');
+      }
+    </script>
+    <script src="{{ 'motion.js' | asset_url }}" defer="defer"></script>
 
     {{ content_for_header }}
   </head>
