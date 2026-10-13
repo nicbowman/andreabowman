@@ -16,7 +16,8 @@
           "type": "anchor",
           "settings": {
             "label": "Trade enquiries",
-            "anchor": "trade-enquiry"
+            "anchor": "trade-enquiry",
+            "content_source": "always"
           }
         }
       },
@@ -48,8 +49,8 @@
         "sizes": {
           "type": "column",
           "settings": {
-            "title": "Sizes",
-            "text": "<p>Most paintings are between 80 and 160 cm on the longest side. For larger projects, Andrea can paint a commission to suit a particular wall and palette.</p>"
+            "title": "Sizes and commissions",
+            "text": "<p>Most paintings are between 80 and 160 cm on the longest side. For larger projects I can paint a commission to suit a particular wall and palette.</p>"
           }
         }
       },
@@ -62,16 +63,63 @@
         "heading": "What designers get"
       }
     },
+    "how_it_works": {
+      "type": "columns",
+      "blocks": {
+        "step_1": {
+          "type": "column",
+          "settings": {
+            "title": "1. Request the trade pack",
+            "text": "<p>Send the form below with a few details about the project, and I'll send the trade pack by email.</p>"
+          }
+        },
+        "step_2": {
+          "type": "column",
+          "settings": {
+            "title": "2. Reserve for your project",
+            "text": "<p>Choose a painting and I'll hold it for 14 days while your client decides. Viewings are by appointment.</p>"
+          }
+        },
+        "step_3": {
+          "type": "column",
+          "settings": {
+            "title": "3. Delivery and hanging",
+            "text": "<p>Paintings are delivered by insured courier within South Africa, usually within two weeks of payment, ready to hang.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
+      "settings": {
+        "heading": "How it works"
+      }
+    },
+    "proof": {
+      "type": "features-homes",
+      "settings": {
+        "heading": "Chosen by designers",
+        "only_with_designer": true,
+        "items_to_show": 3,
+        "anchor": "designer-homes"
+      }
+    },
     "enquiry": {
       "type": "enquiry-form",
       "settings": {
         "heading": "Trade enquiries",
-        "text": "<p>Tell Andrea about your project and ask for the trade pack. She replies personally within two working days.</p>",
+        "text": "<p>Tell me about your project and ask for the trade pack. I reply to every enquiry personally, within two working days.</p>",
+        "download_label": "",
+        "download_url": "",
+        "show_contact_details": false,
+        "details_note": "",
         "show_project_fields": true,
         "enquiry_type": "Trade enquiry",
         "message_placeholder": "Rooms, colours, sizes or paintings you have in mind",
         "submit_label": "Send trade enquiry",
-        "success_message": "Thank you. Your enquiry has been sent, and Andrea will reply to you by email.",
+        "success_message": "Thank you. Your enquiry has been sent, and I will reply to you by email.",
         "anchor": "trade-enquiry",
         "background": "oatmeal"
       }
@@ -80,6 +128,8 @@
   "order": [
     "intro",
     "offer",
+    "how_it_works",
+    "proof",
     "enquiry"
   ]
 }

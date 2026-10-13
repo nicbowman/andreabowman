@@ -16,21 +16,24 @@
           "type": "anchor",
           "settings": {
             "label": "In homes",
-            "anchor": "homes"
+            "anchor": "homes",
+            "content_source": "homes"
           }
         },
         "anchor_press": {
           "type": "anchor",
           "settings": {
             "label": "Press",
-            "anchor": "press"
+            "anchor": "press",
+            "content_source": "press"
           }
         },
         "anchor_events": {
           "type": "anchor",
           "settings": {
             "label": "Exhibitions and events",
-            "anchor": "events"
+            "anchor": "events",
+            "content_source": "events"
           }
         }
       },

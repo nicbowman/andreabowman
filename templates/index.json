@@ -14,6 +14,8 @@
       "settings": {
         "image": "shopify://shop_images/hero-bronze-room.jpg",
         "caption": "Bronze Horizon, 2025",
+        "caption_link": "shopify://products/bronze-horizon",
+        "link_label": "View painting",
         "caption_colour": "dark",
         "height": "tall",
         "label": "Featured painting"
@@ -38,6 +40,9 @@
         "heading": "Available works",
         "collection": "available-works",
         "products_to_show": 6,
+        "minimum_to_show": 3,
+        "view_all_label": "View all works",
+        "show_tabs": false,
         "available_collection": "available-works",
         "sold_collection": "sold-works"
       }
@@ -48,7 +53,7 @@
         "image": "shopify://shop_images/feature-quiet-ground.jpg",
         "image_ratio": "landscape",
         "image_position": "left",
-        "heading": "In homes, in the press",
+        "heading": "Living with the paintings",
         "text": "<p>See the paintings in the homes they now live in, along with features and exhibitions.</p>",
         "button_label": "View features",
         "button_url": "shopify://pages/features",
