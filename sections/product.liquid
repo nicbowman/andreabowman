@@ -446,8 +446,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    padding-top: 8px;
-    padding-bottom: 40px;
+    padding-top: 4px;
+    padding-bottom: 20px;
     font-size: var(--text-size-label);
     letter-spacing: 0.04em;
     color: var(--color-muted);
@@ -780,6 +780,17 @@
     font-size: 19px;
     font-weight: var(--font-weight-regular);
     line-height: 1.4;
+  }
+
+  /* Keep the whole painting on the first screen: the mount never grows taller than the viewport allows */
+  @media (min-width: 990px) {
+    .product {
+      justify-content: space-between;
+    }
+
+    .product__gallery {
+      max-width: max(520px, calc(100svh - var(--header-height) - 88px));
+    }
   }
 
   @media (max-width: 989px) {
