@@ -13,7 +13,14 @@
   "sections": {
     "footer": {
       "type": "footer",
-      "settings": {}
+      "settings": {
+        "heading": "Be the first to see new work",
+        "contact_email": "hello@andreabowman.co.za",
+        "contact_phone": "",
+        "instagram_url": "",
+        "name_text": "Andrea Bowman",
+        "tagline": "Original paintings, Cape Town"
+      }
     }
   },
   "order": [
