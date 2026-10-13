@@ -25,6 +25,14 @@
     "title": "Paintings are sold by enquiry"
   },
   "collections": {
+    "empty": "There are no paintings here at the moment.",
+    "next": "Next",
+    "page": "Page ",
+    "pagination_label": "Pages",
+    "previous": "Previous",
+    "tab_available": "Available",
+    "tab_sold": "Sold",
+    "tabs_label": "Paintings",
     "title": "Collections"
   },
   "customers": {

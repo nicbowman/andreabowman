@@ -51,6 +51,7 @@
   },
   "labels": {
     "alignment": "Alignment",
+    "available_collection": "Available collection",
     "collection": "Collection",
     "color_field_line": "Field line",
     "color_hairline": "Hairline",
@@ -73,6 +74,7 @@
     "menu": "Menu",
     "name_text": "Name",
     "padding": "Padding",
+    "products_per_page": "Paintings per page",
     "products_to_show": "Paintings to show",
     "redirect_collection": "Send visitors to",
     "shipping_note": "Shipping note",

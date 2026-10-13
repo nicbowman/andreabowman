@@ -1,34 +1,173 @@
-{% comment %}
-  Holding version of the works page: title and the painting grid. Tabs and styled pagination arrive in feature/collection-page.
-{% endcomment %}
+{%- liquid
+  assign per_page = section.settings.products_per_page
+-%}
 
-<div class="page-width section">
+<div class="page-width works">
   <div class="section-heading">
     <h1 class="h2">{{ collection.title | escape }}</h1>
+    {% render 'works-tabs',
+      available: section.settings.available_collection,
+      sold: section.settings.sold_collection,
+      current_handle: collection.handle
+    %}
   </div>
 
-  {%- paginate collection.products by 24 -%}
-    <ul class="product-grid" role="list">
-      {%- for product in collection.products -%}
-        <li>
-          {%- liquid
-            assign eager = false
-            if forloop.index <= 3
-              assign eager = true
-            endif
-          -%}
-          {% render 'product-card', product: product, eager: eager, heading_tag: 'h2' %}
-        </li>
-      {%- endfor -%}
-    </ul>
+  {%- if collection.description != blank -%}
+    <div class="rte works__intro">{{ collection.description }}</div>
+  {%- endif -%}
 
-    {{ paginate | default_pagination }}
+  {%- paginate collection.products by per_page -%}
+    {%- if collection.products.size > 0 -%}
+      <ul class="product-grid" role="list">
+        {%- for product in collection.products -%}
+          <li>
+            {%- liquid
+              assign eager = false
+              if forloop.index <= 3 and paginate.current_page == 1
+                assign eager = true
+              endif
+            -%}
+            {% render 'product-card', product: product, eager: eager, heading_tag: 'h2' %}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <p class="text-soft works__empty">{{ 'collections.empty' | t }}</p>
+    {%- endif -%}
+
+    {%- if paginate.pages > 1 -%}
+      <nav class="pagination" aria-label="{{ 'collections.pagination_label' | t }}">
+        {%- if paginate.previous -%}
+          <a class="pagination__step" href="{{ paginate.previous.url }}">{{ 'collections.previous' | t }}</a>
+        {%- else -%}
+          <span class="pagination__step" aria-hidden="true"></span>
+        {%- endif -%}
+
+        <ul class="pagination__pages" role="list">
+          {%- for part in paginate.parts -%}
+            <li>
+              {%- if part.is_link -%}
+                <a class="pagination__page" href="{{ part.url }}">
+                  <span class="visually-hidden">{{ 'collections.page' | t }}</span>
+                  {{- part.title -}}
+                </a>
+              {%- elsif part.title == paginate.current_page -%}
+                <span class="pagination__page" aria-current="page">
+                  <span class="visually-hidden">{{ 'collections.page' | t }}</span>
+                  {{- part.title -}}
+                </span>
+              {%- else -%}
+                <span class="pagination__page pagination__gap">{{ part.title }}</span>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        {%- if paginate.next -%}
+          <a class="pagination__step pagination__step--next" href="{{ paginate.next.url }}">{{ 'collections.next' | t }}</a>
+        {%- else -%}
+          <span class="pagination__step" aria-hidden="true"></span>
+        {%- endif -%}
+      </nav>
+    {%- endif -%}
   {%- endpaginate -%}
 </div>
+
+{% stylesheet %}
+  .works {
+    padding-top: 80px;
+    padding-bottom: var(--section-space-large);
+  }
+
+  .works__intro {
+    max-width: 640px;
+    margin-top: calc(var(--heading-rule-space) * -0.5);
+    margin-bottom: var(--heading-rule-space);
+  }
+
+  .works__empty {
+    padding-block: 40px;
+  }
+
+  .pagination {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+    margin-top: 96px;
+    padding-top: 28px;
+    border-top: 1px solid var(--color-hairline);
+    font-size: var(--text-size-caption);
+    letter-spacing: 0.06em;
+  }
+
+  .pagination__step,
+  .pagination__page {
+    display: inline-block;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+  }
+
+  .pagination__step--next {
+    justify-self: end;
+  }
+
+  .pagination__pages {
+    display: flex;
+    gap: 24px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pagination__page[aria-current] {
+    border-bottom-color: var(--color-ink);
+  }
+
+  .pagination__gap {
+    color: var(--color-muted);
+  }
+
+  .pagination a {
+    text-decoration: none;
+  }
+
+  @media (max-width: 749px) {
+    .works {
+      padding-top: 40px;
+    }
+
+    .pagination {
+      margin-top: 64px;
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:general.collection",
-  "settings": []
+  "settings": [
+    {
+      "type": "collection",
+      "id": "available_collection",
+      "label": "t:labels.available_collection"
+    },
+    {
+      "type": "collection",
+      "id": "sold_collection",
+      "label": "t:labels.sold_collection"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "t:labels.products_per_page",
+      "min": 6,
+      "max": 24,
+      "step": 3,
+      "default": 12
+    }
+  ],
+  "enabled_on": {
+    "templates": ["collection"]
+  }
 }
 {% endschema %}
