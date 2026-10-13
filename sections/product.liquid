@@ -351,7 +351,7 @@
         return;
       }
       dialog.classList.add('is-closing');
-      window.setTimeout(finish, 300);
+      window.setTimeout(finish, 450);
     }
 
     if (dialog) {
@@ -505,14 +505,14 @@
     opacity: 0;
     visibility: hidden;
     transition:
-      opacity var(--dur-swap) var(--ease-out),
+      opacity var(--dur-swap) var(--ease-fade),
       visibility 0s linear var(--dur-swap);
   }
 
   .is-enhanced .product__view.is-active {
     opacity: 1;
     visibility: visible;
-    transition: opacity var(--dur-swap) var(--ease-out);
+    transition: opacity var(--dur-swap) var(--ease-fade);
   }
 
   .product__zoom {
@@ -541,7 +541,7 @@
   }
 
   .lightbox.is-closing {
-    animation: lightbox-out var(--dur-swap) var(--ease-out) both;
+    animation: lightbox-out var(--dur-swap) var(--ease-fade) both;
   }
 
   .lightbox::backdrop {
