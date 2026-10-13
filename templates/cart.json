@@ -10,8 +10,10 @@
 {
   "sections": {
     "main": {
-      "type": "cart",
-      "settings": {}
+      "type": "cart-redirect",
+      "settings": {
+        "collection": "available-works"
+      }
     }
   },
   "order": [

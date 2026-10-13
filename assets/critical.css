@@ -1,26 +1,85 @@
-/** Critical CSS for the theme. This file is included on every page. */
+/* Base styles shared by every page. Tokens come from snippets/css-variables.liquid. */
 
-/* Reset styles inspired by https://www.joshwcomeau.com/css/custom-css-reset/ */
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
+}
+
+:root {
+  --page-width: 1320px;
+  --page-gutter: 48px;
+  --section-space: 140px;
+  --section-space-large: 150px;
+  --section-space-small: 130px;
+  --block-gap: 80px;
+  --heading-rule-space: 56px;
+  --text-size-body: 17px;
+  --text-size-small: 15px;
+  --text-size-caption: 14px;
+  --text-size-label: 13px;
+  --text-size-h1: 50px;
+  --text-size-h2: 34px;
+  --text-size-h3: 26px;
+  --transition-colour: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+@media (max-width: 989px) {
+  :root {
+    --page-gutter: 32px;
+    --section-space: 110px;
+    --section-space-large: 110px;
+    --section-space-small: 100px;
+    --block-gap: 56px;
+  }
+}
+
+@media (max-width: 749px) {
+  :root {
+    --page-gutter: 20px;
+    --section-space: 80px;
+    --section-space-large: 80px;
+    --section-space-small: 80px;
+    --block-gap: 48px;
+    --heading-rule-space: 40px;
+    --text-size-h1: 34px;
+    --text-size-h2: 26px;
+    --text-size-h3: 22px;
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
   display: flex;
   flex-direction: column;
-  margin: 0;
   min-height: 100svh;
+  background-color: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-light);
+  font-size: var(--text-size-body);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
 }
 
-html:has(dialog[scroll-lock][open], details[scroll-lock][open]) {
-  overflow: hidden;
+main {
+  flex: 1 0 auto;
 }
 
 img,
 picture,
 video,
-canvas,
 svg {
   display: block;
   max-width: 100%;
@@ -29,89 +88,289 @@ svg {
 
 input,
 textarea,
-select {
+select,
+button {
   font: inherit;
-  border-radius: var(--style-border-radius-inputs);
-}
-
-select {
-  background-color: var(--color-background);
-  color: currentcolor;
-}
-
-dialog {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+  color: inherit;
+  border-radius: 0;
 }
 
 p {
   text-wrap: pretty;
 }
+
 p,
 h1,
 h2,
 h3,
-h4,
-h5,
-h6 {
+h4 {
   overflow-wrap: break-word;
 }
 
-p:empty {
-  display: none;
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3 {
+  font-weight: var(--font-weight-light);
+  font-style: normal;
 }
 
-:is(p, h1, h2, h3, h4, h5, h6):first-child,
-:empty:first-child + :where(p, h1, h2, h3, h4, h5, h6) {
-  margin-block-start: 0;
+h1,
+.h1 {
+  font-size: var(--text-size-h1);
+  line-height: 1.2;
+  letter-spacing: -0.005em;
 }
 
-:is(p, h1, h2, h3, h4, h5, h6):last-child,
-:where(p, h1, h2, h3, h4, h5, h6) + :has(+ :empty:last-child) {
-  margin-block-end: 0;
+h2,
+.h2 {
+  font-size: var(--text-size-h2);
+  line-height: 1.2;
 }
 
-/** Theme styles below */
-body {
-  font-family: var(--font-primary--family);
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+h3,
+.h3 {
+  font-size: var(--text-size-h3);
+  line-height: 1.35;
 }
 
-/** Section layout utilities */
+em,
+i {
+  font-style: normal;
+}
 
-/**
- * Setup a grid that enables both full-width and constrained layouts
- * depending on the class of the child elements.
- *
- * By default, a minimum content margin is set on the left and right
- * sides of the section and the content is centered in the viewport to
- * not exceed the maximum page width.
- *
- * When a child element is given the `full-width` class, it will span
- * the entire viewport.
- */
-.shopify-section {
-  --content-width: min(
-    calc(var(--page-width) - var(--page-margin) * 2),
-    calc(100% - var(--page-margin) * 2)
-  );
-  --content-margin: minmax(var(--page-margin), 1fr);
-  --content-grid: var(--content-margin) var(--content-width) var(--content-margin);
+strong,
+b {
+  font-weight: var(--font-weight-regular);
+}
 
-  /* This is required to make <img> elements work as background images */
-  position: relative;
-  grid-template-columns: var(--content-grid);
-  display: grid;
+blockquote {
+  padding: 0;
+}
+
+/* Text colours and sizes */
+
+.text-soft {
+  color: var(--color-ink-soft);
+}
+
+.text-muted {
+  color: var(--color-muted);
+}
+
+.text-caption {
+  font-size: var(--text-size-caption);
+  color: var(--color-muted);
+}
+
+.text-lead {
+  font-size: 21px;
+  line-height: 1.6;
+}
+
+.rte > * + * {
+  margin-top: 1.2em;
+}
+
+.rte p,
+.rte li {
+  color: var(--color-ink-soft);
+}
+
+.rte ul,
+.rte ol {
+  padding-left: 1.2em;
+}
+
+/* Links */
+
+a {
+  color: var(--color-ink);
+  text-underline-offset: 6px;
+  text-decoration-thickness: 1px;
+  transition: var(--transition-colour);
+}
+
+a:hover {
+  color: var(--color-moss);
+}
+
+.link {
+  font-size: var(--text-size-caption);
+  letter-spacing: 0.08em;
+  text-decoration: underline;
+}
+
+/* Focus: 1px ink outline, offset 4px */
+
+:focus-visible {
+  outline: 1px solid var(--color-ink);
+  outline-offset: 4px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Layout */
+
+.page-width {
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+.section {
+  padding-block: var(--section-space);
+}
+
+.section--oatmeal {
+  background-color: var(--color-oatmeal);
+}
+
+.section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding-bottom: 26px;
+  margin-bottom: var(--heading-rule-space);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+/* Buttons: square, 13px uppercase, wide tracking */
+
+.button {
+  display: inline-block;
+  padding: 20px 40px;
+  border: 1px solid var(--color-moss);
+  background-color: var(--color-moss);
+  color: var(--color-ivory);
+  font-family: var(--font-family);
+  font-size: var(--text-size-label);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.4;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition-colour);
+}
+
+.button:hover {
+  background-color: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-ivory);
+}
+
+.button--secondary {
+  background-color: transparent;
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+
+.button--secondary:hover {
+  background-color: transparent;
+  border-color: var(--color-moss);
+  color: var(--color-moss);
+}
+
+.button--full {
+  display: block;
   width: 100%;
 }
 
-/* Child elements, by default, are constrained to the central column of the grid. */
-.shopify-section > * {
-  grid-column: 2;
+/* Form fields: underline only */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: var(--text-size-label);
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
 }
 
-/* Child elements that use the full-width utility class span the entire viewport. */
-.shopify-section > .full-width {
-  grid-column: 1 / -1;
+.field__input {
+  width: 100%;
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 1px solid var(--color-field-line);
+  background: transparent;
+  color: var(--color-ink);
+  font-family: var(--font-family);
+  font-size: var(--text-size-body);
+  font-weight: var(--font-weight-light);
+  letter-spacing: normal;
+  transition: var(--transition-colour);
+}
+
+.field__input:focus {
+  border-bottom-color: var(--color-ink);
+}
+
+.field__input[readonly] {
+  font-weight: var(--font-weight-regular);
+}
+
+textarea.field__input {
+  resize: vertical;
+}
+
+.form-message {
+  font-size: var(--text-size-small);
+  color: var(--color-ink);
+  padding: 16px 0;
+  border-top: 1px solid var(--color-hairline);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.form-message ul {
+  margin-top: 6px;
+  padding-left: 1.2em;
+}
+
+/* Accessibility helpers */
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  padding: 12px 20px;
+  background-color: var(--color-ivory);
+  color: var(--color-ink);
+  font-size: var(--text-size-caption);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
 }

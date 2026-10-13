@@ -2,52 +2,59 @@
   "general": {
     "404": "Not found",
     "article": "Article",
-    "block": "Block",
     "blog": "Blog",
-    "cart": "Cart",
+    "cart_redirect": "Cart redirect",
     "collection": "Collection",
     "collections": "Collections",
-    "collection_card": "Collection card",
     "collections_grid": "Collections grid",
-    "colors": "Colors",
+    "colors": "Colours",
     "column": "Column",
-    "content": "Content",
-    "custom_section": "Custom section",
-    "fonts": "Fonts",
     "footer": "Footer",
     "group": "Group",
     "header": "Header",
     "layout": "Layout",
-    "main": "Main",
     "page": "Page",
     "password": "Password",
-    "primary": "Primary",
-    "product": "Product",
+    "product": "Painting",
     "row": "Row",
     "search": "Search",
-    "secondary": "Secondary",
-    "section": "Section",
-    "settings": "Settings",
-    "sidebar": "Sidebar",
     "text": "Text",
-    "theme": "Theme",
     "typography": "Typography"
+  },
+  "info": {
+    "colors": "The paintings are the colour. These defaults are the approved palette, so change them with care.",
+    "color_ivory": "Page background",
+    "color_oatmeal": "Alternate section background",
+    "color_mount": "Square mount behind every painting image",
+    "color_hairline": "Dividers and borders",
+    "color_field_line": "Form field underlines on oatmeal",
+    "color_ink": "Text",
+    "color_ink_soft": "Body paragraphs",
+    "color_muted": "Captions, labels and metadata",
+    "color_moss": "The only accent: primary buttons, footer background and hover",
+    "font": "Jost Light is the approved typeface. Regular and Medium weights load automatically.",
+    "redirect_collection": "Visitors who reach /cart are sent here. Defaults to available works."
   },
   "labels": {
     "alignment": "Alignment",
-    "background": "Background",
-    "foreground": "Foreground",
+    "color_field_line": "Field line",
+    "color_hairline": "Hairline",
+    "color_ink": "Ink",
+    "color_ink_soft": "Ink soft",
+    "color_ivory": "Ivory",
+    "color_moss": "Moss",
+    "color_mount": "Mount",
+    "color_muted": "Muted",
+    "color_oatmeal": "Oatmeal",
+    "font": "Font",
     "grid_gap": "Grid spacing",
     "grid_item_width": "Grid item width",
-    "input_corner_radius": "Input corner radius",
     "layout_direction": "Layout direction",
     "menu": "Menu",
     "padding": "Padding",
-    "page_margin": "Page margin",
-    "page_width": "Page width",
-    "show_payment_icons": "Show payment icons",
-    "text_style": "Text style",
-    "text": "Text"
+    "redirect_collection": "Send visitors to",
+    "text": "Text",
+    "text_style": "Text style"
   },
   "options": {
     "alignment": {
@@ -59,18 +66,14 @@
       "horizontal": "Horizontal",
       "vertical": "Vertical"
     },
-    "page_width": {
-      "narrow": "Narrow",
-      "wide": "Wide"
-    },
-    "size": {
-      "large": "Large",
-      "small": "Small"
-    },
     "text_style": {
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
     },
+    "size": {
+      "large": "Large",
+      "small": "Small"
+    }
   }
 }

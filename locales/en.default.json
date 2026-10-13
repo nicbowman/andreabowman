@@ -1,8 +1,12 @@
 {
   "404": {
-    "title": "404",
-    "not_found": "Page not found.",
-    "back_to_shopping": "Back to shopping"
+    "title": "Page not found",
+    "not_found": "The page you were looking for does not exist.",
+    "back_home": "Back to the homepage"
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "main_navigation": "Main"
   },
   "blog": {
     "article_comments": "Comments",
@@ -13,11 +17,10 @@
     "comment_form_submit": "Post",
     "comment_form_title": "Add a comment"
   },
-  "cart": {
-    "checkout": "Checkout",
-    "title": "Cart",
-    "update": "Update",
-    "remove": "Remove"
+  "cart_redirect": {
+    "title": "Paintings are sold by enquiry",
+    "message": "There is no cart on this site. Choose a painting and send an enquiry from its page.",
+    "link": "View the paintings"
   },
   "customers": {
     "login": {
@@ -38,13 +41,16 @@
     "use_at_checkout": "Use this gift card at checkout"
   },
   "password": {
-    "title": "This shop is private",
+    "title": "This site is private",
     "password": "Password",
     "enter": "Enter"
   },
+  "products": {
+    "sold": "Sold"
+  },
   "search": {
     "title": "Search",
-    "placeholder": "Search articles, pages, or products",
+    "placeholder": "Search paintings and pages",
     "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
     "results_for_html": "{{ count }} results found for {{ terms }}"

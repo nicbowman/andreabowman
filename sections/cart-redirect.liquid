@@ -1,0 +1,44 @@
+{% comment %}
+  The site is enquiry only, so /cart has no purpose. Shopify cannot server-redirect /cart from a theme,
+  so this section sends visitors on to the chosen collection and shows a plain link as a fallback.
+{% endcomment %}
+
+{%- liquid
+  assign destination = section.settings.collection.url | default: routes.all_products_collection_url
+-%}
+
+<div class="page-width section cart-redirect">
+  <h1>{{ 'cart_redirect.title' | t }}</h1>
+  <p class="text-soft">{{ 'cart_redirect.message' | t }}</p>
+  <a class="button" href="{{ destination }}">{{ 'cart_redirect.link' | t }}</a>
+</div>
+
+<script>
+  window.location.replace({{ destination | json }});
+</script>
+
+{% stylesheet %}
+  .cart-redirect {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.cart_redirect",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:labels.redirect_collection",
+      "info": "t:info.redirect_collection"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}
