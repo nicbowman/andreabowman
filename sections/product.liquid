@@ -5,7 +5,8 @@
 
 <div class="page-width section">
   <h1>{{ product.title }}</h1>
-  {%- if product.tags contains 'sold' -%}
+  {%- assign tags_lower = product.tags | join: '|' | downcase | split: '|' -%}
+  {%- if tags_lower contains 'sold' -%}
     <p class="text-muted">{{ 'products.sold' | t }}</p>
   {%- else -%}
     <p>{{ product.price | money }}</p>
