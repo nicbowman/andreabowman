@@ -1,53 +1,188 @@
-<header class="page-width site-header">
-  <a class="site-header__logo" href="{{ routes.root_url }}">{{ shop.name }}</a>
+{%- liquid
+  assign logo_text = section.settings.logo_text | default: shop.name
+  assign menu_links = section.settings.menu.links
+-%}
 
-  {%- if section.settings.menu.links.size > 0 -%}
-    <nav aria-label="{{ 'accessibility.main_navigation' | t }}">
+<header class="page-width site-header">
+  <a class="site-header__logo" href="{{ routes.root_url }}">{{ logo_text | escape }}</a>
+
+  {%- if menu_links.size > 0 -%}
+    <nav class="site-header__nav" aria-label="{{ 'accessibility.main_navigation' | t }}">
       <ul class="site-header__menu" role="list">
-        {%- for link in section.settings.menu.links -%}
+        {%- for link in menu_links limit: 5 -%}
           <li>
             <a
+              class="site-header__link"
               href="{{ link.url }}"
               {% if link.current %}
                 aria-current="page"
+              {% elsif link.active or link.child_active %}
+                aria-current="true"
               {% endif %}
             >
-              {{- link.title -}}
+              {{- link.title | escape -}}
             </a>
           </li>
         {%- endfor -%}
       </ul>
     </nav>
+
+    <details class="site-header__drawer">
+      <summary class="site-header__toggle">
+        <span class="site-header__toggle-open">{{ 'header.menu' | t }}</span>
+        <span class="site-header__toggle-close">{{ 'header.close' | t }}</span>
+      </summary>
+      <nav class="site-header__drawer-nav" aria-label="{{ 'accessibility.main_navigation' | t }}">
+        <ul class="site-header__drawer-menu" role="list">
+          {%- for link in menu_links limit: 5 -%}
+            <li>
+              <a
+                class="site-header__link"
+                href="{{ link.url }}"
+                {% if link.current %}
+                  aria-current="page"
+                {% elsif link.active or link.child_active %}
+                  aria-current="true"
+                {% endif %}
+              >
+                {{- link.title | escape -}}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    </details>
   {%- endif -%}
 </header>
 
+{% javascript %}
+  document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Escape') return;
+    var drawer = document.querySelector('.site-header__drawer[open]');
+    if (!drawer) return;
+    drawer.removeAttribute('open');
+    drawer.querySelector('summary').focus();
+  });
+{% endjavascript %}
+
 {% stylesheet %}
   .site-header {
+    position: relative;
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
     padding-block: 34px;
   }
+
   .site-header__logo {
     text-decoration: none;
     text-transform: uppercase;
     font-size: 15px;
     font-weight: var(--font-weight-regular);
     letter-spacing: 0.34em;
+    line-height: 1.4;
   }
+
+  .site-header__menu,
+  .site-header__drawer-menu {
+    padding: 0;
+    list-style: none;
+  }
+
   .site-header__menu {
     display: flex;
     flex-wrap: wrap;
     gap: 40px;
-    padding: 0;
-    list-style: none;
+  }
+
+  .site-header__link {
+    display: inline-block;
+    padding-bottom: 3px;
+    border-bottom: 1px solid transparent;
     font-size: 14px;
     letter-spacing: 0.06em;
-  }
-  .site-header__menu a {
     text-decoration: none;
+  }
+
+  .site-header__link[aria-current] {
+    border-bottom-color: var(--color-ink);
+  }
+
+  .site-header__link[aria-current]:hover {
+    border-bottom-color: var(--color-moss);
+  }
+
+  .site-header__drawer {
+    display: none;
+  }
+
+  .site-header__toggle {
+    display: block;
+    padding: 8px 0;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .site-header__toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .site-header__toggle-close,
+  .site-header__drawer[open] .site-header__toggle-open {
+    display: none;
+  }
+
+  .site-header__drawer[open] .site-header__toggle-close {
+    display: inline;
+  }
+
+  .site-header__drawer-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    padding: 8px var(--page-gutter) 40px;
+    background-color: var(--color-ivory);
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .site-header__drawer-menu li {
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .site-header__drawer-menu .site-header__link {
+    display: block;
+    padding: 18px 0;
+    border-bottom: 0;
+    font-size: 17px;
+  }
+
+  .site-header__drawer-menu .site-header__link[aria-current] {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+  }
+
+  @media (max-width: 749px) {
+    .site-header {
+      padding-block: 24px;
+    }
+
+    .site-header__logo {
+      font-size: 14px;
+      letter-spacing: 0.28em;
+    }
+
+    .site-header__nav {
+      display: none;
+    }
+
+    .site-header__drawer {
+      display: block;
+    }
   }
 {% endstylesheet %}
 
@@ -56,9 +191,17 @@
   "name": "t:general.header",
   "settings": [
     {
+      "type": "text",
+      "id": "logo_text",
+      "label": "t:labels.logo_text",
+      "info": "t:info.logo_text",
+      "default": "Andrea Bowman"
+    },
+    {
       "type": "link_list",
       "id": "menu",
       "label": "t:labels.menu",
+      "info": "t:info.header_menu",
       "default": "main-menu"
     }
   ]

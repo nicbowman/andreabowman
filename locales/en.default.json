@@ -1,12 +1,13 @@
 {
   "404": {
-    "title": "Page not found",
+    "back_home": "Back to the homepage",
     "not_found": "The page you were looking for does not exist.",
-    "back_home": "Back to the homepage"
+    "title": "Page not found"
   },
   "accessibility": {
-    "skip_to_content": "Skip to content",
-    "main_navigation": "Main"
+    "main_navigation": "Main",
+    "new_window": "(opens in a new window)",
+    "skip_to_content": "Skip to content"
   },
   "blog": {
     "article_comments": "Comments",
@@ -18,9 +19,12 @@
     "comment_form_title": "Add a comment"
   },
   "cart_redirect": {
-    "title": "Paintings are sold by enquiry",
+    "link": "View the paintings",
     "message": "There is no cart on this site. Choose a painting and send an enquiry from its page.",
-    "link": "View the paintings"
+    "title": "Paintings are sold by enquiry"
+  },
+  "collections": {
+    "title": "Collections"
   },
   "customers": {
     "login": {
@@ -30,8 +34,17 @@
       "title": "Login"
     }
   },
-  "collections": {
-    "title": "Collections"
+  "footer": {
+    "contact": "Contact",
+    "email_label": "Email address",
+    "email_placeholder": "you@example.com",
+    "email_placeholder_text": "[email address]",
+    "follow": "Follow",
+    "instagram": "Instagram",
+    "instagram_placeholder_text": "[Instagram link]",
+    "newsletter_success": "Thank you. You are on the list for new work.",
+    "phone_placeholder_text": "[phone number]",
+    "subscribe": "Subscribe"
   },
   "gift_card": {
     "add_to_apple_wallet": "Add to Apple Wallet",
@@ -40,19 +53,23 @@
     "expires_on": "Expires on {{ expires_on }}",
     "use_at_checkout": "Use this gift card at checkout"
   },
+  "header": {
+    "close": "Close",
+    "menu": "Menu"
+  },
   "password": {
-    "title": "This site is private",
+    "enter": "Enter",
     "password": "Password",
-    "enter": "Enter"
+    "title": "This site is private"
   },
   "products": {
     "sold": "Sold"
   },
   "search": {
-    "title": "Search",
-    "placeholder": "Search paintings and pages",
-    "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
-    "results_for_html": "{{ count }} results found for {{ terms }}"
+    "placeholder": "Search paintings and pages",
+    "results_for_html": "{{ count }} results found for {{ terms }}",
+    "submit": "Search",
+    "title": "Search"
   }
 }
