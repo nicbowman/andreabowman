@@ -1,0 +1,191 @@
+{%- liquid
+  assign tags_lower = product.tags | join: '|' | downcase | split: '|'
+  assign is_sold = false
+  if tags_lower contains 'sold'
+    assign is_sold = true
+  endif
+
+  if is_sold
+    assign painting_value = 'products.enquiry.sold_painting' | t: title: product.title
+    assign heading = section.settings.sold_heading
+  else
+    assign price = product.price | money_without_trailing_zeros | strip_html
+    assign painting_value = product.title | append: ', ' | append: price
+    assign heading = section.settings.heading
+  endif
+-%}
+
+<section id="enquire" class="section section--oatmeal product-enquiry" aria-labelledby="EnquiryHeading-{{ section.id }}">
+  <div class="page-width product-enquiry__inner">
+    <div class="product-enquiry__intro">
+      <h2 id="EnquiryHeading-{{ section.id }}">{{ heading | escape }}</h2>
+      {%- if section.settings.text != blank -%}
+        <div class="rte">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- form 'contact', id: 'ProductEnquiry', class: 'product-enquiry__form' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="form-message" role="status">{{ 'products.enquiry.success' | t }}</p>
+      {%- else -%}
+        {%- if form.errors -%}
+          <div class="form-message" role="alert" id="ProductEnquiryErrors">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <input type="hidden" name="contact[Link]" value="{{ shop.url }}{{ product.url }}">
+
+        <label class="field" for="ProductEnquiry-painting">
+          {{- 'products.enquiry.painting' | t -}}
+          <input
+            class="field__input"
+            id="ProductEnquiry-painting"
+            type="text"
+            name="contact[Painting]"
+            value="{{ painting_value | escape }}"
+            readonly
+          >
+        </label>
+
+        <div class="product-enquiry__row">
+          <label class="field" for="ProductEnquiry-name">
+            {{- 'products.enquiry.name' | t -}}
+            <input
+              class="field__input"
+              id="ProductEnquiry-name"
+              type="text"
+              name="contact[name]"
+              autocomplete="name"
+              value="{{ form.name }}"
+              required
+            >
+          </label>
+
+          <label class="field" for="ProductEnquiry-email">
+            {{- 'products.enquiry.email' | t -}}
+            <input
+              class="field__input"
+              id="ProductEnquiry-email"
+              type="email"
+              name="contact[email]"
+              autocomplete="email"
+              value="{{ form.email }}"
+              required
+              {% if form.errors contains 'email' %}
+                aria-invalid="true"
+                aria-describedby="ProductEnquiryErrors"
+              {% endif %}
+            >
+          </label>
+        </div>
+
+        <label class="field" for="ProductEnquiry-phone">
+          {{- 'products.enquiry.phone' | t -}}
+          <input
+            class="field__input"
+            id="ProductEnquiry-phone"
+            type="tel"
+            name="contact[phone]"
+            autocomplete="tel"
+            value="{{ form.phone }}"
+          >
+        </label>
+
+        <label class="field" for="ProductEnquiry-message">
+          {{- 'products.enquiry.message' | t -}}
+          <textarea
+            class="field__input"
+            id="ProductEnquiry-message"
+            name="contact[body]"
+            rows="3"
+            placeholder="{{ 'products.enquiry.message_placeholder' | t }}"
+          >
+            {{- form.body -}}
+          </textarea>
+        </label>
+
+        <button class="button product-enquiry__submit" type="submit">{{ 'products.enquiry.submit' | t }}</button>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</section>
+
+{% stylesheet %}
+  .product-enquiry {
+    padding-block: var(--section-space-small);
+    scroll-margin-top: 24px;
+  }
+
+  .product-enquiry__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--block-gap);
+  }
+
+  .product-enquiry__intro {
+    flex: 1 1 380px;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .product-enquiry__form {
+    flex: 1 1 520px;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+  }
+
+  .product-enquiry__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 34px 32px;
+  }
+
+  .product-enquiry__row .field {
+    flex: 1 1 240px;
+  }
+
+  .product-enquiry__submit {
+    align-self: flex-start;
+    padding: 22px 44px;
+  }
+
+  .product-enquiry .field__input::placeholder {
+    color: var(--color-muted);
+    opacity: 1;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.product_enquiry",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Enquire about this painting"
+    },
+    {
+      "type": "text",
+      "id": "sold_heading",
+      "label": "t:labels.sold_heading",
+      "info": "t:info.sold_heading",
+      "default": "Ask about commissions or similar works"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:labels.text",
+      "default": "<p>Ask about the work, arrange a viewing or reserve it for a project. Andrea replies personally [within two working days].</p>"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}
