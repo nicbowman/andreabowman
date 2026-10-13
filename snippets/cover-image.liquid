@@ -1,0 +1,67 @@
+{% doc %}
+  Renders a lifestyle or installation photo that fills a fixed-ratio frame (object-fit: cover).
+  Not for paintings, which use the painting-mount snippet instead.
+
+  @param {image} [image] - The photo. An empty frame in the mount colour is shown when missing.
+  @param {string} ratio - Frame shape: '4-5', '3-2', '4-3' or '1-1'
+  @param {string} alt - Fallback alt text when the image has none
+  @param {string} [sizes] - The sizes attribute for the responsive image
+
+  @example
+  {% render 'cover-image', image: entry.image.value, ratio: '4-5', alt: entry.title.value %}
+{% enddoc %}
+
+{%- liquid
+  assign image_alt = image.alt | default: alt | escape
+  assign image_sizes = sizes | default: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw'
+-%}
+
+<div class="cover-image cover-image--{{ ratio }}">
+  {%- if image -%}
+    {{
+      image
+      | image_url: width: 1800
+      | image_tag:
+        widths: '400, 600, 800, 1000, 1300, 1800',
+        sizes: image_sizes,
+        loading: 'lazy',
+        alt: image_alt
+    }}
+  {%- else -%}
+    <span class="visually-hidden">{{ alt | escape }}</span>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .cover-image {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--color-mount);
+  }
+
+  .cover-image--4-5 {
+    aspect-ratio: 4 / 5;
+  }
+
+  .cover-image--3-2 {
+    aspect-ratio: 3 / 2;
+  }
+
+  .cover-image--4-3 {
+    aspect-ratio: 4 / 3;
+  }
+
+  .cover-image--1-1 {
+    aspect-ratio: 1 / 1;
+  }
+
+  .cover-image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+  }
+{% endstylesheet %}

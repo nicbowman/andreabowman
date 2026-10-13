@@ -1,0 +1,25 @@
+{% doc %}
+  Outputs the handles of metaobject entries as a comma-separated list, newest first by their "date" field.
+  Entries without a date go last. Capture the output, then split it on commas.
+
+  @param {object} entries - A metaobject definition's values, e.g. metaobjects.press_article.values
+
+  @example
+  {% capture handles %}{% render 'handles-by-date', entries: metaobjects.press_article.values %}{% endcapture %}
+{% enddoc %}
+
+{%- liquid
+  assign keys = ''
+  for entry in entries
+    assign sort_key = entry.date.value | date: '%Y%m%d'
+    if sort_key == blank
+      assign sort_key = '00000000'
+    endif
+    assign keys = keys | append: sort_key | append: ':' | append: entry.system.handle | append: ','
+  endfor
+
+  assign sorted = keys | split: ',' | sort | reverse
+  for key in sorted
+    echo key | split: ':' | last | append: ','
+  endfor
+-%}
