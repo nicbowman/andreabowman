@@ -52,31 +52,35 @@
       </div>
 
       <div class="site-footer__details">
-        <div class="site-footer__column">
-          <span class="site-footer__label">{{ 'footer.contact' | t }}</span>
-          {%- if email != blank -%}
-            <a href="mailto:{{ email }}">{{ email | escape }}</a>
-          {%- else -%}
-            <span>{{ 'footer.email_placeholder_text' | t }}</span>
-          {%- endif -%}
-          {%- if phone != blank -%}
-            <a href="tel:{{ phone | remove: ' ' }}">{{ phone | escape }}</a>
-          {%- else -%}
-            <span>{{ 'footer.phone_placeholder_text' | t }}</span>
-          {%- endif -%}
-        </div>
+        {%- if email != blank or phone != blank or request.design_mode -%}
+          <div class="site-footer__column">
+            <span class="site-footer__label">{{ 'footer.contact' | t }}</span>
+            {%- if email != blank -%}
+              <a href="mailto:{{ email }}">{{ email | escape }}</a>
+            {%- elsif request.design_mode -%}
+              <span>{{ 'footer.email_placeholder_text' | t }}</span>
+            {%- endif -%}
+            {%- if phone != blank -%}
+              <a href="tel:{{ phone | remove: ' ' }}">{{ phone | escape }}</a>
+            {%- elsif request.design_mode -%}
+              <span>{{ 'footer.phone_placeholder_text' | t }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
 
-        <div class="site-footer__column">
-          <span class="site-footer__label">{{ 'footer.follow' | t }}</span>
-          {%- if instagram != blank -%}
-            <a href="{{ instagram }}" rel="noopener" target="_blank">
-              {{- 'footer.instagram' | t -}}
-              <span class="visually-hidden">{{ 'accessibility.new_window' | t }}</span>
-            </a>
-          {%- else -%}
-            <span>{{ 'footer.instagram_placeholder_text' | t }}</span>
-          {%- endif -%}
-        </div>
+        {%- if instagram != blank or request.design_mode -%}
+          <div class="site-footer__column">
+            <span class="site-footer__label">{{ 'footer.follow' | t }}</span>
+            {%- if instagram != blank -%}
+              <a href="{{ instagram }}" rel="noopener" target="_blank">
+                {{- 'footer.instagram' | t -}}
+                <span class="visually-hidden">{{ 'accessibility.new_window' | t }}</span>
+              </a>
+            {%- else -%}
+              <span>{{ 'footer.instagram_placeholder_text' | t }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
       </div>
     </div>
 
