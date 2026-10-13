@@ -1,57 +1,32 @@
-<footer>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
-  </div>
-
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
-
-  <div class="footer__payment">
-    {% if section.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
-      {% endfor %}
-    {% endif %}
+<footer class="site-footer">
+  <div class="page-width site-footer__bar">
+    <span class="site-footer__name">{{ shop.name }}</span>
   </div>
 </footer>
 
 {% stylesheet %}
-  footer {
+  .site-footer {
+    background-color: var(--color-moss);
+    color: var(--color-on-moss-soft);
+  }
+  .site-footer__bar {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    margin-top: 2rem;
+    gap: 16px;
+    padding-block: 56px;
+    font-size: 13px;
   }
-  footer a {
-    text-decoration: none;
-    color: var(--color-foreground);
-  }
-  footer .footer__links,
-  footer .footer__payment {
-    display: flex;
-    gap: 1rem;
+  .site-footer__name {
+    color: var(--color-on-moss);
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
   }
 {% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:general.footer",
-  "settings": [
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "t:labels.menu"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_payment_icons",
-      "label": "t:labels.show_payment_icons",
-      "default": true
-    }
-  ]
+  "settings": []
 }
 {% endschema %}
