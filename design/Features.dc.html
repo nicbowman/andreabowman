@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Features: homes, press and exhibitions</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#22201E}a:hover{color:#3F4636}
+.art-rust{background:radial-gradient(circle at 30% 40%,#b06a3a 0,transparent 38%),radial-gradient(circle at 70% 65%,#2e2a27 0,transparent 45%),radial-gradient(circle at 60% 20%,#c9a14a 0,transparent 25%),#6e5446}
+.art-ash{background:radial-gradient(circle at 50% 50%,#d9b7a8 0,transparent 30%),radial-gradient(circle at 25% 30%,#1f2322 0,transparent 40%),radial-gradient(circle at 80% 80%,#2b2f2d 0,transparent 40%),#a9adb0}
+.art-moss{background:radial-gradient(circle at 40% 60%,#8a3b25 0,transparent 22%),radial-gradient(circle at 70% 30%,#c7d06a 0,transparent 45%),#7f8f3a}
+.art-sea{background:radial-gradient(circle at 30% 30%,#1e6fa0 0,transparent 45%),radial-gradient(circle at 75% 60%,#a23a3a 0,transparent 20%),radial-gradient(circle at 60% 80%,#7fc1d6 0,transparent 35%),#245b7a}
+.art-gold{background:radial-gradient(circle at 25% 35%,#8c3b3b 0,transparent 25%),radial-gradient(circle at 70% 60%,#e2b85a 0,transparent 50%),#c99a35}
+.art-dusk{background:radial-gradient(circle at 40% 45%,#e39a4a 0,transparent 30%),radial-gradient(circle at 70% 55%,#7fb3d9 0,transparent 18%),radial-gradient(circle at 30% 80%,#b0344f 0,transparent 30%),#3a2234}
+.event{background:radial-gradient(circle at 30% 55%,#6e5446 0,transparent 12%),radial-gradient(circle at 62% 50%,#245b7a 0,transparent 10%),linear-gradient(#E6E0D6 0,#E6E0D6 72%,#BDB3A6 72%)}
+</style>
+</helmet>
+<div style="background: #F8F5F0; color: #22201E; font-family: 'Jost', 'Helvetica Neue', sans-serif; font-weight: 300; font-size: 17px; line-height: 1.7">
+
+<header style="max-width: 1320px; margin: 0 auto; padding: 34px 48px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px">
+<a href="Main.dc.html" style="text-decoration: none; font-weight: 400; font-size: 15px; letter-spacing: 0.34em; color: #22201E">ANDREA BOWMAN</a>
+<nav aria-label="Main" style="display: flex; flex-wrap: wrap; gap: 40px; font-size: 14px; letter-spacing: 0.06em">
+<a href="Main.dc.html" style="text-decoration: none">Works</a>
+<a href="Features.dc.html" aria-current="page" style="text-decoration: none; border-bottom: 1px solid #22201E; padding-bottom: 3px">Features</a>
+<a href="About.dc.html" style="text-decoration: none">My story</a>
+<a href="Main.dc.html" style="text-decoration: none">For designers</a>
+<a href="Main.dc.html" style="text-decoration: none">Contact</a>
+</nav>
+</header>
+
+<section style="max-width: 1320px; margin: 0 auto; padding: 110px 48px 80px; display: flex; flex-wrap: wrap; gap: 80px; align-items: flex-end">
+<h1 style="flex: 1 1 520px; margin: 0; font-weight: 300; font-size: 50px; line-height: 1.2">Features</h1>
+<div style="flex: 1 1 360px; max-width: 460px; display: flex; flex-direction: column; gap: 24px">
+<p style="margin: 0; color: #4F4A43">The paintings in the homes they now live in, in the press, and on show.</p>
+<nav aria-label="Sections" style="display: flex; flex-wrap: wrap; gap: 32px; font-size: 14px; letter-spacing: 0.06em">
+<a href="#homes" style="text-underline-offset: 6px">In homes</a>
+<a href="#press" style="text-underline-offset: 6px">Press</a>
+<a href="#events" style="text-underline-offset: 6px">Exhibitions and events</a>
+</nav>
+</div>
+</section>
+
+<section id="homes" style="max-width: 1320px; margin: 0 auto; padding: 0 48px 140px">
+<div style="padding-bottom: 26px; margin-bottom: 56px; border-bottom: 1px solid #DDD5CA">
+<h2 style="margin: 0; font-weight: 300; font-size: 34px; line-height: 1.2">In homes</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 64px 40px">
+<sc-for list="{{homes}}" as="h" hint-placeholder-count="6">
+<figure style="flex: 1 1 340px; margin: 0; display: flex; flex-direction: column; gap: 18px">
+<div role="img" aria-label="Placeholder for a photograph of a painting installed in a home" style="aspect-ratio: 4 / 5; width: 100%; background: {{h.wall}}; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end">
+<div class="{{h.art}}" style="width: 46%; aspect-ratio: 1 / 1; margin-bottom: 14%"></div>
+<div style="width: 70%; height: 13%; background: {{h.sofa}}; margin-bottom: 8%"></div>
+<div style="width: 100%; height: 10%; background: #C9BFB2"></div>
+</div>
+<figcaption style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 17px; font-weight: 400">[Private residence, area]</span>
+<span style="font-size: 14px; color: #5E5850">[Painting title]. Interiors by [design studio]</span>
+</figcaption>
+</figure>
+</sc-for>
+</div>
+</section>
+
+<section style="background: #EDE7DE">
+<figure style="max-width: 900px; margin: 0 auto; padding: 130px 48px; display: flex; flex-direction: column; gap: 28px; text-align: center">
+<blockquote style="margin: 0; font-weight: 300; font-size: 30px; line-height: 1.45">[A short quote from a collector or interior designer about living with one of Andrea's paintings.]</blockquote>
+<figcaption style="font-size: 14px; letter-spacing: 0.06em; color: #5E5850">[Name], [collector or design studio]</figcaption>
+</figure>
+</section>
+
+<section id="press" style="max-width: 1320px; margin: 0 auto; padding: 140px 48px">
+<div style="padding-bottom: 26px; border-bottom: 1px solid #DDD5CA">
+<h2 style="margin: 0; font-weight: 300; font-size: 34px; line-height: 1.2">Press</h2>
+</div>
+<sc-for list="{{press}}" as="p" hint-placeholder-count="3">
+<article style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center; padding: 40px 0; border-bottom: 1px solid #DDD5CA">
+<div class="{{p.art}}" role="img" aria-label="Placeholder for the article's lead image" style="flex: 0 0 220px; aspect-ratio: 4 / 3"></div>
+<div style="flex: 1 1 380px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 14px; letter-spacing: 0.06em; color: #5E5850">[Publication], [Month year]</span>
+<h3 style="margin: 0; font-weight: 300; font-size: 26px; line-height: 1.35">[Article headline]</h3>
+</div>
+<a href="#press" style="font-size: 14px; letter-spacing: 0.08em; text-underline-offset: 6px; white-space: nowrap">Read the article</a>
+</article>
+</sc-for>
+</section>
+
+<section id="events" style="max-width: 1320px; margin: 0 auto; padding: 0 48px 150px">
+<div style="padding-bottom: 26px; margin-bottom: 56px; border-bottom: 1px solid #DDD5CA">
+<h2 style="margin: 0; font-weight: 300; font-size: 34px; line-height: 1.2">Exhibitions and events</h2>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 64px 40px">
+<sc-for list="{{events}}" as="e" hint-placeholder-count="2">
+<figure style="flex: 1 1 520px; margin: 0; display: flex; flex-direction: column; gap: 18px">
+<div class="event" role="img" aria-label="Placeholder for an exhibition or event photograph" style="aspect-ratio: 3 / 2; width: 100%"></div>
+<figcaption style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 17px; font-weight: 400">[Exhibition or event name]</span>
+<span style="font-size: 14px; color: #5E5850">[Venue], [Month year]</span>
+</figcaption>
+</figure>
+</sc-for>
+</div>
+</section>
+
+<footer style="background: {{accent}}; color: #F1ECE4">
+<div style="max-width: 1320px; margin: 0 auto; padding: 56px 48px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; font-size: 13px">
+<span style="letter-spacing: 0.3em; color: #F8F5F0">ANDREA BOWMAN</span>
+<span style="color: #C9CCBE">Original paintings, Cape Town</span>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#3F4636","options":["#3F4636","#3E2F38","#22201E","#2F3A4A"]},"$preview":{"width":1440,"height":4200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const walls = ['#EFEAE2', '#E4DDD2', '#F2EEE8', '#E8E2D8', '#EFEAE2', '#E4DDD2'];
+    const sofas = ['#D8CFC2', '#5A5F4E', '#CFC4B6', '#8B7F72', '#D8CFC2', '#4A4540'];
+    const arts = ['art-rust', 'art-ash', 'art-gold', 'art-sea', 'art-moss', 'art-dusk'];
+    const homes = arts.map((a, i) => ({ art: a, wall: walls[i], sofa: sofas[i] }));
+    return {
+      accent: this.props.accent ?? '#3F4636',
+      homes,
+      press: [{ art: 'art-ash' }, { art: 'art-rust' }, { art: 'art-gold' }],
+      events: [{ id: 1 }, { id: 2 }]
+    };
+  }
+}
+</script>
+</body>
+</html>

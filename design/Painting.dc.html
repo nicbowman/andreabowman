@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Painting detail and enquiry</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#22201E}a:hover{color:#3F4636}
+.art-rust{background:radial-gradient(circle at 30% 40%,#b06a3a 0,transparent 38%),radial-gradient(circle at 70% 65%,#2e2a27 0,transparent 45%),radial-gradient(circle at 60% 20%,#c9a14a 0,transparent 25%),#6e5446}
+.art-rust-detail{background:radial-gradient(circle at 20% 70%,#b8642e 0,transparent 30%),radial-gradient(circle at 60% 40%,#2a2623 0,transparent 35%),radial-gradient(circle at 80% 80%,#c99a45 0,transparent 20%),#7a5c4c}
+.art-room{background:linear-gradient(#ECE7E0 0,#ECE7E0 70%,#CFC6BA 70%,#CFC6BA 100%)}
+.art-ash{background:radial-gradient(circle at 50% 50%,#d9b7a8 0,transparent 30%),radial-gradient(circle at 25% 30%,#1f2322 0,transparent 40%),radial-gradient(circle at 80% 80%,#2b2f2d 0,transparent 40%),#a9adb0}
+.art-gold{background:radial-gradient(circle at 25% 35%,#8c3b3b 0,transparent 25%),radial-gradient(circle at 70% 60%,#e2b85a 0,transparent 50%),#c99a35}
+.art-dusk{background:radial-gradient(circle at 40% 45%,#e39a4a 0,transparent 30%),radial-gradient(circle at 70% 55%,#7fb3d9 0,transparent 18%),radial-gradient(circle at 30% 80%,#b0344f 0,transparent 30%),#3a2234}
+</style>
+</helmet>
+<div style="background: #F8F5F0; color: #22201E; font-family: 'Jost', 'Helvetica Neue', sans-serif; font-weight: 300; font-size: 17px; line-height: 1.7">
+
+<header style="max-width: 1320px; margin: 0 auto; padding: 34px 48px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px">
+<a href="Main.dc.html" style="text-decoration: none; font-weight: 400; font-size: 15px; letter-spacing: 0.34em; color: #22201E">ANDREA BOWMAN</a>
+<nav aria-label="Main" style="display: flex; flex-wrap: wrap; gap: 40px; font-size: 14px; letter-spacing: 0.06em">
+<a href="Main.dc.html" style="text-decoration: none">Works</a>
+<a href="Features.dc.html" style="text-decoration: none">Features</a>
+<a href="About.dc.html" style="text-decoration: none">My story</a>
+<a href="Main.dc.html" style="text-decoration: none">For designers</a>
+<a href="#enquire" style="text-decoration: none">Contact</a>
+</nav>
+</header>
+
+<nav aria-label="Breadcrumb" style="max-width: 1320px; margin: 0 auto; padding: 8px 48px 40px; font-size: 13px; letter-spacing: 0.04em; color: #5E5850">
+<a href="Main.dc.html" style="color: #5E5850; text-underline-offset: 4px">Available works</a>
+<span aria-hidden="true" style="padding: 0 10px">/</span>
+<span>[Painting title]</span>
+</nav>
+
+<section style="max-width: 1320px; margin: 0 auto; padding: 0 48px 140px; display: flex; flex-wrap: wrap; gap: 80px; align-items: flex-start">
+<div style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<div style="width: 100%; aspect-ratio: 1 / 1; background: #EFEAE2; display: flex; align-items: center; justify-content: center">
+<div class="art-rust" role="img" aria-label="Placeholder for the full painting, photographed straight on" style="width: 76%; aspect-ratio: 1 / 1"></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="aspect-ratio: 1 / 1; background: #EFEAE2; display: flex; align-items: center; justify-content: center; outline: 1px solid #22201E; outline-offset: 4px"><div class="art-rust" role="img" aria-label="Full view thumbnail" style="width: 76%; aspect-ratio: 1 / 1"></div></div>
+<span style="font-size: 13px; color: #5E5850">Full view</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div class="art-rust-detail" role="img" aria-label="Surface detail thumbnail" style="aspect-ratio: 1 / 1"></div>
+<span style="font-size: 13px; color: #5E5850">Surface detail</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div class="art-room" role="img" aria-label="In-room view thumbnail" style="aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center">
+<div class="art-rust" style="width: 34%; aspect-ratio: 1 / 1; margin-bottom: 18%"></div>
+</div>
+<span style="font-size: 13px; color: #5E5850">In a room, for scale</span>
+</div>
+</div>
+</div>
+
+<div style="flex: 1 1 380px; max-width: 470px; display: flex; flex-direction: column; gap: 34px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<h1 style="margin: 0; font-weight: 300; font-size: 40px; line-height: 1.2">[Painting title]</h1>
+<span style="font-size: 15px; color: #5E5850">[Year]</span>
+</div>
+<span style="font-size: 22px; font-weight: 400">R[price]</span>
+<dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #DDD5CA">
+<div style="display: flex; justify-content: space-between; gap: 24px; padding: 16px 0; border-bottom: 1px solid #DDD5CA"><dt style="color: #5E5850; font-size: 15px">Medium</dt><dd style="margin: 0; text-align: right">[Mixed media on canvas]</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 24px; padding: 16px 0; border-bottom: 1px solid #DDD5CA"><dt style="color: #5E5850; font-size: 15px">Dimensions</dt><dd style="margin: 0; text-align: right">[W x H x D] cm</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 24px; padding: 16px 0; border-bottom: 1px solid #DDD5CA"><dt style="color: #5E5850; font-size: 15px">Framing</dt><dd style="margin: 0; text-align: right">[Unframed, ready to hang]</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 24px; padding: 16px 0; border-bottom: 1px solid #DDD5CA"><dt style="color: #5E5850; font-size: 15px">Signed</dt><dd style="margin: 0; text-align: right">[Signed on reverse]</dd></div>
+</dl>
+<div style="display: flex; flex-direction: column; gap: 16px">
+<a href="#enquire" style="display: block; text-align: center; background: {{accent}}; color: #F8F5F0; text-decoration: none; padding: 22px 32px; font-size: 13px; font-weight: 400; letter-spacing: 0.18em">ENQUIRE ABOUT THIS PAINTING</a>
+<a href="#enquire" style="display: block; text-align: center; border: 1px solid #22201E; color: #22201E; text-decoration: none; padding: 21px 32px; font-size: 13px; font-weight: 400; letter-spacing: 0.18em">RESERVE FOR A DESIGN PROJECT</a>
+</div>
+<p style="margin: 0; font-size: 15px; color: #4F4A43">Delivered by insured courier within South Africa. International shipping is quoted on request.</p>
+<div style="display: flex; flex-direction: column; gap: 12px; padding-top: 8px">
+<h2 style="margin: 0; font-weight: 400; font-size: 19px">About this work</h2>
+<p style="margin: 0; color: #4F4A43">[Two or three sentences on the painting: what inspired it, how the surface was built, and how it reads in a room.]</p>
+</div>
+</div>
+</section>
+
+<section id="enquire" style="background: #EDE7DE">
+<div style="max-width: 1320px; margin: 0 auto; padding: 130px 48px; display: flex; flex-wrap: wrap; gap: 80px">
+<div style="flex: 1 1 380px; max-width: 460px; display: flex; flex-direction: column; gap: 24px">
+<h2 style="margin: 0; font-weight: 300; font-size: 34px; line-height: 1.25">Enquire about this painting</h2>
+<p style="margin: 0; color: #4F4A43">Ask about the work, arrange a viewing or reserve it for a project. Andrea replies personally [within two working days].</p>
+</div>
+<form style="flex: 1 1 520px; max-width: 640px; display: flex; flex-direction: column; gap: 34px">
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; letter-spacing: 0.06em; color: #5E5850">Painting<input type="text" readonly value="[Painting title], R[price]" style="background: transparent; border: 0; border-bottom: 1px solid #CFC6BA; color: #22201E; font-family: 'Jost', sans-serif; font-weight: 400; font-size: 17px; padding: 10px 0"></label>
+<div style="display: flex; flex-wrap: wrap; gap: 34px 32px">
+<label style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; letter-spacing: 0.06em; color: #5E5850">Name<input type="text" autocomplete="name" style="background: transparent; border: 0; border-bottom: 1px solid #CFC6BA; color: #22201E; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 17px; padding: 10px 0"></label>
+<label style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; letter-spacing: 0.06em; color: #5E5850">Email<input type="email" autocomplete="email" style="background: transparent; border: 0; border-bottom: 1px solid #CFC6BA; color: #22201E; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 17px; padding: 10px 0"></label>
+</div>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; letter-spacing: 0.06em; color: #5E5850">Phone (optional)<input type="tel" autocomplete="tel" style="background: transparent; border: 0; border-bottom: 1px solid #CFC6BA; color: #22201E; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 17px; padding: 10px 0"></label>
+<label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; letter-spacing: 0.06em; color: #5E5850">Message<textarea rows="3" placeholder="Questions, viewing times, or details of your project" style="background: transparent; border: 0; border-bottom: 1px solid #CFC6BA; color: #22201E; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 17px; padding: 10px 0; resize: vertical"></textarea></label>
+<button type="button" style="align-self: flex-start; background: {{accent}}; color: #F8F5F0; border: 0; padding: 22px 44px; font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 400; letter-spacing: 0.18em; cursor: pointer">SEND ENQUIRY</button>
+</form>
+</div>
+</section>
+
+<section style="max-width: 1320px; margin: 0 auto; padding: 140px 48px 150px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 16px; padding-bottom: 28px; margin-bottom: 56px; border-bottom: 1px solid #DDD5CA">
+<h2 style="margin: 0; font-weight: 300; font-size: 34px; line-height: 1.2">More available works</h2>
+<a href="Main.dc.html" style="font-size: 14px; letter-spacing: 0.08em; text-underline-offset: 6px">View all</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 64px 48px">
+<sc-for list="{{more}}" as="w" hint-placeholder-count="3">
+<a href="Painting.dc.html" style="flex: 1 1 320px; text-decoration: none; color: #22201E; display: flex; flex-direction: column; gap: 20px">
+<div style="aspect-ratio: 1 / 1; width: 100%; background: #EFEAE2; display: flex; align-items: center; justify-content: center">
+<div class="{{w.art}}" style="width: {{w.pw}}; aspect-ratio: {{w.ratio}}"></div>
+</div>
+<div style="display: flex; justify-content: space-between; gap: 16px; align-items: baseline">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 17px; font-weight: 400">[Painting title]</span>
+<span style="font-size: 14px; color: #5E5850">[Medium], [W x H] cm</span>
+</div>
+<span style="font-size: 15px; white-space: nowrap">R[price]</span>
+</div>
+</a>
+</sc-for>
+</div>
+</section>
+
+<footer style="background: {{accent}}; color: #F1ECE4">
+<div style="max-width: 1320px; margin: 0 auto; padding: 56px 48px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; font-size: 13px">
+<span style="letter-spacing: 0.3em; color: #F8F5F0">ANDREA BOWMAN</span>
+<span style="color: #C9CCBE">Original paintings, Cape Town</span>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#3F4636","options":["#3F4636","#3E2F38","#22201E","#2F3A4A"]},"$preview":{"width":1440,"height":3200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      accent: this.props.accent ?? '#3F4636',
+      more: [{ art: 'art-ash', ratio: '1 / 1', pw: '76%' }, { art: 'art-gold', ratio: '5 / 4', pw: '76%' }, { art: 'art-dusk', ratio: '4 / 5', pw: '60.8%' }]
+    };
+  }
+}
+</script>
+</body>
+</html>

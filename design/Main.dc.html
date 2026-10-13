@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Andrea Bowman homepage</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#22201E}a:hover{color:#3F4636}
+.art-rust{background:radial-gradient(circle at 30% 40%,#b06a3a 0,transparent 38%),radial-gradient(circle at 70% 65%,#2e2a27 0,transparent 45%),radial-gradient(circle at 60% 20%,#c9a14a 0,transparent 25%),#6e5446}
+.art-ash{background:radial-gradient(circle at 50% 50%,#d9b7a8 0,transparent 30%),radial-gradient(circle at 25% 30%,#1f2322 0,transparent 40%),radial-gradient(circle at 80% 80%,#2b2f2d 0,transparent 40%),#a9adb0}
+.art-moss{background:radial-gradient(circle at 40% 60%,#8a3b25 0,transparent 22%),radial-gradient(circle at 70% 30%,#c7d06a 0,transparent 45%),#7f8f3a}
+.art-sea{background:radial-gradient(circle at 30% 30%,#1e6fa0 0,transparent 45%),radial-gradient(circle at 75% 60%,#a23a3a 0,transparent 20%),radial-gradient(circle at 60% 80%,#7fc1d6 0,transparent 35%),#245b7a}
+.art-gold{background:radial-gradient(circle at 25% 35%,#8c3b3b 0,transparent 25%),radial-gradient(circle at 70% 60%,#e2b85a 0,transparent 50%),#c99a35}
+.art-dusk{background:radial-gradient(circle at 40% 45%,#e39a4a 0,transparent 30%),radial-gradient(circle at 70% 55%,#7fb3d9 0,transparent 18%),radial-gradient(circle at 30% 80%,#b0344f 0,transparent 30%),#3a2234}
+</style>
+</helmet>
+<div style="background: #F8F5F0; color: #22201E; font-family: 'Jost', 'Helvetica Neue', sans-serif; font-weight: 300; font-size: 17px; line-height: 1.7">
+
+<header style="max-width: 1320px; margin: 0 auto; padding: 34px 48px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px">
+<a href="Main.dc.html" style="text-decoration: none; font-weight: 400; font-size: 15px; letter-spacing: 0.34em; color: #22201E">ANDREA BOWMAN</a>
+<nav aria-label="Main" style="display: flex; flex-wrap: wrap; gap: 40px; font-size: 14px; letter-spacing: 0.06em">
+<a href="#works" style="text-decoration: none">Works</a>
+<a href="Features.dc.html" style="text-decoration: none">Features</a>
+<a href="About.dc.html" style="text-decoration: none">My story</a>
+<a href="#designers" style="text-decoration: none">For designers</a>
+<a href="#contact" style="text-decoration: none">Contact</a>
+</nav>
+</header>
+
+<section aria-label="Featured painting" class="art-rust" style="height: 760px; display: flex; align-items: flex-end">
+<p style="margin: 0; padding: 40px 48px; color: #F8F5F0; font-size: 14px; letter-spacing: 0.04em">Hero photograph: [Featured painting title], [year]</p>
+</section>
+
+<section style="max-width: 1320px; margin: 0 auto; padding: 150px 48px 140px; display: flex; flex-wrap: wrap; gap: 80px; align-items: flex-end">
+<h1 style="flex: 1 1 520px; margin: 0; font-weight: 300; font-size: 50px; line-height: 1.2; letter-spacing: -0.005em">Original abstract paintings, made in Cape Town</h1>
+<div style="flex: 1 1 360px; max-width: 460px; display: flex; flex-direction: column; gap: 28px">
+<p style="margin: 0; color: #4F4A43">[Artist introduction: two or three sentences on Andrea's practice, her materials and the layered, textured surfaces she builds.]</p>
+<a href="About.dc.html" style="font-size: 14px; letter-spacing: 0.08em; text-underline-offset: 6px">Read my story</a>
+</div>
+</section>
+
+<section id="works" style="max-width: 1320px; margin: 0 auto; padding: 0 48px 150px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 16px; padding-bottom: 26px; margin-bottom: 56px; border-bottom: 1px solid #DDD5CA">
+<h2 style="margin: 0; font-weight: 300; font-size: 34px; line-height: 1.2">Available works</h2>
+<div style="display: flex; gap: 32px; font-size: 14px; letter-spacing: 0.06em">
+<a href="#works" style="text-decoration: none; border-bottom: 1px solid #22201E; padding-bottom: 4px">Available</a>
+<a href="#works" style="text-decoration: none; color: #5E5850; padding-bottom: 4px">Sold</a>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 72px 40px">
+<sc-for list="{{works}}" as="w" hint-placeholder-count="6">
+<a href="Painting.dc.html" style="flex: 1 1 340px; text-decoration: none; color: #22201E; display: flex; flex-direction: column; gap: 22px">
+<div style="aspect-ratio: 1 / 1; width: 100%; background: #EFEAE2; display: flex; align-items: center; justify-content: center">
+<div class="{{w.art}}" style="width: {{w.pw}}; aspect-ratio: {{w.ratio}}"></div>
+</div>
+<div style="display: flex; justify-content: space-between; gap: 16px; align-items: baseline">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 17px; font-weight: 400">{{w.title}}</span>
+<span style="font-size: 14px; color: #5E5850">{{w.meta}}</span>
+</div>
+<span style="font-size: 15px; white-space: nowrap">{{w.price}}</span>
+</div>
+</a>
+</sc-for>
+</div>
+</section>
+
+<section style="background: #EDE7DE">
+<div style="max-width: 1320px; margin: 0 auto; padding: 130px 48px; display: flex; flex-wrap: wrap; gap: 80px; align-items: center">
+<div class="art-ash" role="img" aria-label="Placeholder for a photograph of a painting installed in a home" style="flex: 1 1 520px; aspect-ratio: 4 / 3"></div>
+<div style="flex: 1 1 380px; max-width: 480px; display: flex; flex-direction: column; gap: 28px">
+<h2 style="margin: 0; font-weight: 300; font-size: 34px; line-height: 1.25">In homes, in the press</h2>
+<p style="margin: 0; color: #4F4A43">See the paintings in the homes they now live in, along with features and exhibitions.</p>
+<a href="Features.dc.html" style="align-self: flex-start; background: {{accent}}; color: #F8F5F0; text-decoration: none; padding: 20px 40px; font-size: 13px; font-weight: 400; letter-spacing: 0.18em">VIEW FEATURES</a>
+</div>
+</div>
+</section>
+
+<section id="designers" style="max-width: 1320px; margin: 0 auto; padding: 150px 48px; display: flex; flex-wrap: wrap; gap: 80px; align-items: flex-start">
+<h2 style="flex: 1 1 420px; margin: 0; font-weight: 300; font-size: 34px; line-height: 1.25">For interior designers</h2>
+<div style="flex: 1 1 420px; max-width: 520px; display: flex; flex-direction: column; gap: 28px">
+<p style="margin: 0; color: #4F4A43">Paintings can be reserved for residential and hospitality projects. Ask for a trade pack with images, dimensions and pricing.</p>
+<a href="#contact" style="align-self: flex-start; border: 1px solid #22201E; color: #22201E; text-decoration: none; padding: 19px 40px; font-size: 13px; font-weight: 400; letter-spacing: 0.18em">TRADE ENQUIRIES</a>
+</div>
+</section>
+
+<footer id="contact" style="background: {{accent}}; color: #F1ECE4">
+<div style="max-width: 1320px; margin: 0 auto; padding: 110px 48px 56px; display: flex; flex-direction: column; gap: 90px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 64px">
+<div style="flex: 1 1 420px; max-width: 520px; display: flex; flex-direction: column; gap: 26px">
+<h2 style="margin: 0; font-weight: 300; font-size: 30px; line-height: 1.3; color: #F8F5F0">Be the first to see new work</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end">
+<label style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; letter-spacing: 0.06em">Email address<input type="email" placeholder="you@example.com" style="background: transparent; border: 0; border-bottom: 1px solid #A9AE9C; color: #F8F5F0; font-family: 'Jost', sans-serif; font-weight: 300; font-size: 17px; padding: 10px 0"></label>
+<button type="button" style="background: #F8F5F0; color: #22201E; border: 0; padding: 18px 34px; font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 400; letter-spacing: 0.18em; cursor: pointer">SUBSCRIBE</button>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 72px; font-size: 15px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="color: #C9CCBE">Contact</span>
+<a href="mailto:hello@example.com" style="color: #F8F5F0; text-decoration: none">[email address]</a>
+<span>[phone number]</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="color: #C9CCBE">Follow</span>
+<a href="#contact" style="color: #F8F5F0; text-decoration: none">Instagram</a>
+</div>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding-top: 28px; border-top: 1px solid #5A6150; font-size: 13px; color: #C9CCBE">
+<span style="letter-spacing: 0.3em; color: #F8F5F0">ANDREA BOWMAN</span>
+<span>Original paintings, Cape Town</span>
+</div>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#3F4636","options":["#3F4636","#3E2F38","#22201E","#2F3A4A"]},"$preview":{"width":1440,"height":4300}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const art = ['art-ash', 'art-moss', 'art-gold', 'art-sea', 'art-dusk', 'art-rust'];
+    const shapes = [
+      { ratio: '1 / 1', pw: '76%' },
+      { ratio: '4 / 5', pw: '60.8%' },
+      { ratio: '5 / 4', pw: '76%' },
+      { ratio: '4 / 5', pw: '60.8%' },
+      { ratio: '1 / 1', pw: '76%' },
+      { ratio: '5 / 4', pw: '76%' }
+    ];
+    const works = art.map((a, i) => ({
+      art: a,
+      ratio: shapes[i].ratio,
+      pw: shapes[i].pw,
+      title: '[Painting title]',
+      meta: '[Medium], [W x H] cm',
+      price: 'R[price]'
+    }));
+    return { accent: this.props.accent ?? '#3F4636', works };
+  }
+}
+</script>
+</body>
+</html>
