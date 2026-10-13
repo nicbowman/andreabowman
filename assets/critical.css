@@ -22,7 +22,14 @@
   --text-size-h1: 50px;
   --text-size-h2: 34px;
   --text-size-h3: 26px;
-  --transition-colour: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 250ms;
+  --dur-base: 500ms;
+  --dur-slow: 700ms;
+  --dur-swap: 300ms;
+  --reveal-distance: 12px;
+  --header-height: 89px;
+  --transition-colour: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }
 
 @media (max-width: 989px) {
@@ -198,9 +205,36 @@ a:hover {
 }
 
 .link {
+  position: relative;
+  display: inline-block;
   font-size: var(--text-size-caption);
   letter-spacing: 0.08em;
-  text-decoration: underline;
+  text-decoration: none;
+  padding-bottom: 3px;
+}
+
+/* Underline at rest, with a moss line that draws in from the left on hover or focus */
+.link::before,
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background-color: currentColor;
+}
+
+.link::after {
+  background-color: var(--color-moss);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.link:hover::after,
+.link:focus-visible::after {
+  transform: scaleX(1);
 }
 
 /* Focus: 1px ink outline, offset 4px */
@@ -392,6 +426,113 @@ textarea.field__input {
   transform: none;
 }
 
+/* Motion (see CLAUDE.md). Hidden start states only apply under .js-motion,
+   which an inline script sets on <html> when reduced motion is not requested. */
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--dur-swap);
+  animation-timing-function: var(--ease-out);
+}
+
+@keyframes motion-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes motion-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.js-motion main {
+  animation: motion-enter var(--dur-slow) var(--ease-out) both;
+}
+
+.js-motion .reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance));
+  transition:
+    opacity var(--dur-slow) var(--ease-out) var(--reveal-delay, 0ms),
+    transform var(--dur-slow) var(--ease-out) var(--reveal-delay, 0ms);
+}
+
+.js-motion .reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Images fade in over the mount colour once loaded */
+.js-motion .fade-image {
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.js-motion .fade-image.is-loaded {
+  opacity: 1;
+}
+
+/* Success messages fade in where the form was */
+.js-motion .form-message[role='status'],
+.js-motion .site-footer__message[role='status'] {
+  animation: motion-fade var(--dur-base) var(--ease-out) both;
+}
+
+/* Sticky header: transparent over the hero, then solid ivory with a hairline */
+.shopify-section-group-header-group {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.shopify-section-group-header-group::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--color-ivory);
+  border-bottom: 1px solid var(--color-hairline);
+  opacity: 1;
+  transition: opacity var(--dur-swap) var(--ease-out);
+}
+
+.js-motion .shopify-section-group-header-group::before {
+  opacity: 0;
+}
+
+.js-motion.header-solid .shopify-section-group-header-group::before,
+html:has(.site-header__drawer[open]) .shopify-section-group-header-group::before {
+  opacity: 1;
+}
+
+body:has(main > .shopify-section:first-child .hero) .shopify-section-group-header-group {
+  margin-bottom: calc(-1 * var(--header-height));
+}
+
+html:has(.site-header__drawer[open]) {
+  overflow: hidden;
+}
+
+@media (max-width: 749px) {
+  :root {
+    --header-height: 71px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -399,5 +540,16 @@ textarea.field__input {
     transition: none !important;
     animation: none !important;
     scroll-behavior: auto !important;
+  }
+
+  .reveal,
+  .fade-image,
+  .mount__image {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  @view-transition {
+    navigation: none;
   }
 }

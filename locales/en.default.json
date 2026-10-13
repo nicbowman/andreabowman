@@ -121,7 +121,11 @@
     "view_detail": "Surface detail",
     "view_full": "Full view",
     "view_in_room": "In a room, for scale",
-    "views": "Painting views"
+    "views": "Painting views",
+    "zoom": "View larger: {{ view }}",
+    "zoom_close": "Close",
+    "zoom_dialog": "Painting, enlarged",
+    "zoom_hint": "Click or tap the image to zoom in and out. Press Escape to close."
   },
   "search": {
     "no_results_html": "No results found for {{ terms }}",
