@@ -1,0 +1,142 @@
+{%- liquid
+  assign image = section.settings.image
+  assign caption = section.settings.caption
+  assign image_alt = image.alt | default: caption | escape
+  assign caption_colour = section.settings.caption_colour
+  unless image
+    assign caption_colour = 'dark'
+  endunless
+-%}
+
+<section class="hero hero--{{ section.settings.height }}" aria-label="{{ section.settings.label | escape }}">
+  {%- if image -%}
+    {{
+      image
+      | image_url: width: 3200
+      | image_tag:
+        class: 'hero__image',
+        widths: '750, 1100, 1500, 1800, 2200, 2600, 3200',
+        sizes: '100vw',
+        loading: 'eager',
+        fetchpriority: 'high',
+        alt: image_alt
+    }}
+  {%- endif -%}
+
+  {%- if caption != blank -%}
+    <p class="hero__caption hero__caption--{{ caption_colour }}">{{ caption | escape }}</p>
+  {%- endif -%}
+</section>
+
+{% stylesheet %}
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background-color: var(--color-mount);
+  }
+
+  .hero--tall {
+    height: 760px;
+  }
+
+  .hero--medium {
+    height: 600px;
+  }
+
+  .hero__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+  }
+
+  .hero__caption {
+    position: relative;
+    padding: 40px var(--page-gutter);
+    font-size: var(--text-size-caption);
+    letter-spacing: 0.04em;
+  }
+
+  .hero__caption--light {
+    color: var(--color-ivory);
+  }
+
+  .hero__caption--dark {
+    color: var(--color-ink);
+  }
+
+  @media (max-width: 989px) {
+    .hero--tall,
+    .hero--medium {
+      height: 560px;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .hero--tall,
+    .hero--medium {
+      height: 460px;
+    }
+
+    .hero__caption {
+      padding-block: 24px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image",
+      "info": "t:info.hero_image"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "t:labels.caption",
+      "default": "[Featured painting title], [year]"
+    },
+    {
+      "type": "select",
+      "id": "caption_colour",
+      "label": "t:labels.caption_colour",
+      "info": "t:info.caption_colour",
+      "options": [
+        { "value": "light", "label": "t:options.colour.light" },
+        { "value": "dark", "label": "t:options.colour.dark" }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "t:labels.height",
+      "options": [
+        { "value": "tall", "label": "t:options.height.tall" },
+        { "value": "medium", "label": "t:options.height.medium" }
+      ],
+      "default": "tall"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "t:labels.region_label",
+      "info": "t:info.region_label",
+      "default": "Featured painting"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.hero"
+    }
+  ]
+}
+{% endschema %}

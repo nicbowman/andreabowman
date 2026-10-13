@@ -8,6 +8,70 @@
  * ------------------------------------------------------------
  */
 {
-  "sections": {},
-  "order": []
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "caption": "[Featured painting title], [year]",
+        "caption_colour": "light",
+        "height": "tall",
+        "label": "Featured painting"
+      }
+    },
+    "intro": {
+      "type": "split-text",
+      "settings": {
+        "heading": "Original abstract paintings, made in Cape Town",
+        "heading_tag": "h1",
+        "text": "<p>[Artist introduction: two or three sentences on Andrea's practice, her materials and the layered, textured surfaces she builds.]</p>",
+        "link_label": "Read my story",
+        "link_url": "shopify://pages/my-story",
+        "link_style": "link",
+        "alignment": "end",
+        "background": "ivory"
+      }
+    },
+    "works": {
+      "type": "featured-works",
+      "settings": {
+        "heading": "Available works",
+        "collection": "available-works",
+        "products_to_show": 6,
+        "available_collection": "available-works",
+        "sold_collection": "sold-works"
+      }
+    },
+    "features": {
+      "type": "image-with-text",
+      "settings": {
+        "image_ratio": "landscape",
+        "image_position": "left",
+        "heading": "In homes, in the press",
+        "text": "<p>See the paintings in the homes they now live in, along with features and exhibitions.</p>",
+        "button_label": "View features",
+        "button_url": "shopify://pages/features",
+        "background": "oatmeal"
+      }
+    },
+    "designers": {
+      "type": "split-text",
+      "settings": {
+        "heading": "For interior designers",
+        "heading_tag": "h2",
+        "text": "<p>Paintings can be reserved for residential and hospitality projects. Ask for a trade pack with images, dimensions and pricing.</p>",
+        "link_label": "Trade enquiries",
+        "link_url": "shopify://pages/for-designers",
+        "link_style": "secondary",
+        "alignment": "start",
+        "background": "ivory"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "intro",
+    "works",
+    "features",
+    "designers"
+  ]
 }
