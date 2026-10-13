@@ -1,0 +1,83 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "intro": {
+      "type": "page-intro",
+      "blocks": {
+        "anchor_homes": {
+          "type": "anchor",
+          "settings": {
+            "label": "In homes",
+            "anchor": "homes"
+          }
+        },
+        "anchor_press": {
+          "type": "anchor",
+          "settings": {
+            "label": "Press",
+            "anchor": "press"
+          }
+        },
+        "anchor_events": {
+          "type": "anchor",
+          "settings": {
+            "label": "Exhibitions and events",
+            "anchor": "events"
+          }
+        }
+      },
+      "block_order": [
+        "anchor_homes",
+        "anchor_press",
+        "anchor_events"
+      ],
+      "settings": {
+        "heading": "Features",
+        "text": "<p>The paintings in the homes they now live in, in the press, and on show.</p>"
+      }
+    },
+    "homes": {
+      "type": "features-homes",
+      "settings": {
+        "heading": "In homes",
+        "items_to_show": 6,
+        "anchor": "homes"
+      }
+    },
+    "testimonial": {
+      "type": "testimonial",
+      "settings": {}
+    },
+    "press": {
+      "type": "features-press",
+      "settings": {
+        "heading": "Press",
+        "items_to_show": 6,
+        "anchor": "press"
+      }
+    },
+    "events": {
+      "type": "features-events",
+      "settings": {
+        "heading": "Exhibitions and events",
+        "items_to_show": 4,
+        "anchor": "events"
+      }
+    }
+  },
+  "order": [
+    "intro",
+    "homes",
+    "testimonial",
+    "press",
+    "events"
+  ]
+}

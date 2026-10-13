@@ -242,6 +242,33 @@ a:hover {
   border-bottom: 1px solid var(--color-hairline);
 }
 
+.feature-list {
+  padding-bottom: var(--section-space);
+}
+
+/* Captions under photos: name, then muted detail */
+
+.feature-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.feature-caption__title {
+  font-size: 17px;
+  font-weight: var(--font-weight-regular);
+}
+
+.feature-caption__meta {
+  font-size: var(--text-size-caption);
+  color: var(--color-muted);
+}
+
+.feature-caption__meta a {
+  color: var(--color-muted);
+  text-underline-offset: 4px;
+}
+
 /* Buttons: square, 13px uppercase, wide tracking */
 
 .button {

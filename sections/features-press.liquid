@@ -1,0 +1,152 @@
+{%- liquid
+  assign limit = section.settings.items_to_show
+  capture handle_list
+    render 'handles-by-date', entries: metaobjects.press_article.values
+  endcapture
+  assign handles = handle_list | strip | split: ','
+-%}
+
+<section
+  id="{{ section.settings.anchor | handleize | default: section.id }}"
+  class="page-width section feature-press"
+  aria-labelledby="Heading-{{ section.id }}"
+>
+  <div class="feature-press__heading">
+    <h2 id="Heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+  </div>
+
+  {%- if handles.size > 0 -%}
+    <ul class="feature-press__list" role="list">
+      {%- for handle in handles limit: limit -%}
+        {%- liquid
+          assign handle = handle | strip
+          assign entry = metaobjects.press_article[handle]
+          assign date = entry.date.value
+          assign url = entry.url.value
+        -%}
+        <li>
+          <article class="feature-press__item">
+            <div class="feature-press__media">
+              {% render 'cover-image', image: entry.image.value, ratio: '4-3', alt: entry.headline.value, sizes: '220px' %}
+            </div>
+            <div class="feature-press__text">
+              <span class="feature-press__meta">
+                {{- entry.publication.value | escape -}}
+                {%- if date != blank -%}, {{ date | date: '%B %Y' }}{%- endif -%}
+              </span>
+              <h3 class="feature-press__headline">{{ entry.headline.value | escape }}</h3>
+            </div>
+            {%- if url != blank -%}
+              <a class="link feature-press__link" href="{{ url }}" target="_blank" rel="noopener">
+                {{- 'features.read_article' | t -}}
+                <span class="visually-hidden">: {{ entry.headline.value | escape }} {{ 'accessibility.new_window' | t }}</span>
+              </a>
+            {%- endif -%}
+          </article>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- elsif request.design_mode -%}
+    <p class="text-muted feature-press__empty">{{ 'features.empty_press' | t }}</p>
+  {%- endif -%}
+</section>
+
+{% stylesheet %}
+  .feature-press__heading {
+    padding-bottom: 26px;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .feature-press__list {
+    padding: 0;
+    list-style: none;
+  }
+
+  .feature-press__item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .feature-press__media {
+    flex: 0 0 220px;
+  }
+
+  .feature-press__text {
+    flex: 1 1 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .feature-press__meta {
+    font-size: var(--text-size-caption);
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+  }
+
+  .feature-press__headline {
+    font-size: var(--text-size-h3);
+    line-height: 1.35;
+  }
+
+  .feature-press__link {
+    white-space: nowrap;
+  }
+
+  .feature-press__empty {
+    padding-top: 40px;
+  }
+
+  @media (max-width: 749px) {
+    .feature-press__item {
+      gap: 20px;
+    }
+
+    .feature-press__media {
+      flex-basis: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.features_press",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:info.press_source"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Press"
+    },
+    {
+      "type": "range",
+      "id": "items_to_show",
+      "label": "t:labels.items_to_show",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "t:labels.anchor",
+      "info": "t:info.anchor",
+      "default": "press"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.features_press"
+    }
+  ]
+}
+{% endschema %}
