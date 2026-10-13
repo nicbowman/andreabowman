@@ -1,32 +1,294 @@
+{%- liquid
+  assign heading = section.settings.heading
+  assign email = section.settings.contact_email | strip
+  assign phone = section.settings.contact_phone | strip
+  assign instagram = section.settings.instagram_url
+  assign name_text = section.settings.name_text | default: shop.name
+-%}
+
 <footer class="site-footer">
-  <div class="page-width site-footer__bar">
-    <span class="site-footer__name">{{ shop.name }}</span>
+  <div class="page-width site-footer__inner">
+    <div class="site-footer__top">
+      <div class="site-footer__newsletter">
+        {%- if heading != blank -%}
+          <h2 class="site-footer__heading">{{ heading | escape }}</h2>
+        {%- endif -%}
+
+        {%- form 'customer', id: 'FooterNewsletter', class: 'site-footer__form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+
+          {%- if form.posted_successfully? -%}
+            <p class="site-footer__message" role="status">
+              {{ 'footer.newsletter_success' | t }}
+            </p>
+          {%- else -%}
+            {%- if form.errors -%}
+              <div class="site-footer__message" role="alert" id="FooterNewsletterError">
+                {{ form.errors | default_errors }}
+              </div>
+            {%- endif -%}
+
+            <div class="site-footer__fields">
+              <label class="field site-footer__field" for="FooterNewsletterEmail">
+                {{- 'footer.email_label' | t -}}
+                <input
+                  class="field__input"
+                  id="FooterNewsletterEmail"
+                  type="email"
+                  name="contact[email]"
+                  autocomplete="email"
+                  placeholder="{{ 'footer.email_placeholder' | t }}"
+                  required
+                  {% if form.errors %}
+                    aria-invalid="true"
+                    aria-describedby="FooterNewsletterError"
+                  {% endif %}
+                >
+              </label>
+              <button class="button site-footer__button" type="submit">{{ 'footer.subscribe' | t }}</button>
+            </div>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+
+      <div class="site-footer__details">
+        <div class="site-footer__column">
+          <span class="site-footer__label">{{ 'footer.contact' | t }}</span>
+          {%- if email != blank -%}
+            <a href="mailto:{{ email }}">{{ email | escape }}</a>
+          {%- else -%}
+            <span>{{ 'footer.email_placeholder_text' | t }}</span>
+          {%- endif -%}
+          {%- if phone != blank -%}
+            <a href="tel:{{ phone | remove: ' ' }}">{{ phone | escape }}</a>
+          {%- else -%}
+            <span>{{ 'footer.phone_placeholder_text' | t }}</span>
+          {%- endif -%}
+        </div>
+
+        <div class="site-footer__column">
+          <span class="site-footer__label">{{ 'footer.follow' | t }}</span>
+          {%- if instagram != blank -%}
+            <a href="{{ instagram }}" rel="noopener" target="_blank">
+              {{- 'footer.instagram' | t -}}
+              <span class="visually-hidden">{{ 'accessibility.new_window' | t }}</span>
+            </a>
+          {%- else -%}
+            <span>{{ 'footer.instagram_placeholder_text' | t }}</span>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <div class="site-footer__bar">
+      <span class="site-footer__name">{{ name_text | escape }}</span>
+      {%- if section.settings.tagline != blank -%}
+        <span>{{ section.settings.tagline | escape }}</span>
+      {%- endif -%}
+    </div>
   </div>
 </footer>
 
 {% stylesheet %}
   .site-footer {
     background-color: var(--color-moss);
+    color: var(--color-on-moss);
+  }
+
+  .site-footer a {
+    color: var(--color-on-moss);
+    text-decoration: none;
+  }
+
+  .site-footer a:hover {
+    color: var(--color-on-moss-soft);
+    text-decoration: underline;
+  }
+
+  .site-footer :focus-visible {
+    outline-color: var(--color-on-moss);
+  }
+
+  .site-footer__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 90px;
+    padding-top: 110px;
+    padding-bottom: 56px;
+  }
+
+  .site-footer__top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 64px;
+  }
+
+  .site-footer__newsletter {
+    flex: 1 1 420px;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+  }
+
+  .site-footer__heading {
+    font-size: 30px;
+    line-height: 1.3;
+    color: var(--color-on-moss);
+  }
+
+  .site-footer__fields {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 20px;
+  }
+
+  .site-footer__field {
+    flex: 1 1 260px;
     color: var(--color-on-moss-soft);
   }
+
+  .site-footer .field__input {
+    border-bottom-color: var(--color-on-moss-field);
+    color: var(--color-on-moss);
+  }
+
+  .site-footer .field__input::placeholder {
+    color: var(--color-on-moss-soft);
+    opacity: 1;
+  }
+
+  .site-footer .field__input:focus {
+    border-bottom-color: var(--color-on-moss);
+  }
+
+  .site-footer__button {
+    padding: 18px 34px;
+    border-color: var(--color-ivory);
+    background-color: var(--color-ivory);
+    color: var(--color-ink);
+  }
+
+  .site-footer__button:hover {
+    border-color: var(--color-oatmeal);
+    background-color: var(--color-oatmeal);
+    color: var(--color-ink);
+  }
+
+  .site-footer__message {
+    padding: 16px 0;
+    border-top: 1px solid var(--color-on-moss-line);
+    border-bottom: 1px solid var(--color-on-moss-line);
+    font-size: 15px;
+  }
+
+  .site-footer__message ul {
+    margin-top: 6px;
+    padding-left: 1.2em;
+  }
+
+  .site-footer__details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 72px;
+    font-size: 15px;
+  }
+
+  .site-footer__column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .site-footer__label {
+    color: var(--color-on-moss-soft);
+  }
+
   .site-footer__bar {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 16px;
-    padding-block: 56px;
+    padding-top: 28px;
+    border-top: 1px solid var(--color-on-moss-line);
     font-size: 13px;
+    color: var(--color-on-moss-soft);
   }
+
   .site-footer__name {
     color: var(--color-on-moss);
     text-transform: uppercase;
     letter-spacing: 0.3em;
+  }
+
+  @media (max-width: 749px) {
+    .site-footer__inner {
+      gap: 64px;
+      padding-top: 80px;
+      padding-bottom: 40px;
+    }
+
+    .site-footer__heading {
+      font-size: 26px;
+    }
+
+    .site-footer__details {
+      gap: 48px;
+    }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:general.footer",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:headers.newsletter"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Be the first to see new work"
+    },
+    {
+      "type": "header",
+      "content": "t:headers.contact_details"
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "t:labels.contact_email"
+    },
+    {
+      "type": "text",
+      "id": "contact_phone",
+      "label": "t:labels.contact_phone"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "t:labels.instagram_url"
+    },
+    {
+      "type": "header",
+      "content": "t:headers.bottom_bar"
+    },
+    {
+      "type": "text",
+      "id": "name_text",
+      "label": "t:labels.name_text",
+      "default": "Andrea Bowman"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "t:labels.tagline",
+      "default": "Original paintings, Cape Town"
+    }
+  ]
 }
 {% endschema %}
