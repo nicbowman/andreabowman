@@ -82,7 +82,7 @@ Product description = "About this work". Product images: first image is the full
 The Features page sections read these metaobjects. Each section also has theme editor settings for its heading and how many items to show.
 
 ## Pages and templates
-1. **Homepage** (`templates/index.json`): header; full-width hero image (image picker, caption text); intro (heading + paragraph + link); available works grid (6 items from a chosen collection, with Available/Sold tabs linking to the collections); feature block on oatmeal (image + heading + text + button to Features); For interior designers block; moss footer with newsletter sign-up (Shopify `customer` form), contact details and Instagram link.
+1. **Homepage** (`templates/index.json`): header; full-width hero image (image picker, caption text); intro (heading + paragraph + link); available works grid (6 items from a chosen collection, no tabs, with a single "View all works" link to the Works page); feature block on oatmeal (image + heading + text + button to Features); For interior designers block; moss footer with newsletter sign-up (Shopify `customer` form), contact details and Instagram link.
 2. **Works** (`templates/collection.json`): same grid as homepage, tabs for Available/Sold, pagination.
 3. **Painting** (`templates/product.json`): breadcrumb; mounted main image with three thumbnails (full view, surface detail, in room); title, year, price, details list, two buttons, shipping note, About this work; enquiry form section on oatmeal; "More available works" (3 items).
 4. **Features** (`templates/page.features.json`): intro with anchor links; In homes grid (4:5 photos, captions with home and designer); testimonial band on oatmeal; Press list; Exhibitions and events (3:2 photos).
@@ -97,9 +97,37 @@ Navigation (from the admin menu, max 5 items): Works, Features, My story, For de
 - Placeholder text goes in brackets, e.g. [Artist introduction], so it is obvious what Andrea must replace.
 - Do not invent facts about Andrea, her exhibitions, press or prices.
 
+## Motion
+Motion should feel slow, soft and settled, like things coming to rest. Nothing bounces, slides far or loops.
+
+Tokens (CSS custom properties):
+- `--ease-out: cubic-bezier(0.22, 1, 0.36, 1)` for everything
+- `--dur-fast: 250ms` (colour, underline, focus), `--dur-base: 500ms` (hover, crossfades), `--dur-slow: 700ms` (entrances, reveals)
+- Reveal distance: 12px upward. Stagger: 70ms between items, max 6 items staggered.
+
+Build these:
+1. Page entrance: main content fades in and rises 12px over `--dur-slow` on load.
+2. Scroll reveals: section headings, text blocks and grid items fade up once when 15% visible (IntersectionObserver, unobserve after firing). Grid items stagger by 70ms in reading order. Content is never hidden waiting for JS: add the hidden start state only via a `js-motion` class set on `<html>` by an inline script.
+3. Painting cards: on hover or focus the painting scales to 1.02 inside its mount (mount does not move, `overflow: hidden`) over `--dur-base`; the title underline draws in from the left.
+4. Image loading: images fade from opacity 0 to 1 over `--dur-base` once loaded, on the mount colour. No layout shift.
+5. Product thumbnails: the main image crossfades over 300ms when a thumbnail is chosen.
+6. Lightbox (zoom): opens and closes with a fade plus scale from 0.98 over 300ms; focus is trapped while open and Escape closes it.
+7. Buttons and links: background, colour and border transition over `--dur-fast`. Text link underlines draw in from left to right.
+8. Header: transparent over the hero, then fades to a solid ivory background with a hairline bottom border after scrolling past the hero, over 300ms.
+9. Mobile menu: full-screen ivory overlay fades in over 300ms; menu items fade up with a 50ms stagger.
+10. Forms: field underline darkens to ink on focus over `--dur-fast`; the success message fades in where the form was.
+11. Page transitions: soft crossfade between pages with the View Transitions API (`@view-transition { navigation: auto; }`), 300ms. Browsers without support load normally.
+
+Rules:
+- Animate only `opacity` and `transform`. Never animate width, height, top, left, margin or box-shadow.
+- No parallax, carousels, autoplay sliders, scroll-jacking, spring or bounce easing, animated counters or looping animation.
+- Under `prefers-reduced-motion: reduce`, disable all of the above: content shows immediately, crossfades become instant, hover scale is removed. Colour changes may remain.
+- Vanilla JS only, in one small `motion.js` loaded with `defer`. No animation libraries.
+- Nothing may delay the user: no element waits more than 800ms in total to appear.
+
 ## Accessibility and performance
 - WCAG AA contrast, visible keyboard focus (1px ink outline, offset 4px), real buttons and links, labelled form fields, alt text on all images.
-- Respect `prefers-reduced-motion`. No animations beyond subtle hover colour changes.
+- Respect `prefers-reduced-motion` (see Motion).
 - No external JS libraries. Keep JS minimal and vanilla.
 - Run `shopify theme check` and fix all errors before every PR.
 
