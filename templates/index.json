@@ -14,7 +14,7 @@
       "settings": {
         "image": "shopify://shop_images/hero-bronze-room.jpg",
         "caption": "Bronze Horizon, 2025",
-        "caption_colour": "light",
+        "caption_colour": "dark",
         "height": "tall",
         "label": "Featured painting"
       }
