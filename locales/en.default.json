@@ -43,6 +43,14 @@
       "title": "Login"
     }
   },
+  "features": {
+    "empty_events": "Add events in Content > Metaobjects > Event. They appear here, newest first.",
+    "empty_homes": "Add homes in Content > Metaobjects > Home installation. They appear here automatically.",
+    "empty_press": "Add press articles in Content > Metaobjects > Press article. They appear here, newest first.",
+    "empty_testimonial": "Add a testimonial in Content > Metaobjects > Testimonial, then choose it in this section.",
+    "interiors_by": "Interiors by {{ designer }}",
+    "read_article": "Read the article"
+  },
   "footer": {
     "contact": "Contact",
     "email_label": "Email address",
@@ -56,7 +64,8 @@
     "subscribe": "Subscribe"
   },
   "general": {
-    "image_placeholder": "Image to be added"
+    "image_placeholder": "Image to be added",
+    "on_this_page": "On this page"
   },
   "gift_card": {
     "add_to_apple_wallet": "Add to Apple Wallet",
