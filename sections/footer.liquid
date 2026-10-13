@@ -1,14 +1,23 @@
 {%- liquid
   assign heading = section.settings.heading
-  assign email = section.settings.contact_email | strip
-  assign phone = section.settings.contact_phone | strip
-  assign instagram = section.settings.instagram_url
+  assign email = settings.contact_email | strip
+  assign phone = settings.contact_phone | strip
+  assign whatsapp = settings.whatsapp_number | remove: ' ' | remove: '+' | remove: '-' | remove: '(' | remove: ')'
+  assign instagram = settings.instagram_url
   assign name_text = section.settings.name_text | default: shop.name
+
+  assign show_newsletter = true
+  if section.settings.hide_newsletter_on_form_pages
+    if template.suffix == 'contact' or template.suffix == 'designers'
+      assign show_newsletter = false
+    endif
+  endif
 -%}
 
 <footer class="site-footer">
   <div class="page-width site-footer__inner">
     <div class="site-footer__top">
+      {%- if show_newsletter -%}
       <div class="site-footer__newsletter">
         {%- if heading != blank -%}
           <h2 class="site-footer__heading">{{ heading | escape }}</h2>
@@ -47,12 +56,14 @@
               </label>
               <button class="button site-footer__button" type="submit">{{ 'footer.subscribe' | t }}</button>
             </div>
+            {% render 'consent-note', kind: 'newsletter', class: 'site-footer__consent' %}
           {%- endif -%}
         {%- endform -%}
       </div>
+      {%- endif -%}
 
       <div class="site-footer__details">
-        {%- if email != blank or phone != blank or request.design_mode -%}
+        {%- if email != blank or phone != blank or whatsapp != blank or request.design_mode -%}
           <div class="site-footer__column">
             <span class="site-footer__label">{{ 'footer.contact' | t }}</span>
             {%- if email != blank -%}
@@ -64,6 +75,12 @@
               <a href="tel:{{ phone | remove: ' ' }}">{{ phone | escape }}</a>
             {%- elsif request.design_mode -%}
               <span>{{ 'footer.phone_placeholder_text' | t }}</span>
+            {%- endif -%}
+            {%- if whatsapp != blank -%}
+              <a href="https://wa.me/{{ whatsapp }}" rel="noopener" target="_blank">
+                {{- 'footer.whatsapp' | t -}}
+                <span class="visually-hidden">{{ 'accessibility.new_window' | t }}</span>
+              </a>
             {%- endif -%}
           </div>
         {%- endif -%}
@@ -86,9 +103,15 @@
 
     <div class="site-footer__bar">
       <span class="site-footer__name">{{ name_text | escape }}</span>
-      {%- if section.settings.tagline != blank -%}
-        <span>{{ section.settings.tagline | escape }}</span>
-      {%- endif -%}
+      <span class="site-footer__legal">
+        {%- if section.settings.tagline != blank -%}
+          <span>{{ section.settings.tagline | escape }}</span>
+        {%- endif -%}
+        <span>&copy; {{ 'now' | date: '%Y' }} {{ name_text | escape }}</span>
+        {%- if shop.privacy_policy -%}
+          <a href="{{ shop.privacy_policy.url }}">{{ 'forms.privacy_policy' | t }}</a>
+        {%- endif -%}
+      </span>
     </div>
   </div>
 </footer>
@@ -221,6 +244,24 @@
     color: var(--color-on-moss-soft);
   }
 
+  .site-footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+  }
+
+  .site-footer__legal a {
+    color: var(--color-on-moss-soft);
+  }
+
+  .site-footer__consent {
+    color: var(--color-on-moss-soft);
+  }
+
+  .site-footer__details:only-child {
+    margin-left: auto;
+  }
+
   .site-footer__name {
     color: var(--color-on-moss);
     text-transform: uppercase;
@@ -259,23 +300,15 @@
       "default": "Be the first to see new work"
     },
     {
-      "type": "header",
-      "content": "t:headers.contact_details"
+      "type": "checkbox",
+      "id": "hide_newsletter_on_form_pages",
+      "label": "t:labels.hide_newsletter_on_form_pages",
+      "info": "t:info.hide_newsletter_on_form_pages",
+      "default": true
     },
     {
-      "type": "text",
-      "id": "contact_email",
-      "label": "t:labels.contact_email"
-    },
-    {
-      "type": "text",
-      "id": "contact_phone",
-      "label": "t:labels.contact_phone"
-    },
-    {
-      "type": "url",
-      "id": "instagram_url",
-      "label": "t:labels.instagram_url"
+      "type": "paragraph",
+      "content": "t:info.footer_contact_details"
     },
     {
       "type": "header",
@@ -291,7 +324,7 @@
       "type": "text",
       "id": "tagline",
       "label": "t:labels.tagline",
-      "default": "Original paintings, Cape Town"
+      "default": "Original abstract paintings"
     }
   ]
 }
