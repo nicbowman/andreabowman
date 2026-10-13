@@ -1,25 +1,511 @@
-{% comment %}
-  Holding version of the painting page. Enquiry only: no product form, no cart, no checkout.
-  The full painting page (mount, thumbnails, details, enquiry form) replaces this in feature/product-page.
-{% endcomment %}
+{%- liquid
+  assign tags_lower = product.tags | join: '|' | downcase | split: '|'
+  assign is_sold = false
+  if tags_lower contains 'sold'
+    assign is_sold = true
+  endif
 
-<div class="page-width section">
-  <h1>{{ product.title }}</h1>
-  {%- assign tags_lower = product.tags | join: '|' | downcase | split: '|' -%}
-  {%- if tags_lower contains 'sold' -%}
-    <p class="text-muted">{{ 'products.sold' | t }}</p>
-  {%- else -%}
-    <p>{{ product.price | money }}</p>
-  {%- endif -%}
-  <div class="rte">{{ product.description }}</div>
+  if is_sold and section.settings.sold_collection
+    assign crumb = section.settings.sold_collection
+  else
+    assign crumb = section.settings.works_collection
+  endif
+
+  assign full_image = product.images[0]
+  assign detail_image = product.images[1]
+  assign room_image = product.metafields.custom.in_room_image.value
+  assign year = product.metafields.custom.year.value
+
+  assign view_count = 0
+  if full_image
+    assign view_count = view_count | plus: 1
+  endif
+  if detail_image
+    assign view_count = view_count | plus: 1
+  endif
+  if room_image
+    assign view_count = view_count | plus: 1
+  endif
+
+  assign main_sizes = '(min-width: 1320px) 680px, (min-width: 990px) 55vw, 100vw'
+  assign thumb_sizes = '(min-width: 1320px) 210px, (min-width: 990px) 17vw, 30vw'
+  assign detail_alt = 'products.alt_detail' | t: title: product.title
+  assign room_alt = 'products.alt_in_room' | t: title: product.title
+-%}
+
+{%- if crumb -%}
+  <nav class="page-width product-crumb" aria-label="{{ 'accessibility.breadcrumb' | t }}">
+    <a href="{{ crumb.url }}">{{ crumb.title | escape }}</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{{ product.title | escape }}</span>
+  </nav>
+{%- endif -%}
+
+<div class="page-width product">
+  <div class="product__gallery" data-gallery>
+    <div class="product__stage">
+      <div id="ProductView-full-{{ section.id }}" class="product__view">
+        {% render 'painting-mount', image: full_image, alt: product.title, eager: true, sizes: main_sizes %}
+      </div>
+
+      {%- if detail_image -%}
+        <div id="ProductView-detail-{{ section.id }}" class="product__view" hidden>
+          <div class="product__frame">
+            {{
+              detail_image
+              | image_url: width: 2000
+              | image_tag:
+                widths: '400, 600, 800, 1000, 1200, 1500, 2000',
+                sizes: main_sizes,
+                loading: 'lazy',
+                alt: detail_alt
+            }}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if room_image -%}
+        <div id="ProductView-room-{{ section.id }}" class="product__view" hidden>
+          <div class="product__frame">
+            {{
+              room_image
+              | image_url: width: 2000
+              | image_tag:
+                widths: '400, 600, 800, 1000, 1200, 1500, 2000',
+                sizes: main_sizes,
+                loading: 'lazy',
+                alt: room_alt
+            }}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if view_count > 1 -%}
+      <ul class="product__thumbs" role="list" aria-label="{{ 'products.views' | t }}">
+        <li class="product__thumb">
+          <button
+            type="button"
+            class="product__thumb-button"
+            aria-controls="ProductView-full-{{ section.id }}"
+            aria-pressed="true"
+            data-gallery-thumb
+          >
+            {% render 'painting-mount', image: full_image, alt: product.title, sizes: thumb_sizes %}
+            <span class="product__thumb-label">{{ 'products.view_full' | t }}</span>
+          </button>
+        </li>
+
+        {%- if detail_image -%}
+          <li class="product__thumb">
+            <button
+              type="button"
+              class="product__thumb-button"
+              aria-controls="ProductView-detail-{{ section.id }}"
+              aria-pressed="false"
+              data-gallery-thumb
+            >
+              <span class="product__frame">
+                {{
+                  detail_image
+                  | image_url: width: 600
+                  | image_tag: widths: '200, 300, 400, 600', sizes: thumb_sizes, loading: 'lazy', alt: detail_alt
+                }}
+              </span>
+              <span class="product__thumb-label">{{ 'products.view_detail' | t }}</span>
+            </button>
+          </li>
+        {%- endif -%}
+
+        {%- if room_image -%}
+          <li class="product__thumb">
+            <button
+              type="button"
+              class="product__thumb-button"
+              aria-controls="ProductView-room-{{ section.id }}"
+              aria-pressed="false"
+              data-gallery-thumb
+            >
+              <span class="product__frame">
+                {{
+                  room_image
+                  | image_url: width: 600
+                  | image_tag: widths: '200, 300, 400, 600', sizes: thumb_sizes, loading: 'lazy', alt: room_alt
+                }}
+              </span>
+              <span class="product__thumb-label">{{ 'products.view_in_room' | t }}</span>
+            </button>
+          </li>
+        {%- endif -%}
+      </ul>
+    {%- endif -%}
+  </div>
+
+  <div class="product__info">
+    <div class="product__heading">
+      <h1>{{ product.title | escape }}</h1>
+      {%- if year != blank -%}
+        <span class="product__year">{{ year | escape }}</span>
+      {%- endif -%}
+    </div>
+
+    {%- if is_sold -%}
+      <span class="product__sold">{{ 'products.sold' | t }}</span>
+    {%- else -%}
+      <span class="product__price">{{ product.price | money_without_trailing_zeros }}</span>
+    {%- endif -%}
+
+    {%- liquid
+      assign medium = product.metafields.custom.medium.value
+      assign dimensions = product.metafields.custom.dimensions.value
+      assign framing = product.metafields.custom.framing.value
+      assign signature = product.metafields.custom.signature.value
+    -%}
+    {%- if medium != blank or dimensions != blank or framing != blank or signature != blank -%}
+      <dl class="product__details">
+        {%- if medium != blank -%}
+          <div class="product__detail">
+            <dt>{{ 'products.medium' | t }}</dt>
+            <dd>{{ medium | escape }}</dd>
+          </div>
+        {%- endif -%}
+        {%- if dimensions != blank -%}
+          <div class="product__detail">
+            <dt>{{ 'products.dimensions' | t }}</dt>
+            <dd>{{ dimensions | escape }}</dd>
+          </div>
+        {%- endif -%}
+        {%- if framing != blank -%}
+          <div class="product__detail">
+            <dt>{{ 'products.framing' | t }}</dt>
+            <dd>{{ framing | escape }}</dd>
+          </div>
+        {%- endif -%}
+        {%- if signature != blank -%}
+          <div class="product__detail">
+            <dt>{{ 'products.signature' | t }}</dt>
+            <dd>{{ signature | escape }}</dd>
+          </div>
+        {%- endif -%}
+      </dl>
+    {%- endif -%}
+
+    {%- if is_sold -%}
+      <p class="product__sold-message">
+        {{ section.settings.sold_message | escape }}
+        <a href="#enquire">{{ section.settings.sold_link_text | escape }}</a>
+      </p>
+    {%- else -%}
+      <div class="product__actions">
+        <a class="button button--full" href="#enquire" data-enquire>{{ 'products.enquire' | t }}</a>
+        <a
+          class="button button--secondary button--full"
+          href="#enquire"
+          data-enquire
+          data-reserve="{{ 'products.reserve_message' | t | escape }}"
+        >
+          {{- 'products.reserve' | t -}}
+        </a>
+      </div>
+
+      {%- if section.settings.shipping_note != blank -%}
+        <p class="product__shipping">{{ section.settings.shipping_note | escape }}</p>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if product.description != blank -%}
+      <div class="product__about">
+        <h2 class="product__about-heading">{{ 'products.about' | t }}</h2>
+        <div class="rte">{{ product.description }}</div>
+      </div>
+    {%- endif -%}
+  </div>
 </div>
+
+{% javascript %}
+  document.addEventListener('click', function (event) {
+    var thumb = event.target.closest('[data-gallery-thumb]');
+    if (thumb) {
+      var gallery = thumb.closest('[data-gallery]');
+      var targetId = thumb.getAttribute('aria-controls');
+      gallery.querySelectorAll('.product__view').forEach(function (view) {
+        view.hidden = view.id !== targetId;
+      });
+      gallery.querySelectorAll('[data-gallery-thumb]').forEach(function (button) {
+        button.setAttribute('aria-pressed', button === thumb ? 'true' : 'false');
+      });
+      return;
+    }
+
+    var enquire = event.target.closest('[data-enquire]');
+    if (!enquire) return;
+    var form = document.getElementById('ProductEnquiry');
+    if (!form) return;
+    var message = form.querySelector('textarea[name="contact[body]"]');
+    var reserveText = enquire.getAttribute('data-reserve');
+    if (message && reserveText && message.value.trim() === '') {
+      message.value = reserveText;
+    }
+    var name = form.querySelector('input[name="contact[name]"]');
+    if (name) {
+      window.setTimeout(function () {
+        name.focus({ preventScroll: true });
+      }, 0);
+    }
+  });
+{% endjavascript %}
+
+{% stylesheet %}
+  .product-crumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 8px;
+    padding-bottom: 40px;
+    font-size: var(--text-size-label);
+    letter-spacing: 0.04em;
+    color: var(--color-muted);
+  }
+
+  .product-crumb a {
+    color: var(--color-muted);
+    text-underline-offset: 4px;
+  }
+
+  .product {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--block-gap);
+    padding-bottom: var(--section-space);
+  }
+
+  .product__gallery {
+    flex: 999 1 600px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .product__frame {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: var(--color-mount);
+  }
+
+  .product__frame img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+  }
+
+  .product__thumbs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .product__thumb-button {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .product__thumb-button > .mount,
+  .product__thumb-button > .product__frame {
+    outline: 1px solid transparent;
+    outline-offset: 4px;
+    transition: outline-color 0.2s ease;
+  }
+
+  .product__thumb-button[aria-pressed='true'] > .mount,
+  .product__thumb-button[aria-pressed='true'] > .product__frame {
+    outline-color: var(--color-ink);
+  }
+
+  .product__thumb-button:hover > .mount,
+  .product__thumb-button:hover > .product__frame {
+    outline-color: var(--color-hairline);
+  }
+
+  .product__thumb-button[aria-pressed='true']:hover > .mount,
+  .product__thumb-button[aria-pressed='true']:hover > .product__frame {
+    outline-color: var(--color-ink);
+  }
+
+  .product__thumb-label {
+    font-size: var(--text-size-label);
+    color: var(--color-muted);
+  }
+
+  .product__info {
+    flex: 1 1 380px;
+    max-width: 470px;
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+  }
+
+  .product__heading {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .product__year {
+    font-size: var(--text-size-small);
+    color: var(--color-muted);
+  }
+
+  .product__price {
+    font-size: 22px;
+    font-weight: var(--font-weight-regular);
+  }
+
+  .product__sold {
+    font-size: var(--text-size-label);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .product__details {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .product__detail {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .product__detail dt {
+    font-size: var(--text-size-small);
+    color: var(--color-muted);
+  }
+
+  .product__detail dd {
+    margin: 0;
+    text-align: right;
+  }
+
+  .product__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .product__actions .button {
+    padding: 22px 32px;
+  }
+
+  .product__actions .button--secondary {
+    padding: 21px 32px;
+  }
+
+  .product__shipping {
+    font-size: var(--text-size-small);
+    color: var(--color-ink-soft);
+  }
+
+  .product__sold-message {
+    color: var(--color-ink-soft);
+  }
+
+  .product__sold-message a {
+    white-space: nowrap;
+  }
+
+  .product__about {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 8px;
+  }
+
+  .product__about-heading {
+    font-size: 19px;
+    font-weight: var(--font-weight-regular);
+    line-height: 1.4;
+  }
+
+  @media (max-width: 989px) {
+    .product__info {
+      max-width: none;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .product-crumb {
+      padding-bottom: 28px;
+    }
+
+    .product__thumbs {
+      gap: 12px;
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:general.product",
-  "settings": [],
-  "disabled_on": {
-    "groups": ["header", "footer"]
+  "settings": [
+    {
+      "type": "collection",
+      "id": "works_collection",
+      "label": "t:labels.works_collection",
+      "info": "t:info.breadcrumb_collection"
+    },
+    {
+      "type": "collection",
+      "id": "sold_collection",
+      "label": "t:labels.sold_collection",
+      "info": "t:info.breadcrumb_sold_collection"
+    },
+    {
+      "type": "text",
+      "id": "shipping_note",
+      "label": "t:labels.shipping_note",
+      "default": "Delivered by insured courier within South Africa. International shipping is quoted on request."
+    },
+    {
+      "type": "header",
+      "content": "t:headers.sold_paintings"
+    },
+    {
+      "type": "text",
+      "id": "sold_message",
+      "label": "t:labels.sold_message",
+      "default": "This painting has found a home."
+    },
+    {
+      "type": "text",
+      "id": "sold_link_text",
+      "label": "t:labels.sold_link_text",
+      "default": "Enquire about commissions or similar works."
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
   }
 }
 {% endschema %}
