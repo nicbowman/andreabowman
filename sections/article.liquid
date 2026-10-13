@@ -8,7 +8,8 @@
 
 <div class="page-width section">
   {% if article.image %}
-    {{ article.image | image_url: width: 1000 | image_tag }}
+    {%- assign article_alt = article.image.alt | default: article.title | escape -%}
+    {{ article.image | image_url: width: 1000 | image_tag: alt: article_alt }}
   {% endif %}
 
   <h1>{{ article.title }}</h1>

@@ -12,7 +12,8 @@
     {% for article in blog.articles %}
       <div>
         {% if article.image %}
-          {{ article.image | image_url: width: 1000 | image_tag }}
+          {%- assign article_alt = article.image.alt | default: article.title | escape -%}
+          {{ article.image | image_url: width: 1000 | image_tag: alt: article_alt, loading: 'lazy' }}
         {% endif %}
         <h2>
           {{ article.title | link_to: article.url }}

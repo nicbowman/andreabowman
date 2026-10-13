@@ -1,0 +1,37 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "intro": {
+      "type": "page-intro",
+      "settings": {
+        "heading": "Contact",
+        "text": "<p>Ask about a painting, a commission or a project. Andrea replies personally [within two working days].</p>"
+      }
+    },
+    "form": {
+      "type": "enquiry-form",
+      "settings": {
+        "heading": "Send a message",
+        "show_project_fields": false,
+        "enquiry_type": "General enquiry",
+        "message_placeholder": "How can Andrea help?",
+        "submit_label": "Send message",
+        "success_message": "Thank you. Your message has been sent, and Andrea will reply to you by email.",
+        "anchor": "message",
+        "background": "oatmeal"
+      }
+    }
+  },
+  "order": [
+    "intro",
+    "form"
+  ]
+}
