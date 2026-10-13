@@ -13,9 +13,11 @@
     "group": "Group",
     "header": "Header",
     "layout": "Layout",
+    "more_works": "More works",
     "page": "Page",
     "password": "Password",
     "product": "Painting",
+    "product_enquiry": "Painting enquiry",
     "row": "Row",
     "search": "Search",
     "text": "Text",
@@ -24,9 +26,12 @@
   "headers": {
     "bottom_bar": "Bottom bar",
     "contact_details": "Contact details",
-    "newsletter": "Newsletter"
+    "newsletter": "Newsletter",
+    "sold_paintings": "Sold paintings"
   },
   "info": {
+    "breadcrumb_collection": "Breadcrumb link for available paintings",
+    "breadcrumb_sold_collection": "Breadcrumb link for sold paintings",
     "color_field_line": "Form field underlines on oatmeal",
     "color_hairline": "Dividers and borders",
     "color_ink": "Text",
@@ -40,10 +45,13 @@
     "font": "Jost Light is the approved typeface. Regular and Medium weights load automatically.",
     "header_menu": "Use up to 5 links: Works, Features, My story, For designers, Contact.",
     "logo_text": "Shown in capitals with wide letter spacing.",
-    "redirect_collection": "Visitors who reach /cart are sent here. Defaults to available works."
+    "more_works_collection": "Sold paintings and the current painting are skipped",
+    "redirect_collection": "Visitors who reach /cart are sent here. Defaults to available works.",
+    "sold_heading": "Used instead of the heading when the painting is tagged sold"
   },
   "labels": {
     "alignment": "Alignment",
+    "collection": "Collection",
     "color_field_line": "Field line",
     "color_hairline": "Hairline",
     "color_ink": "Ink",
@@ -65,10 +73,17 @@
     "menu": "Menu",
     "name_text": "Name",
     "padding": "Padding",
+    "products_to_show": "Paintings to show",
     "redirect_collection": "Send visitors to",
+    "shipping_note": "Shipping note",
+    "sold_collection": "Sold collection",
+    "sold_heading": "Heading for sold paintings",
+    "sold_link_text": "Sold link text",
+    "sold_message": "Sold message",
     "tagline": "Tagline",
     "text": "Text",
-    "text_style": "Text style"
+    "text_style": "Text style",
+    "works_collection": "Works collection"
   },
   "options": {
     "alignment": {
