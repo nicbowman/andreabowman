@@ -1,0 +1,85 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "intro": {
+      "type": "page-intro",
+      "blocks": {
+        "anchor_enquiry": {
+          "type": "anchor",
+          "settings": {
+            "label": "Trade enquiries",
+            "anchor": "trade-enquiry"
+          }
+        }
+      },
+      "block_order": [
+        "anchor_enquiry"
+      ],
+      "settings": {
+        "heading": "For interior designers",
+        "text": "<p>Paintings can be reserved for residential and hospitality projects. Ask for a trade pack with images, dimensions and pricing.</p>"
+      }
+    },
+    "offer": {
+      "type": "columns",
+      "blocks": {
+        "trade_pack": {
+          "type": "column",
+          "settings": {
+            "title": "Trade pack",
+            "text": "<p>Images, dimensions and pricing for the available works, ready to share with your client.</p>"
+          }
+        },
+        "reservations": {
+          "type": "column",
+          "settings": {
+            "title": "Reservations",
+            "text": "<p>Reserve a painting for a residential or hospitality project while your client decides. [How long a reservation is held.]</p>"
+          }
+        },
+        "sizes": {
+          "type": "column",
+          "settings": {
+            "title": "Sizes",
+            "text": "<p>[The sizes Andrea works in, and whether she paints commissions to suit a particular wall.]</p>"
+          }
+        }
+      },
+      "block_order": [
+        "trade_pack",
+        "reservations",
+        "sizes"
+      ],
+      "settings": {
+        "heading": "What designers get"
+      }
+    },
+    "enquiry": {
+      "type": "enquiry-form",
+      "settings": {
+        "heading": "Trade enquiries",
+        "text": "<p>Tell Andrea about your project and ask for the trade pack. She replies personally [within two working days].</p>",
+        "show_project_fields": true,
+        "enquiry_type": "Trade enquiry",
+        "message_placeholder": "Rooms, colours, sizes or paintings you have in mind",
+        "submit_label": "Send trade enquiry",
+        "success_message": "Thank you. Your enquiry has been sent, and Andrea will reply to you by email.",
+        "anchor": "trade-enquiry",
+        "background": "oatmeal"
+      }
+    }
+  },
+  "order": [
+    "intro",
+    "offer",
+    "enquiry"
+  ]
+}
