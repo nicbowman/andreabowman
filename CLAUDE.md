@@ -40,7 +40,7 @@ Expose these as theme settings (colour pickers) with these defaults. No other co
 
 ## Layout
 - Content max-width 1320px, horizontal padding 48px (20px on mobile).
-- Section vertical padding 130 to 150px on desktop (about 80px on mobile).
+- Section vertical padding about 96 to 112px on desktop (about 60px on mobile). Page intros start about 56px below the header. Avoid large empty areas on the first screen of a page.
 - Fully responsive. Grids collapse to 2 columns on tablet and 1 on mobile; header nav collapses to a simple menu on mobile.
 
 ## The painting image rule (critical)
@@ -113,7 +113,7 @@ Build these:
 5. Product thumbnails: the main image crossfades over 300ms when a thumbnail is chosen.
 6. Lightbox (zoom): opens and closes with a fade plus scale from 0.98 over 300ms; focus is trapped while open and Escape closes it.
 7. Buttons and links: background, colour and border transition over `--dur-fast`. Text link underlines draw in from left to right.
-8. Header: transparent over the hero, then fades to a solid ivory background with a hairline bottom border after scrolling past the hero, over 300ms.
+8. Header: translucent ivory with a soft blur over the hero, so the navigation reads on any photograph, then fades to a solid ivory background with a hairline bottom border after scrolling past the hero, over 300ms.
 9. Mobile menu: full-screen ivory overlay fades in over 300ms; menu items fade up with a 50ms stagger.
 10. Forms: field underline darkens to ink on focus over `--dur-fast`; the success message fades in where the form was.
 11. Page transitions: soft crossfade between pages with the View Transitions API (`@view-transition { navigation: auto; }`), 300ms. Browsers without support load normally.

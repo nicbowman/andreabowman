@@ -10,11 +10,12 @@
 :root {
   --page-width: 1320px;
   --page-gutter: 48px;
-  --section-space: 140px;
-  --section-space-large: 150px;
-  --section-space-small: 130px;
-  --block-gap: 80px;
-  --heading-rule-space: 56px;
+  --section-space: 104px;
+  --section-space-large: 112px;
+  --section-space-small: 96px;
+  --page-top: 56px;
+  --block-gap: 72px;
+  --heading-rule-space: 44px;
   --text-size-body: 17px;
   --text-size-small: 15px;
   --text-size-caption: 14px;
@@ -35,21 +36,23 @@
 @media (max-width: 989px) {
   :root {
     --page-gutter: 32px;
-    --section-space: 110px;
-    --section-space-large: 110px;
-    --section-space-small: 100px;
-    --block-gap: 56px;
+    --section-space: 84px;
+    --section-space-large: 88px;
+    --section-space-small: 80px;
+    --page-top: 40px;
+    --block-gap: 48px;
   }
 }
 
 @media (max-width: 749px) {
   :root {
     --page-gutter: 20px;
-    --section-space: 80px;
-    --section-space-large: 80px;
-    --section-space-small: 80px;
-    --block-gap: 48px;
-    --heading-rule-space: 40px;
+    --section-space: 60px;
+    --section-space-large: 64px;
+    --section-space-small: 60px;
+    --page-top: 24px;
+    --block-gap: 40px;
+    --heading-rule-space: 32px;
     --text-size-h1: 34px;
     --text-size-h2: 26px;
     --text-size-h3: 22px;
@@ -538,31 +541,49 @@ select.field__input {
   animation: motion-fade var(--dur-base) var(--ease-out) both;
 }
 
-/* Sticky header: transparent over the hero, then solid ivory with a hairline */
+/* Sticky header: a soft translucent ivory over the hero so the nav always reads,
+   then solid ivory with a hairline once past it. Two layers, so only opacity animates. */
 .shopify-section-group-header-group {
   position: sticky;
   top: 0;
   z-index: 20;
 }
 
-.shopify-section-group-header-group::before {
+.shopify-section-group-header-group::before,
+.shopify-section-group-header-group::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
+}
+
+.shopify-section-group-header-group::before {
+  background-color: rgb(from var(--color-ivory) r g b / 0.72);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  backdrop-filter: blur(14px) saturate(1.1);
+}
+
+.shopify-section-group-header-group::after {
   background-color: var(--color-ivory);
   border-bottom: 1px solid var(--color-hairline);
   opacity: 1;
   transition: opacity var(--dur-swap) var(--ease-out);
 }
 
-.js-motion .shopify-section-group-header-group::before {
+.js-motion .shopify-section-group-header-group::after {
   opacity: 0;
 }
 
-.js-motion.header-solid .shopify-section-group-header-group::before,
-html:has(.site-header__drawer[open]) .shopify-section-group-header-group::before {
+.js-motion.header-solid .shopify-section-group-header-group::after,
+html:has(.site-header__drawer[open]) .shopify-section-group-header-group::after {
   opacity: 1;
+}
+
+@supports not (background-color: rgb(from red r g b / 0.5)) {
+  .shopify-section-group-header-group::before {
+    background-color: var(--color-ivory);
+    opacity: 0.78;
+  }
 }
 
 body:has(main > .shopify-section:first-child .hero) .shopify-section-group-header-group {
