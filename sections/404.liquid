@@ -5,15 +5,17 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/404
 {% endcomment %}
 
-<h1>{{ '404.title' | t }}</h1>
+<div class="page-width section">
+  <h1>{{ '404.title' | t }}</h1>
 
-<p>
-  {{ '404.not_found' | t }}
-</p>
+  <p>
+    {{ '404.not_found' | t }}
+  </p>
 
-<a href="{{ routes.root_url }}">
-  {{ '404.back_home' | t }}
-</a>
+  <a href="{{ routes.root_url }}">
+    {{ '404.back_home' | t }}
+  </a>
+</div>
 
 {% schema %}
 {

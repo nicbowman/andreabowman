@@ -15,3 +15,6 @@ node_modules/
 ## Release files
 release
 *.zip
+
+# Playwright MCP screenshots and logs
+.playwright-mcp/
