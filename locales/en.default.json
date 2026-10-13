@@ -5,6 +5,7 @@
     "title": "Page not found"
   },
   "accessibility": {
+    "breadcrumb": "Breadcrumb",
     "main_navigation": "Main",
     "new_window": "(opens in a new window)",
     "skip_to_content": "Skip to content"
@@ -63,7 +64,33 @@
     "title": "This site is private"
   },
   "products": {
-    "sold": "Sold"
+    "about": "About this work",
+    "alt_detail": "{{ title }}, surface detail",
+    "alt_in_room": "{{ title }}, shown in a room for scale",
+    "dimensions": "Dimensions",
+    "enquire": "Enquire about this painting",
+    "enquiry": {
+      "email": "Email",
+      "message": "Message",
+      "message_placeholder": "Questions, viewing times, or details of your project",
+      "name": "Name",
+      "painting": "Painting",
+      "phone": "Phone (optional)",
+      "sold_painting": "{{ title }} (sold)",
+      "submit": "Send enquiry",
+      "success": "Thank you. Your enquiry has been sent, and Andrea will reply to you by email."
+    },
+    "framing": "Framing",
+    "medium": "Medium",
+    "reserve": "Reserve for a design project",
+    "reserve_message": "I would like to reserve this painting for a design project.",
+    "signature": "Signed",
+    "sold": "Sold",
+    "view_all": "View all",
+    "view_detail": "Surface detail",
+    "view_full": "Full view",
+    "view_in_room": "In a room, for scale",
+    "views": "Painting views"
   },
   "search": {
     "no_results_html": "No results found for {{ terms }}",

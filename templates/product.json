@@ -11,10 +11,34 @@
   "sections": {
     "main": {
       "type": "product",
-      "settings": {}
+      "settings": {
+        "works_collection": "available-works",
+        "sold_collection": "sold-works",
+        "shipping_note": "Delivered by insured courier within South Africa. International shipping is quoted on request.",
+        "sold_message": "This painting has found a home.",
+        "sold_link_text": "Enquire about commissions or similar works."
+      }
+    },
+    "enquiry": {
+      "type": "product-enquiry",
+      "settings": {
+        "heading": "Enquire about this painting",
+        "sold_heading": "Ask about commissions or similar works",
+        "text": "<p>Ask about the work, arrange a viewing or reserve it for a project. Andrea replies personally [within two working days].</p>"
+      }
+    },
+    "more_works": {
+      "type": "product-more-works",
+      "settings": {
+        "heading": "More available works",
+        "collection": "available-works",
+        "products_to_show": "3"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "enquiry",
+    "more_works"
   ]
 }
