@@ -1,0 +1,132 @@
+{% doc %}
+  Renders a painting card for grids: mounted image, title, medium and dimensions, and the price or a Sold label.
+  A painting is sold when it has the tag "sold" (any capitalisation).
+
+  @param {product} product - The painting
+  @param {boolean} [eager] - Load the image immediately (first row above the fold)
+  @param {string} [sizes] - Sizes attribute override for the image
+  @param {string} [heading_tag] - Heading element for the title. Defaults to h3.
+
+  @example
+  {% render 'product-card', product: product %}
+{% enddoc %}
+
+{%- liquid
+  assign tag = heading_tag | default: 'h3'
+  assign tags_lower = product.tags | join: '|' | downcase | split: '|'
+  assign is_sold = false
+  if tags_lower contains 'sold'
+    assign is_sold = true
+  endif
+
+  assign medium = product.metafields.custom.medium.value
+  assign dimensions = product.metafields.custom.dimensions.value
+  assign meta_parts = ''
+  if medium != blank
+    assign meta_parts = medium
+  endif
+  if dimensions != blank
+    if meta_parts != blank
+      assign meta_parts = meta_parts | append: ', '
+    endif
+    assign meta_parts = meta_parts | append: dimensions
+  endif
+-%}
+
+<a class="card" href="{{ product.url }}">
+  {% render 'painting-mount', image: product.featured_image, alt: product.title, eager: eager, sizes: sizes %}
+
+  <div class="card__info">
+    <div class="card__text">
+      <{{ tag }} class="card__title">{{ product.title | escape }}</{{ tag }}>
+      {%- if meta_parts != blank -%}
+        <span class="card__meta">{{ meta_parts | escape }}</span>
+      {%- endif -%}
+    </div>
+
+    {%- if is_sold -%}
+      <span class="card__sold">{{ 'products.sold' | t }}</span>
+    {%- else -%}
+      <span class="card__price">{{ product.price | money_without_trailing_zeros }}</span>
+    {%- endif -%}
+  </div>
+</a>
+
+{% stylesheet %}
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 72px 40px;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (max-width: 989px) {
+    .product-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 56px 32px;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .product-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 56px;
+    }
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .card:hover {
+    color: var(--color-ink);
+  }
+
+  .card__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  .card__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .card__title {
+    font-size: 17px;
+    font-weight: var(--font-weight-regular);
+    line-height: 1.5;
+    transition: var(--transition-colour);
+  }
+
+  .card:hover .card__title {
+    color: var(--color-moss);
+  }
+
+  .card__meta {
+    font-size: var(--text-size-caption);
+    color: var(--color-muted);
+  }
+
+  .card__price {
+    font-size: var(--text-size-small);
+    white-space: nowrap;
+  }
+
+  .card__sold {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
+{% endstylesheet %}
