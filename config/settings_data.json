@@ -8,5 +8,11 @@
  * ------------------------------------------------------------
  */
 {
-  "current": {}
+  "current": {
+    "contact_email": "hello@andreabowman.co.za",
+    "contact_phone": "",
+    "whatsapp_number": "",
+    "instagram_url": "",
+    "share_image": "shopify://shop_images/hero-bronze-room.jpg"
+  }
 }

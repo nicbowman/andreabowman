@@ -214,6 +214,10 @@
       </dl>
     {%- endif -%}
 
+    {%- if dimensions != blank and section.settings.show_scale -%}
+      {% render 'scale-figure', dimensions: dimensions, image: full_image, title: product.title %}
+    {%- endif -%}
+
     {%- if is_sold -%}
       <p class="product__sold-message">
         {{ section.settings.sold_message | escape }}
@@ -221,16 +225,36 @@
       </p>
     {%- else -%}
       <div class="product__actions">
-        <a class="button button--full" href="#enquire" data-enquire>{{ 'products.enquire' | t }}</a>
+        <a
+          class="button button--full"
+          href="#enquire"
+          data-enquire
+          data-enquiry-type="{{ 'products.enquiry.type_enquiry' | t | escape }}"
+        >
+          {{- 'products.enquire' | t -}}
+        </a>
         <a
           class="button button--secondary button--full"
           href="#enquire"
           data-enquire
+          data-enquiry-type="{{ 'products.enquiry.type_reserve' | t | escape }}"
           data-reserve="{{ 'products.reserve_message' | t | escape }}"
         >
           {{- 'products.reserve' | t -}}
         </a>
       </div>
+
+      {%- assign reassurance = section.settings.reassurance | newline_to_br | split: '<br />' -%}
+      {%- if section.settings.reassurance != blank -%}
+        <ul class="product__reassurance" role="list">
+          {%- for line in reassurance -%}
+            {%- assign clean_line = line | strip -%}
+            {%- if clean_line != blank -%}
+              <li>{{ clean_line | escape }}</li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
 
       {%- if section.settings.shipping_note != blank -%}
         <p class="product__shipping">{{ section.settings.shipping_note | escape }}</p>
@@ -387,6 +411,10 @@
     var form = document.getElementById('ProductEnquiry');
     if (!form) return;
     var message = form.querySelector('textarea[name="contact[body]"]');
+    var typeField = form.querySelector('input[name="contact[Enquiry]"]');
+    if (typeField && enquire.getAttribute('data-enquiry-type')) {
+      typeField.value = enquire.getAttribute('data-enquiry-type');
+    }
     var reserveText = enquire.getAttribute('data-reserve');
     if (message && reserveText && message.value.trim() === '') {
       message.value = reserveText;
@@ -398,6 +426,18 @@
       }, 0);
     }
     });
+
+    /* Keep the details column in view while the images scroll, but only when it fits on screen. */
+    var info = document.querySelector('.product__info');
+    if (info) {
+      var fitSticky = function () {
+        var header = document.querySelector('.shopify-section-group-header-group');
+        var headerHeight = header ? header.getBoundingClientRect().height : 0;
+        info.classList.toggle('is-sticky', info.offsetHeight + headerHeight + 48 < window.innerHeight);
+      };
+      fitSticky();
+      window.addEventListener('resize', fitSticky);
+    }
   })();
 {% endjavascript %}
 
@@ -686,6 +726,36 @@
     padding: 21px 32px;
   }
 
+  .product__reassurance {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-size-small);
+    color: var(--color-ink-soft);
+  }
+
+  .product__reassurance li {
+    display: flex;
+    gap: 12px;
+  }
+
+  .product__reassurance li::before {
+    content: '';
+    flex: 0 0 14px;
+    height: 1px;
+    margin-top: 0.85em;
+    background-color: var(--color-muted);
+  }
+
+  @media (min-width: 990px) {
+    .product__info.is-sticky {
+      position: sticky;
+      top: calc(var(--header-height) + 24px);
+    }
+  }
+
   .product__shipping {
     font-size: var(--text-size-small);
     color: var(--color-ink-soft);
@@ -750,6 +820,19 @@
       "id": "shipping_note",
       "label": "t:labels.shipping_note",
       "default": "Delivered by insured courier within South Africa. International shipping is quoted on request."
+    },
+    {
+      "type": "textarea",
+      "id": "reassurance",
+      "label": "t:labels.reassurance",
+      "info": "t:info.reassurance"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scale",
+      "label": "t:labels.show_scale",
+      "info": "t:info.show_scale",
+      "default": true
     },
     {
       "type": "header",

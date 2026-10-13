@@ -1,0 +1,33 @@
+{% doc %}
+  Short privacy line shown under every form, linking to the privacy policy when one exists.
+
+  @param {string} [kind] - 'newsletter' for the sign-up wording, otherwise the enquiry wording
+  @param {string} [class] - Extra class
+
+  @example
+  {% render 'consent-note' %}
+  {% render 'consent-note', kind: 'newsletter' %}
+{% enddoc %}
+
+<p class="consent-note {{ class }}">
+  {%- if kind == 'newsletter' -%}
+    {{ 'forms.consent_newsletter' | t }}
+  {%- else -%}
+    {{ 'forms.consent_enquiry' | t }}
+  {%- endif -%}
+  {%- if shop.privacy_policy -%}
+    {{ ' ' }}<a href="{{ shop.privacy_policy.url }}">{{ 'forms.privacy_policy' | t }}</a>
+  {%- endif -%}
+</p>
+
+{% stylesheet %}
+  .consent-note {
+    font-size: var(--text-size-label);
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+
+  .consent-note a {
+    color: inherit;
+  }
+{% endstylesheet %}

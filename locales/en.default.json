@@ -25,6 +25,14 @@
     "title": "Paintings are sold by enquiry"
   },
   "collections": {
+    "count_available": {
+      "one": "1 available work",
+      "other": "{{ count }} available works"
+    },
+    "count_sold": {
+      "one": "1 sold work",
+      "other": "{{ count }} sold works"
+    },
     "empty": "There are no paintings here at the moment.",
     "next": "Next",
     "page": "Page ",
@@ -36,15 +44,22 @@
     "title": "Collections"
   },
   "contact": {
+    "by_email": "Email",
+    "by_whatsapp": "WhatsApp",
     "email": "Email",
     "message": "Message",
     "name": "Name",
+    "on_instagram": "Instagram",
     "phone": "Phone (optional)",
     "project": "Project",
     "project_placeholder": "Type of project and location",
     "studio": "Studio name",
     "timeline": "Timeline",
-    "timeline_placeholder": "When the room needs to be finished"
+    "timeline_choose": "Choose a timeline (optional)",
+    "timeline_later": "3 months or more",
+    "timeline_month": "Within a month",
+    "timeline_quarter": "1 to 3 months",
+    "timeline_unsure": "Not sure yet"
   },
   "customers": {
     "login": {
@@ -60,6 +75,7 @@
     "empty_press": "Add press articles in Content > Metaobjects > Press article. They appear here, newest first.",
     "empty_testimonial": "Add a testimonial in Content > Metaobjects > Testimonial, then choose it in this section.",
     "interiors_by": "Interiors by {{ designer }}",
+    "interiors_by_html": "Interiors by {{ designer }}",
     "read_article": "Read the article"
   },
   "footer": {
@@ -72,7 +88,17 @@
     "instagram_placeholder_text": "[Instagram link]",
     "newsletter_success": "Thank you. You are on the list for new work.",
     "phone_placeholder_text": "[phone number]",
-    "subscribe": "Subscribe"
+    "subscribe": "Subscribe",
+    "whatsapp": "WhatsApp"
+  },
+  "forms": {
+    "consent_enquiry": "I'll only use your details to reply to you.",
+    "consent_newsletter": "I'll only use your email to send news of new paintings. You can unsubscribe at any time.",
+    "method_email": "Email",
+    "method_phone": "Phone",
+    "method_whatsapp": "WhatsApp",
+    "preferred_contact": "Preferred contact",
+    "privacy_policy": "Privacy policy"
   },
   "general": {
     "image_placeholder": "Image to be added",
@@ -88,6 +114,10 @@
   "header": {
     "close": "Close",
     "menu": "Menu"
+  },
+  "meta": {
+    "page": "Page {{ page }}",
+    "painting_title": "{{ title }}, original abstract painting by {{ artist }}"
   },
   "password": {
     "enter": "Enter",
@@ -109,12 +139,16 @@
       "phone": "Phone (optional)",
       "sold_painting": "{{ title }} (sold)",
       "submit": "Send enquiry",
-      "success": "Thank you. Your enquiry has been sent, and Andrea will reply to you by email."
+      "success": "Thank you. Your enquiry has been sent, and I'll reply to you by email.",
+      "type_enquiry": "Painting enquiry",
+      "type_reserve": "Reservation for a design project"
     },
     "framing": "Framing",
     "medium": "Medium",
     "reserve": "Reserve for a design project",
     "reserve_message": "I would like to reserve this painting for a design project.",
+    "scale_caption": "To scale beside a 1.7 m figure",
+    "scale_label": "{{ title }}, {{ dimensions }}, drawn to scale beside a 1.7 m figure",
     "signature": "Signed",
     "sold": "Sold",
     "view_all": "View all",

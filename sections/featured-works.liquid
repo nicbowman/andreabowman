@@ -1,28 +1,36 @@
 {%- liquid
   assign source = section.settings.collection
   assign limit = section.settings.products_to_show
+  assign minimum = section.settings.minimum_to_show
+  assign count = source.products_count | default: 0
 -%}
 
-<section class="page-width featured-works" aria-labelledby="FeaturedWorks-{{ section.id }}">
-  <div class="section-heading">
-    <h2 id="FeaturedWorks-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
-    {% render 'works-tabs',
-      available: section.settings.available_collection,
-      sold: section.settings.sold_collection,
-      current_handle: source.handle
-    %}
-  </div>
+{%- if count >= minimum or request.design_mode -%}
+  <section class="page-width featured-works" aria-labelledby="FeaturedWorks-{{ section.id }}">
+    <div class="section-heading">
+      <h2 id="FeaturedWorks-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.show_tabs -%}
+        {% render 'works-tabs',
+          available: section.settings.available_collection,
+          sold: section.settings.sold_collection,
+          current_handle: source.handle
+        %}
+      {%- elsif source and section.settings.view_all_label != blank -%}
+        <a class="link" href="{{ source.url }}">{{ section.settings.view_all_label | escape }}</a>
+      {%- endif -%}
+    </div>
 
-  {%- if source and source.products_count > 0 -%}
-    <ul class="product-grid" role="list">
-      {%- for product in source.products limit: limit -%}
-        <li>{% render 'product-card', product: product %}</li>
-      {%- endfor -%}
-    </ul>
-  {%- else -%}
-    <p class="text-soft">{{ 'collections.empty' | t }}</p>
-  {%- endif -%}
-</section>
+    {%- if count > 0 -%}
+      <ul class="product-grid" role="list">
+        {%- for product in source.products limit: limit -%}
+          <li>{% render 'product-card', product: product %}</li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <p class="text-muted">{{ 'collections.empty' | t }}</p>
+    {%- endif -%}
+  </section>
+{%- endif -%}
 
 {% stylesheet %}
   .featured-works {
@@ -56,8 +64,31 @@
       "default": 6
     },
     {
+      "type": "range",
+      "id": "minimum_to_show",
+      "label": "t:labels.minimum_to_show",
+      "info": "t:info.minimum_to_show",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "t:labels.view_all_label",
+      "default": "View all works"
+    },
+    {
       "type": "header",
       "content": "t:headers.tabs"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tabs",
+      "label": "t:labels.show_tabs",
+      "info": "t:info.show_tabs",
+      "default": false
     },
     {
       "type": "collection",

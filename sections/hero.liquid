@@ -1,38 +1,103 @@
 {%- liquid
-  assign image = section.settings.image
-  assign caption = section.settings.caption
-  assign image_alt = image.alt | default: caption | escape
-  assign caption_colour = section.settings.caption_colour
-  unless image
-    assign caption_colour = 'dark'
-  endunless
+  assign slides = '1,2,3' | split: ','
+  assign filled = 0
+  for n in slides
+    assign key = 'image'
+    if n != '1'
+      assign key = 'image_' | append: n
+    endif
+    if section.settings[key]
+      assign filled = filled | plus: 1
+    endif
+  endfor
 -%}
 
-<section class="hero hero--{{ section.settings.height }}" aria-label="{{ section.settings.label | escape }}">
-  {%- if image -%}
-    {{
-      image
-      | image_url: width: 3200
-      | image_tag:
-        class: 'hero__image',
-        widths: '750, 1100, 1500, 1800, 2200, 2600, 3200',
-        sizes: '100vw',
-        loading: 'eager',
-        fetchpriority: 'high',
-        alt: image_alt
-    }}
-  {%- endif -%}
+<section class="hero hero--{{ section.settings.height }}" aria-label="{{ section.settings.label | escape }}" data-hero>
+  {%- assign shown = 0 -%}
+  {%- for n in slides -%}
+    {%- liquid
+      if n == '1'
+        assign image = section.settings.image
+        assign caption = section.settings.caption
+        assign link = section.settings.caption_link
+      else
+        assign image_key = 'image_' | append: n
+        assign caption_key = 'caption_' | append: n
+        assign link_key = 'caption_link_' | append: n
+        assign image = section.settings[image_key]
+        assign caption = section.settings[caption_key]
+        assign link = section.settings[link_key]
+      endif
+      if image == blank and n != '1'
+        continue
+      endif
+      assign image_alt = image.alt | default: caption | escape
+      assign caption_colour = section.settings.caption_colour
+      unless image
+        assign caption_colour = 'dark'
+      endunless
+      assign shown = shown | plus: 1
+    -%}
+    <div class="hero__slide" {% if shown > 1 %}hidden{% endif %}>
+      {%- if image -%}
+        {%- liquid
+          if shown == 1
+            assign loading = 'eager'
+            assign priority = 'high'
+          else
+            assign loading = 'lazy'
+            assign priority = 'auto'
+          endif
+        -%}
+        {{
+          image
+          | image_url: width: 3200
+          | image_tag:
+            class: 'hero__image',
+            widths: '750, 1100, 1500, 1800, 2200, 2600, 3200',
+            sizes: '100vw',
+            loading: loading,
+            fetchpriority: priority,
+            alt: image_alt
+        }}
+      {%- endif -%}
 
-  {%- if caption != blank -%}
-    <p class="hero__caption hero__caption--{{ caption_colour }}">{{ caption | escape }}</p>
-  {%- endif -%}
+      {%- if caption != blank -%}
+        <p class="hero__caption hero__caption--{{ caption_colour }}">
+          <span>{{ caption | escape }}</span>
+          {%- if link != blank -%}
+            <a class="hero__link" href="{{ link }}">{{ section.settings.link_label | escape }}</a>
+          {%- endif -%}
+        </p>
+      {%- endif -%}
+    </div>
+  {%- endfor -%}
 </section>
+
+{%- if filled > 1 -%}
+  <script>
+    (function () {
+      var slides = document.currentScript.previousElementSibling.querySelectorAll('.hero__slide');
+      if (slides.length < 2) return;
+      var pick = Math.floor(Math.random() * slides.length);
+      if (pick === 0) return;
+      slides.forEach(function (slide, index) {
+        slide.hidden = index !== pick;
+        if (index === pick) {
+          var img = slide.querySelector('img');
+          if (img) {
+            img.loading = 'eager';
+            img.setAttribute('fetchpriority', 'high');
+          }
+        }
+      });
+    })();
+  </script>
+{%- endif -%}
 
 {% stylesheet %}
   .hero {
     position: relative;
-    display: flex;
-    align-items: flex-end;
     overflow: hidden;
     background-color: var(--color-mount);
   }
@@ -43,6 +108,13 @@
 
   .hero--medium {
     height: 600px;
+  }
+
+  .hero__slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
   }
 
   .hero__image {
@@ -56,17 +128,26 @@
 
   .hero__caption {
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 20px;
     padding: 40px var(--page-gutter);
     font-size: var(--text-size-caption);
     letter-spacing: 0.04em;
   }
 
-  .hero__caption--light {
+  .hero__caption--light,
+  .hero__caption--light .hero__link {
     color: var(--color-ivory);
   }
 
-  .hero__caption--dark {
+  .hero__caption--dark,
+  .hero__caption--dark .hero__link {
     color: var(--color-ink);
+  }
+
+  .hero__link {
+    text-underline-offset: 4px;
   }
 
   @media (max-width: 989px) {
@@ -103,6 +184,59 @@
       "id": "caption",
       "label": "t:labels.caption",
       "default": "[Featured painting title], [year]"
+    },
+    {
+      "type": "url",
+      "id": "caption_link",
+      "label": "t:labels.caption_link"
+    },
+    {
+      "type": "header",
+      "content": "t:headers.hero_more"
+    },
+    {
+      "type": "paragraph",
+      "content": "t:info.hero_more"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "t:labels.image_2"
+    },
+    {
+      "type": "text",
+      "id": "caption_2",
+      "label": "t:labels.caption_2"
+    },
+    {
+      "type": "url",
+      "id": "caption_link_2",
+      "label": "t:labels.caption_link_2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "t:labels.image_3"
+    },
+    {
+      "type": "text",
+      "id": "caption_3",
+      "label": "t:labels.caption_3"
+    },
+    {
+      "type": "url",
+      "id": "caption_link_3",
+      "label": "t:labels.caption_link_3"
+    },
+    {
+      "type": "header",
+      "content": "t:headers.appearance"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "t:labels.link_label",
+      "default": "View painting"
     },
     {
       "type": "select",

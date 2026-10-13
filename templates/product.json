@@ -15,6 +15,8 @@
         "works_collection": "available-works",
         "sold_collection": "sold-works",
         "shipping_note": "Delivered by insured courier within South Africa. International shipping is quoted on request.",
+        "reassurance": "Certificate of authenticity included\nPayment by EFT or a secure card link\nView in person by appointment",
+        "show_scale": true,
         "sold_message": "This painting has found a home.",
         "sold_link_text": "Enquire about commissions or similar works."
       }
@@ -24,7 +26,7 @@
       "settings": {
         "heading": "Enquire about this painting",
         "sold_heading": "Ask about commissions or similar works",
-        "text": "<p>Ask about the work, arrange a viewing or reserve it for a project. Andrea replies personally within two working days.</p>"
+        "text": "<p>Ask about the work, arrange a viewing or reserve it for a project. I reply to every enquiry personally, within two working days.</p>"
       }
     },
     "more_works": {

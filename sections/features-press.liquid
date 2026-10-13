@@ -6,6 +6,7 @@
   assign handles = handle_list | strip | split: ','
 -%}
 
+{%- if handles.size > 0 or request.design_mode -%}
 <section
   id="{{ section.settings.anchor | handleize | default: section.id }}"
   class="page-width section feature-press"
@@ -27,11 +28,11 @@
         <li>
           <article class="feature-press__item">
             <div class="feature-press__media">
-              {% render 'cover-image', image: entry.image.value, ratio: '4-3', alt: entry.headline.value, sizes: '220px' %}
+              {% render 'cover-image', image: entry.image.value, ratio: '4-3', alt: entry.headline.value, captioned: true, sizes: '220px' %}
             </div>
             <div class="feature-press__text">
               <span class="feature-press__meta">
-                {{- entry.publication.value | escape -}}
+                <span class="feature-press__publication">{{ entry.publication.value | escape }}</span>
                 {%- if date != blank -%}, {{ date | date: '%B %Y' }}{%- endif -%}
               </span>
               <h3 class="feature-press__headline">{{ entry.headline.value | escape }}</h3>
@@ -50,6 +51,7 @@
     <p class="text-muted feature-press__empty">{{ 'features.empty_press' | t }}</p>
   {%- endif -%}
 </section>
+{%- endif -%}
 
 {% stylesheet %}
   .feature-press__heading {
@@ -86,6 +88,11 @@
     font-size: var(--text-size-caption);
     letter-spacing: 0.06em;
     color: var(--color-muted);
+  }
+
+  .feature-press__publication {
+    font-weight: var(--font-weight-regular);
+    color: var(--color-ink);
   }
 
   .feature-press__headline {

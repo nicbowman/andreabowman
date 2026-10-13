@@ -18,6 +18,8 @@
                 aria-current="page"
               {% elsif link.active or link.child_active %}
                 aria-current="true"
+              {% elsif request.page_type == 'product' and link.type == 'collection_link' %}
+                aria-current="true"
               {% endif %}
             >
               {{- link.title | escape -}}
@@ -42,6 +44,8 @@
                 {% if link.current %}
                   aria-current="page"
                 {% elsif link.active or link.child_active %}
+                  aria-current="true"
+                {% elsif request.page_type == 'product' and link.type == 'collection_link' %}
                   aria-current="true"
                 {% endif %}
               >

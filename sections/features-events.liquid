@@ -6,6 +6,7 @@
   assign handles = handle_list | strip | split: ','
 -%}
 
+{%- if handles.size > 0 or request.design_mode -%}
 <section
   id="{{ section.settings.anchor | handleize | default: section.id }}"
   class="page-width feature-list feature-events"
@@ -30,6 +31,7 @@
               image: entry.image.value,
               ratio: '3-2',
               alt: entry.name.value,
+              captioned: true,
               sizes: '(min-width: 1320px) 600px, (min-width: 750px) 50vw, 100vw'
             %}
             <figcaption class="feature-caption">
@@ -50,6 +52,7 @@
     <p class="text-muted">{{ 'features.empty_events' | t }}</p>
   {%- endif -%}
 </section>
+{%- endif -%}
 
 {% stylesheet %}
   .feature-events {

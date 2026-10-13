@@ -1,20 +1,39 @@
 {%- liquid
-  assign entry = section.settings.testimonial
-  unless entry
-    assign entry = metaobjects.testimonial.values | first
-  endunless
+  assign chosen = section.settings.testimonial
+  assign count = section.settings.rotate_count
+  assign entries = metaobjects.testimonial.values
 -%}
 
-{%- if entry -%}
-  <section class="section section--oatmeal testimonial">
-    <figure class="page-width testimonial__inner">
-      <blockquote class="testimonial__quote">{{ entry.quote.value | escape | newline_to_br }}</blockquote>
-      <figcaption class="testimonial__cite">
-        {{- entry.name.value | escape -}}
-        {%- if entry.role.value != blank -%}, {{ entry.role.value | escape }}{%- endif -%}
-      </figcaption>
-    </figure>
+{%- if chosen or entries.size > 0 -%}
+  <section class="section section--oatmeal testimonial" data-testimonials>
+    {%- if chosen -%}
+      {% render 'testimonial-quote', entry: chosen %}
+    {%- else -%}
+      {%- for entry in entries limit: count -%}
+        {%- liquid
+          assign hidden = true
+          if forloop.first
+            assign hidden = false
+          endif
+        -%}
+        {% render 'testimonial-quote', entry: entry, hidden: hidden %}
+      {%- endfor -%}
+    {%- endif -%}
   </section>
+
+  {%- unless chosen -%}
+    <script>
+      (function () {
+        var section = document.currentScript.previousElementSibling;
+        var quotes = section.querySelectorAll('.testimonial__inner');
+        if (quotes.length < 2) return;
+        var pick = Math.floor(Math.random() * quotes.length);
+        quotes.forEach(function (quote, index) {
+          quote.hidden = index !== pick;
+        });
+      })();
+    </script>
+  {%- endunless -%}
 {%- elsif request.design_mode -%}
   <section class="section section--oatmeal testimonial">
     <p class="page-width text-muted">{{ 'features.empty_testimonial' | t }}</p>
@@ -63,6 +82,16 @@
       "metaobject_type": "testimonial",
       "label": "t:labels.testimonial",
       "info": "t:info.testimonial"
+    },
+    {
+      "type": "range",
+      "id": "rotate_count",
+      "label": "t:labels.rotate_count",
+      "info": "t:info.rotate_count",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 3
     }
   ],
   "presets": [

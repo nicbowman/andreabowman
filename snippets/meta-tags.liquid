@@ -1,105 +1,144 @@
+{% doc %}
+  Outputs the charset, viewport, title, meta description, canonical, social sharing tags and,
+  on painting pages, Product structured data.
+
+  @example
+  {% render 'meta-tags' %}
+{% enddoc %}
+
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 {%- liquid
-  assign og_title = page_title | default: shop.name
+  assign site_name = shop.name
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
-  assign og_description = page_description | default: shop.description | default: shop.name
 
+  # Description: the admin SEO description, else the page's own text, else the site default.
+  assign description = page_description
+  if description == blank
+    case request.page_type
+      when 'product'
+        assign description = product.description
+      when 'collection'
+        assign description = collection.description
+      when 'page'
+        assign description = page.content
+      when 'article'
+        assign description = article.excerpt_or_content
+    endcase
+  endif
+  assign description = description | strip_html | strip_newlines | truncate: 155
+  if description == blank
+    assign description = settings.meta_description | default: shop.description | default: site_name
+  endif
+
+  # Title: paintings without a custom SEO title read "Title, original abstract painting by Andrea Bowman".
+  assign title = page_title
+  if request.page_type == 'product' and page_title == product.title
+    assign title = 'meta.painting_title' | t: title: product.title, artist: site_name
+  endif
+
+  assign share_image = page_image
   if request.page_type == 'product'
     assign og_type = 'product'
+    assign share_image = product.featured_image | default: page_image
   elsif request.page_type == 'article'
     assign og_type = 'article'
   elsif request.page_type == 'password'
     assign og_url = request.origin
   endif
-%}
+  if share_image == blank
+    assign share_image = settings.share_image
+  endif
+-%}
 
-<meta
-  property="og:site_name"
-  content="{{ shop.name }}"
->
-<meta
-  property="og:url"
-  content="{{ og_url }}"
->
-<meta
-  property="og:title"
-  content="{{ og_title | escape }}"
->
-<meta
-  property="og:type"
-  content="{{ og_type }}"
->
-<meta
-  property="og:description"
-  content="{{ og_description | escape }}"
->
+<title>
+  {{ title }}
+  {%- if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif -%}
+  {%- if current_page != 1 %} &ndash; {{ 'meta.page' | t: page: current_page }}{% endif -%}
+  {%- unless title contains site_name %} &ndash; {{ site_name }}{% endunless -%}
+</title>
 
-{%- if page_image -%}
-  <meta
-    property="og:image"
-    content="http:{{ page_image | image_url }}"
-  >
-  <meta
-    property="og:image:secure_url"
-    content="https:{{ page_image | image_url }}"
-  >
-  <meta
-    property="og:image:width"
-    content="{{ page_image.width }}"
-  >
-  <meta
-    property="og:image:height"
-    content="{{ page_image.height }}"
-  >
+<meta name="description" content="{{ description | escape }}">
+<link rel="canonical" href="{{ canonical_url }}">
+
+<meta property="og:site_name" content="{{ site_name | escape }}">
+<meta property="og:url" content="{{ og_url }}">
+<meta property="og:title" content="{{ title | escape }}">
+<meta property="og:type" content="{{ og_type }}">
+<meta property="og:description" content="{{ description | escape }}">
+
+{%- if share_image -%}
+  <meta property="og:image" content="https:{{ share_image | image_url: width: 1200, height: 630, crop: 'center' }}">
+  <meta property="og:image:secure_url" content="https:{{ share_image | image_url: width: 1200, height: 630, crop: 'center' }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ share_image.alt | default: title | escape }}">
+{%- endif -%}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ title | escape }}">
+<meta name="twitter:description" content="{{ description | escape }}">
+
+{%- if request.page_type == 'index' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": {{ site_name | json }},
+          "url": {{ request.origin | append: '/' | json }}
+        },
+        {
+          "@type": "Person",
+          "name": {{ site_name | json }},
+          "jobTitle": "Painter",
+          "url": {{ request.origin | append: '/' | json }}
+          {%- if settings.instagram_url != blank -%},
+            "sameAs": [{{ settings.instagram_url | json }}]
+          {%- endif %}
+        }
+      ]
+    }
+  </script>
 {%- endif -%}
 
 {%- if request.page_type == 'product' -%}
+  {%- liquid
+    assign tags_lower = product.tags | join: '|' | downcase | split: '|'
+    if tags_lower contains 'sold'
+      assign availability = 'https://schema.org/SoldOut'
+    else
+      assign availability = 'https://schema.org/InStock'
+    endif
+    assign product_url = request.origin | append: product.url
+    assign price = product.price | divided_by: 100.0
+  -%}
+  <meta property="og:price:amount" content="{{ product.price | money_without_currency | strip_html }}">
+  <meta property="og:price:currency" content="{{ shop.currency }}">
   <script type="application/ld+json">
-    {{ product | structured_data }}
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": {{ product.title | json }},
+      "description": {{ product.description | strip_html | strip_newlines | json }},
+      "url": {{ product_url | json }},
+      {%- if product.featured_image -%}
+        "image": {{ product.featured_image | image_url: width: 1600 | prepend: 'https:' | json }},
+      {%- endif -%}
+      "brand": { "@type": "Brand", "name": {{ site_name | json }} },
+      "category": "Painting",
+      "offers": {
+        "@type": "Offer",
+        "url": {{ product_url | json }},
+        "price": {{ price | json }},
+        "priceCurrency": {{ shop.currency | json }},
+        "availability": {{ availability | json }},
+        "itemCondition": "https://schema.org/NewCondition"
+      }
+    }
   </script>
-
-  <meta
-    property="og:price:amount"
-    content="{{ product.price | money_without_currency | strip_html }}"
-  >
-  <meta
-    property="og:price:currency"
-    content="{{ shop.currency }}"
-  >
 {%- endif -%}
-
-<meta
-  name="twitter:card"
-  content="summary_large_image"
->
-<meta
-  name="twitter:title"
-  content="{{ og_title | escape }}"
->
-<meta
-  name="twitter:description"
-  content="{{ og_description | escape }}"
->
-
-<title>
-  {{ page_title }}
-  {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-  {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-  {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
-</title>
-
-<link
-  rel="canonical"
-  href="{{ canonical_url }}"
->
-
-{% if page_description %}
-  <meta
-    name="description"
-    content="{{ page_description | escape }}"
-  >
-{% endif %}

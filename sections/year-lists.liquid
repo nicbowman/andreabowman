@@ -16,6 +16,10 @@
 
         if block.type == 'group'
           assign entries_from = forloop.index
+          assign next_block = section.blocks[forloop.index]
+          if next_block == blank or next_block.type == 'group'
+            continue
+          endif
         else
           assign entries_from = forloop.index0
         endif

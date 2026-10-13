@@ -16,7 +16,7 @@
             loading: 'lazy',
             alt: image_alt
         }}
-      {%- else -%}
+      {%- elsif request.design_mode -%}
         <span class="visually-hidden">{{ 'general.image_placeholder' | t }}</span>
       {%- endif -%}
     </div>
