@@ -10,6 +10,43 @@
       {%- if section.settings.text != blank -%}
         <div class="rte">{{ section.settings.text }}</div>
       {%- endif -%}
+
+      {%- if section.settings.download_label != blank and section.settings.download_url != blank -%}
+        <a class="button button--secondary enquiry__download" href="{{ section.settings.download_url }}" target="_blank" rel="noopener">
+          {{- section.settings.download_label | escape -}}
+          <span class="visually-hidden"> {{ 'accessibility.new_window' | t }}</span>
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.show_contact_details -%}
+        {%- liquid
+          assign email = settings.contact_email | strip
+          assign whatsapp = settings.whatsapp_number | remove: ' ' | remove: '+' | remove: '-' | remove: '(' | remove: ')'
+        -%}
+        <ul class="enquiry__details" role="list">
+          {%- if email != blank -%}
+            <li>
+              <span class="enquiry__details-label">{{ 'contact.by_email' | t }}</span>
+              <a href="mailto:{{ email }}">{{ email | escape }}</a>
+            </li>
+          {%- endif -%}
+          {%- if whatsapp != blank -%}
+            <li>
+              <span class="enquiry__details-label">{{ 'contact.by_whatsapp' | t }}</span>
+              <a href="https://wa.me/{{ whatsapp }}" target="_blank" rel="noopener">{{ settings.whatsapp_number | escape }}</a>
+            </li>
+          {%- endif -%}
+          {%- if settings.instagram_url != blank -%}
+            <li>
+              <span class="enquiry__details-label">{{ 'contact.on_instagram' | t }}</span>
+              <a href="{{ settings.instagram_url }}" target="_blank" rel="noopener">{{ 'footer.instagram' | t }}</a>
+            </li>
+          {%- endif -%}
+          {%- if section.settings.details_note != blank -%}
+            <li class="enquiry__details-note">{{ section.settings.details_note | escape }}</li>
+          {%- endif -%}
+        </ul>
+      {%- endif -%}
     </div>
 
     {%- form 'contact', id: form_id, class: 'enquiry__form' -%}
@@ -95,13 +132,13 @@
 
           <label class="field" for="{{ form_id }}-timeline">
             {{- 'contact.timeline' | t -}}
-            <input
-              class="field__input"
-              id="{{ form_id }}-timeline"
-              type="text"
-              name="contact[Timeline]"
-              placeholder="{{ 'contact.timeline_placeholder' | t }}"
-            >
+            <select class="field__input" id="{{ form_id }}-timeline" name="contact[Timeline]">
+              <option value="">{{ 'contact.timeline_choose' | t }}</option>
+              <option>{{ 'contact.timeline_month' | t }}</option>
+              <option>{{ 'contact.timeline_quarter' | t }}</option>
+              <option>{{ 'contact.timeline_later' | t }}</option>
+              <option>{{ 'contact.timeline_unsure' | t }}</option>
+            </select>
           </label>
         {%- endif -%}
 
@@ -121,6 +158,7 @@
         </label>
 
         <button class="button enquiry__submit" type="submit">{{ section.settings.submit_label | escape }}</button>
+        {% render 'consent-note' %}
       {%- endif -%}
     {%- endform -%}
   </div>
@@ -168,6 +206,35 @@
     flex: 1 1 240px;
   }
 
+  .enquiry__download {
+    align-self: flex-start;
+  }
+
+  .enquiry__details {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 24px 0 0;
+    border-top: 1px solid var(--color-hairline);
+    list-style: none;
+  }
+
+  .enquiry__details li {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .enquiry__details-label {
+    font-size: var(--text-size-label);
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+  }
+
+  .enquiry__details-note {
+    color: var(--color-ink-soft);
+  }
+
   .enquiry__submit {
     align-self: flex-start;
     padding: 22px 44px;
@@ -193,6 +260,29 @@
       "type": "richtext",
       "id": "text",
       "label": "t:labels.text"
+    },
+    {
+      "type": "text",
+      "id": "download_label",
+      "label": "t:labels.download_label"
+    },
+    {
+      "type": "url",
+      "id": "download_url",
+      "label": "t:labels.download_url",
+      "info": "t:info.download_url"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_contact_details",
+      "label": "t:labels.show_contact_details",
+      "info": "t:info.show_contact_details",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "details_note",
+      "label": "t:labels.details_note"
     },
     {
       "type": "checkbox",
