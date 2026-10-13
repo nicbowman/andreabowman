@@ -46,17 +46,19 @@
 {% stylesheet %}
   .mount {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 100%;
     aspect-ratio: 1 / 1;
+    overflow: hidden;
     background-color: var(--color-mount);
   }
 
   .mount__image {
+    position: absolute;
+    top: 12%;
+    left: 12%;
     width: 76%;
     height: 76%;
+    max-width: none;
     object-fit: contain;
   }
 {% endstylesheet %}
