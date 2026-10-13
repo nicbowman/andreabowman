@@ -1,0 +1,74 @@
+{%- liquid
+  assign entry = section.settings.testimonial
+  unless entry
+    assign entry = metaobjects.testimonial.values | first
+  endunless
+-%}
+
+{%- if entry -%}
+  <section class="section section--oatmeal testimonial">
+    <figure class="page-width testimonial__inner">
+      <blockquote class="testimonial__quote">{{ entry.quote.value | escape | newline_to_br }}</blockquote>
+      <figcaption class="testimonial__cite">
+        {{- entry.name.value | escape -}}
+        {%- if entry.role.value != blank -%}, {{ entry.role.value | escape }}{%- endif -%}
+      </figcaption>
+    </figure>
+  </section>
+{%- elsif request.design_mode -%}
+  <section class="section section--oatmeal testimonial">
+    <p class="page-width text-muted">{{ 'features.empty_testimonial' | t }}</p>
+  </section>
+{%- endif -%}
+
+{% stylesheet %}
+  .testimonial {
+    padding-block: var(--section-space-small);
+  }
+
+  .testimonial__inner {
+    max-width: 900px;
+    margin-block: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    text-align: center;
+  }
+
+  .testimonial__quote {
+    font-size: 30px;
+    line-height: 1.45;
+  }
+
+  .testimonial__cite {
+    font-size: var(--text-size-caption);
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 749px) {
+    .testimonial__quote {
+      font-size: 23px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.testimonial",
+  "settings": [
+    {
+      "type": "metaobject",
+      "id": "testimonial",
+      "metaobject_type": "testimonial",
+      "label": "t:labels.testimonial",
+      "info": "t:info.testimonial"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.testimonial"
+    }
+  ]
+}
+{% endschema %}
