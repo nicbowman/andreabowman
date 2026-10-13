@@ -102,7 +102,10 @@
   },
   "general": {
     "image_placeholder": "Image to be added",
-    "on_this_page": "On this page"
+    "on_this_page": "On this page",
+    "step": "Step {{ number }}",
+    "figure_height": "Figure, 1.7 m",
+    "size_guide_empty": "Add paintings with dimensions to the chosen collection to show them to scale."
   },
   "gift_card": {
     "add_to_apple_wallet": "Add to Apple Wallet",

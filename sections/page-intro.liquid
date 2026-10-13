@@ -1,9 +1,18 @@
-<section class="page-width page-intro">
-  <h1 class="page-intro__heading">{{ section.settings.heading | default: page.title | escape }}</h1>
+{%- liquid
+  assign heading = section.settings.heading | default: page.title
+  assign compact = true
+  if section.settings.show_heading
+    assign compact = false
+  endif
+-%}
+
+<section class="page-width page-intro{% if compact %} page-intro--compact{% endif %}">
+  {%- comment -%} The page is already named in the navigation, so the title is visually hidden unless chosen, but stays for search engines and screen readers {%- endcomment -%}
+  <h1 class="page-intro__heading{% if compact %} visually-hidden{% endif %}">{{ heading | escape }}</h1>
 
   <div class="page-intro__body">
     {%- if section.settings.text != blank -%}
-      <div class="rte">{{ section.settings.text }}</div>
+      <div class="rte page-intro__text">{{ section.settings.text }}</div>
     {%- endif -%}
 
     {%- if section.blocks.size > 0 -%}
@@ -30,8 +39,9 @@
             endif
           -%}
           {%- if has_content -%}
-            <a class="link" href="#{{ block.settings.anchor | handleize }}" {{ block.shopify_attributes }}>
+            <a class="link link--icon" href="#{{ block.settings.anchor | handleize }}" {{ block.shopify_attributes }}>
               {{- block.settings.label | escape -}}
+              {% render 'icon', name: 'arrow-down', class: 'icon--small' %}
             </a>
           {%- endif -%}
         {%- endfor -%}
@@ -68,11 +78,44 @@
     gap: 12px 32px;
   }
 
+  /* Compact: one line of text on the left, the on-this-page links on the right */
+  .page-intro--compact {
+    padding-bottom: calc(var(--page-top) + 8px);
+  }
+
+  .page-intro--compact .page-intro__body {
+    flex-basis: 100%;
+    max-width: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px 48px;
+  }
+
+  .page-intro--compact .page-intro__text {
+    max-width: 760px;
+    font-size: 21px;
+    line-height: 1.6;
+  }
+
+  .page-intro--compact .page-intro__text p {
+    color: var(--color-ink-soft);
+  }
+
   @media (max-width: 749px) {
     .page-intro {
       gap: 20px;
       padding-top: var(--page-top);
       padding-bottom: 28px;
+    }
+
+    .page-intro--compact {
+      padding-bottom: 28px;
+    }
+
+    .page-intro--compact .page-intro__text {
+      font-size: 19px;
     }
   }
 {% endstylesheet %}
@@ -86,6 +129,13 @@
       "id": "heading",
       "label": "t:labels.heading",
       "info": "t:info.page_intro_heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "t:labels.show_heading",
+      "info": "t:info.show_heading",
+      "default": false
     },
     {
       "type": "richtext",

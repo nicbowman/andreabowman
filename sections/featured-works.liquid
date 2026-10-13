@@ -16,7 +16,10 @@
           current_handle: source.handle
         %}
       {%- elsif source and section.settings.view_all_label != blank -%}
-        <a class="link" href="{{ source.url }}">{{ section.settings.view_all_label | escape }}</a>
+        <a class="link link--icon" href="{{ source.url }}">
+        {{- section.settings.view_all_label | escape -}}
+        {% render 'icon', name: 'arrow-right', class: 'icon--small' %}
+      </a>
       {%- endif -%}
     </div>
 

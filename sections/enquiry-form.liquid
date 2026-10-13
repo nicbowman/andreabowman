@@ -25,21 +25,30 @@
         -%}
         <ul class="enquiry__details" role="list">
           {%- if email != blank -%}
-            <li>
-              <span class="enquiry__details-label">{{ 'contact.by_email' | t }}</span>
-              <a href="mailto:{{ email }}">{{ email | escape }}</a>
+            <li class="enquiry__detail">
+              {%- render 'icon', name: 'mail' -%}
+              <span class="enquiry__detail-text">
+                <span class="enquiry__details-label">{{ 'contact.by_email' | t }}</span>
+                <a href="mailto:{{ email }}">{{ email | escape }}</a>
+              </span>
             </li>
           {%- endif -%}
           {%- if whatsapp != blank -%}
-            <li>
-              <span class="enquiry__details-label">{{ 'contact.by_whatsapp' | t }}</span>
-              <a href="https://wa.me/{{ whatsapp }}" target="_blank" rel="noopener">{{ settings.whatsapp_number | escape }}</a>
+            <li class="enquiry__detail">
+              {%- render 'icon', name: 'chat' -%}
+              <span class="enquiry__detail-text">
+                <span class="enquiry__details-label">{{ 'contact.by_whatsapp' | t }}</span>
+                <a href="https://wa.me/{{ whatsapp }}" target="_blank" rel="noopener">{{ settings.whatsapp_number | escape }}</a>
+              </span>
             </li>
           {%- endif -%}
           {%- if settings.instagram_url != blank -%}
-            <li>
-              <span class="enquiry__details-label">{{ 'contact.on_instagram' | t }}</span>
-              <a href="{{ settings.instagram_url }}" target="_blank" rel="noopener">{{ 'footer.instagram' | t }}</a>
+            <li class="enquiry__detail">
+              {%- render 'icon', name: 'instagram' -%}
+              <span class="enquiry__detail-text">
+                <span class="enquiry__details-label">{{ 'contact.on_instagram' | t }}</span>
+                <a href="{{ settings.instagram_url }}" target="_blank" rel="noopener">{{ 'footer.instagram' | t }}</a>
+              </span>
             </li>
           {%- endif -%}
           {%- if section.settings.details_note != blank -%}
@@ -51,7 +60,10 @@
 
     {%- form 'contact', id: form_id, class: 'enquiry__form' -%}
       {%- if form.posted_successfully? -%}
-        <p class="form-message" role="status">{{ section.settings.success_message | escape }}</p>
+        <p class="form-message form-message--success" role="status">
+          {%- render 'icon', name: 'check' -%}
+          <span>{{ section.settings.success_message | escape }}</span>
+        </p>
       {%- else -%}
         {%- if form.errors -%}
           <div class="form-message" role="alert" id="{{ form_id }}-errors">
@@ -224,7 +236,18 @@
     list-style: none;
   }
 
-  .enquiry__details li {
+  .enquiry__detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .enquiry__detail .icon {
+    margin-top: 4px;
+    color: var(--color-muted);
+  }
+
+  .enquiry__detail-text {
     display: flex;
     flex-direction: column;
     gap: 2px;

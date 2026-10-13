@@ -9,24 +9,20 @@
  */
 {
   "sections": {
-    "intro": {
-      "type": "page-intro",
-      "blocks": {
-        "anchor_enquiry": {
-          "type": "anchor",
-          "settings": {
-            "label": "Trade enquiries",
-            "anchor": "trade-enquiry",
-            "content_source": "always"
-          }
-        }
-      },
-      "block_order": [
-        "anchor_enquiry"
-      ],
+    "opening": {
+      "type": "image-with-text",
       "settings": {
-        "heading": "For interior designers",
-        "text": "<p>Paintings can be reserved for residential and hospitality projects. Ask for a trade pack with images, dimensions and pricing.</p>"
+        "image": "shopify://shop_images/ochre-light-room.jpg",
+        "image_ratio": "square",
+        "image_position": "left",
+        "heading": "Original paintings for your projects",
+        "page_heading": true,
+        "text": "<p>Paintings can be reserved for residential and hospitality projects. Ask for a trade pack with images, dimensions and pricing.</p>",
+        "button_label": "Request the trade pack",
+        "button_url": "#trade-enquiry",
+        "link_label": "Browse available works",
+        "link_url": "shopify://collections/available-works",
+        "background": "ivory"
       }
     },
     "offer": {
@@ -35,6 +31,7 @@
         "trade_pack": {
           "type": "column",
           "settings": {
+            "icon": "document",
             "title": "Trade pack",
             "text": "<p>Images, dimensions and pricing for the available works, ready to share with your client.</p>"
           }
@@ -42,6 +39,7 @@
         "reservations": {
           "type": "column",
           "settings": {
+            "icon": "calendar",
             "title": "Reservations",
             "text": "<p>Reserve a painting for a residential or hospitality project while your client decides. Reservations are held for 14 days and can be extended once.</p>"
           }
@@ -49,6 +47,7 @@
         "sizes": {
           "type": "column",
           "settings": {
+            "icon": "ruler",
             "title": "Sizes and commissions",
             "text": "<p>Most paintings are between 80 and 160 cm on the longest side. For larger projects I can paint a commission to suit a particular wall and palette.</p>"
           }
@@ -60,7 +59,20 @@
         "sizes"
       ],
       "settings": {
-        "heading": "What designers get"
+        "heading": "What designers get",
+        "style": "cards",
+        "background": "oatmeal"
+      }
+    },
+    "scale": {
+      "type": "size-guide",
+      "settings": {
+        "heading": "To scale",
+        "text": "<p>The available paintings, drawn to scale beside a 1.7 m figure and hung with their centres at 150 cm, a comfortable height for most rooms.</p>",
+        "collection": "available-works",
+        "items_to_show": 4,
+        "link_label": "View all works",
+        "background": "ivory"
       }
     },
     "how_it_works": {
@@ -69,21 +81,21 @@
         "step_1": {
           "type": "column",
           "settings": {
-            "title": "1. Request the trade pack",
+            "title": "Request the trade pack",
             "text": "<p>Send the form below with a few details about the project, and I'll send the trade pack by email.</p>"
           }
         },
         "step_2": {
           "type": "column",
           "settings": {
-            "title": "2. Reserve for your project",
+            "title": "Reserve for your project",
             "text": "<p>Choose a painting and I'll hold it for 14 days while your client decides. Viewings are by appointment.</p>"
           }
         },
         "step_3": {
           "type": "column",
           "settings": {
-            "title": "3. Delivery and hanging",
+            "title": "Delivery and hanging",
             "text": "<p>Paintings are delivered by insured courier within South Africa, usually within two weeks of payment, ready to hang.</p>"
           }
         }
@@ -94,7 +106,9 @@
         "step_3"
       ],
       "settings": {
-        "heading": "How it works"
+        "heading": "How it works",
+        "style": "steps",
+        "background": "oatmeal"
       }
     },
     "proof": {
@@ -126,8 +140,9 @@
     }
   },
   "order": [
-    "intro",
+    "opening",
     "offer",
+    "scale",
     "how_it_works",
     "proof",
     "enquiry"

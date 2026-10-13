@@ -54,6 +54,7 @@
             aria-label="{{ 'products.zoom' | t: view: product.title | escape }}"
           >
             {% render 'painting-mount', image: full_image, alt: product.title, eager: true, sizes: main_sizes %}
+            <span class="product__zoom-hint">{%- render 'icon', name: 'zoom' -%}</span>
           </a>
         {%- else -%}
           {% render 'painting-mount', image: full_image, alt: product.title, eager: true, sizes: main_sizes %}
@@ -78,6 +79,7 @@
                 loading: 'lazy',
                 alt: detail_alt
             }}
+            <span class="product__zoom-hint">{%- render 'icon', name: 'zoom' -%}</span>
           </a>
         </div>
       {%- endif -%}
@@ -100,6 +102,7 @@
                 loading: 'lazy',
                 alt: room_alt
             }}
+            <span class="product__zoom-hint">{%- render 'icon', name: 'zoom' -%}</span>
           </a>
         </div>
       {%- endif -%}
@@ -250,14 +253,37 @@
           {%- for line in reassurance -%}
             {%- assign clean_line = line | strip -%}
             {%- if clean_line != blank -%}
-              <li>{{ clean_line | escape }}</li>
+              {%- liquid
+                assign key = clean_line | downcase
+                assign line_icon = 'check'
+                if key contains 'certificate' or key contains 'authentic'
+                  assign line_icon = 'certificate'
+                elsif key contains 'payment' or key contains 'pay ' or key contains 'eft'
+                  assign line_icon = 'lock'
+                elsif key contains 'view' or key contains 'appointment' or key contains 'visit'
+                  assign line_icon = 'eye'
+                elsif key contains 'deliver' or key contains 'courier' or key contains 'ship'
+                  assign line_icon = 'truck'
+                elsif key contains 'frame' or key contains 'hang'
+                  assign line_icon = 'frame'
+                elsif key contains 'commission'
+                  assign line_icon = 'palette'
+                endif
+              -%}
+              <li>
+                {%- render 'icon', name: line_icon -%}
+                <span>{{ clean_line | escape }}</span>
+              </li>
             {%- endif -%}
           {%- endfor -%}
         </ul>
       {%- endif -%}
 
       {%- if section.settings.shipping_note != blank -%}
-        <p class="product__shipping">{{ section.settings.shipping_note | escape }}</p>
+        <p class="product__shipping">
+          {%- render 'icon', name: 'truck' -%}
+          <span>{{ section.settings.shipping_note | escape }}</span>
+        </p>
       {%- endif -%}
     {%- endif -%}
 
@@ -271,7 +297,10 @@
 </div>
 
 <dialog class="lightbox" data-lightbox aria-label="{{ 'products.zoom_dialog' | t }}">
-  <button type="button" class="lightbox__close" data-lightbox-close>{{ 'products.zoom_close' | t }}</button>
+  <button type="button" class="lightbox__close" data-lightbox-close>
+    {%- render 'icon', name: 'close' -%}
+    {{- 'products.zoom_close' | t -}}
+  </button>
   <div class="lightbox__stage" data-lightbox-stage></div>
   <p class="lightbox__hint">{{ 'products.zoom_hint' | t }}</p>
 </dialog>
@@ -516,8 +545,27 @@
   }
 
   .product__zoom {
+    position: relative;
     display: block;
     cursor: zoom-in;
+  }
+
+  /* A quiet zoom mark in the corner of the mount, so it is clear the painting can be seen up close */
+  .product__zoom-hint {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    display: flex;
+    padding: 10px;
+    background-color: var(--color-ivory);
+    color: var(--color-ink);
+    opacity: 0.72;
+    transition: opacity var(--dur-fast) var(--ease-fade);
+  }
+
+  .product__zoom:hover .product__zoom-hint,
+  .product__zoom:focus-visible .product__zoom-hint {
+    opacity: 1;
   }
 
   .lightbox {
@@ -571,6 +619,9 @@
   }
 
   .lightbox__close {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     position: absolute;
     top: 16px;
     right: var(--page-gutter);
@@ -736,17 +787,17 @@
     color: var(--color-ink-soft);
   }
 
-  .product__reassurance li {
+  .product__reassurance li,
+  .product__shipping {
     display: flex;
-    gap: 12px;
+    align-items: flex-start;
+    gap: 14px;
   }
 
-  .product__reassurance li::before {
-    content: '';
-    flex: 0 0 14px;
-    height: 1px;
-    margin-top: 0.85em;
-    background-color: var(--color-muted);
+  .product__reassurance .icon,
+  .product__shipping .icon {
+    margin-top: 2px;
+    color: var(--color-muted);
   }
 
   @media (min-width: 990px) {

@@ -66,7 +66,10 @@
         <p class="hero__caption hero__caption--{{ caption_colour }}">
           <span>{{ caption | escape }}</span>
           {%- if link != blank -%}
-            <a class="hero__link" href="{{ link }}">{{ section.settings.link_label | escape }}</a>
+            <a class="hero__link" href="{{ link }}">
+              {{- section.settings.link_label | escape -}}
+              {% render 'icon', name: 'arrow-right', class: 'icon--small' %}
+            </a>
           {%- endif -%}
         </p>
       {%- endif -%}
@@ -150,7 +153,19 @@
   }
 
   .hero__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     text-underline-offset: 4px;
+  }
+
+  .hero__link .icon {
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .hero__link:hover .icon,
+  .hero__link:focus-visible .icon {
+    transform: translateX(4px);
   }
 
   @media (max-width: 989px) {

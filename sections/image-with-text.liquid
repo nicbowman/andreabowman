@@ -3,7 +3,18 @@
   assign image_alt = image.alt | default: section.settings.heading | escape
 -%}
 
-<section class="image-text image-text--{{ section.settings.background }}">
+{%- liquid
+  assign heading_tag = 'h2'
+  if section.settings.page_heading
+    assign heading_tag = 'h1'
+  endif
+  assign loading = 'lazy'
+  if section.settings.page_heading
+    assign loading = 'eager'
+  endif
+-%}
+
+<section class="image-text image-text--{{ section.settings.background }}{% if section.settings.page_heading %} image-text--page-top{% endif %}">
   <div class="page-width image-text__inner{% if section.settings.image_position == 'right' %} image-text__inner--reverse{% endif %}">
     <div class="image-text__media image-text__media--{{ section.settings.image_ratio }}">
       {%- if image -%}
@@ -13,7 +24,7 @@
           | image_tag:
             widths: '500, 750, 1000, 1300, 1600, 2000',
             sizes: '(min-width: 1320px) 680px, (min-width: 990px) 55vw, 100vw',
-            loading: 'lazy',
+            loading: loading,
             alt: image_alt
         }}
       {%- elsif request.design_mode -%}
@@ -23,13 +34,33 @@
 
     <div class="image-text__content">
       {%- if section.settings.heading != blank -%}
-        <h2 class="image-text__heading">{{ section.settings.heading | escape }}</h2>
+        <{{ heading_tag }} class="image-text__heading">{{ section.settings.heading | escape }}</{{ heading_tag }}>
       {%- endif -%}
       {%- if section.settings.text != blank -%}
         <div class="rte">{{ section.settings.text }}</div>
       {%- endif -%}
-      {%- if section.settings.button_label != blank and section.settings.button_url != blank -%}
-        <a class="button image-text__button" href="{{ section.settings.button_url }}">{{ section.settings.button_label | escape }}</a>
+      {%- liquid
+        assign has_button = false
+        if section.settings.button_label != blank and section.settings.button_url != blank
+          assign has_button = true
+        endif
+        assign has_link = false
+        if section.settings.link_label != blank and section.settings.link_url != blank
+          assign has_link = true
+        endif
+      -%}
+      {%- if has_button or has_link -%}
+        <div class="image-text__actions">
+          {%- if has_button -%}
+            <a class="button image-text__button" href="{{ section.settings.button_url }}">{{ section.settings.button_label | escape }}</a>
+          {%- endif -%}
+          {%- if has_link -%}
+            <a class="link link--icon" href="{{ section.settings.link_url }}">
+              {{- section.settings.link_label | escape -}}
+              {% render 'icon', name: 'arrow-right', class: 'icon--small' %}
+            </a>
+          {%- endif -%}
+        </div>
       {%- endif -%}
     </div>
   </div>
@@ -92,8 +123,29 @@
     line-height: 1.25;
   }
 
-  .image-text__button {
-    align-self: flex-start;
+  .image-text__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px 36px;
+    padding-top: 8px;
+  }
+
+  /* Opening a page: starts just below the header, and the image never grows taller than the screen allows */
+  .image-text--page-top .image-text__inner {
+    padding-top: var(--page-top);
+  }
+
+  .image-text--page-top .image-text__media {
+    max-width: calc((100svh - var(--header-height) - var(--page-top) - 40px) * var(--media-ratio, 1));
+  }
+
+  .image-text--page-top .image-text__media--landscape {
+    --media-ratio: 1.333;
+  }
+
+  .image-text--page-top .image-text__media--portrait {
+    --media-ratio: 0.8;
   }
 
   @media (max-width: 749px) {
@@ -142,6 +194,13 @@
       "default": "Heading"
     },
     {
+      "type": "checkbox",
+      "id": "page_heading",
+      "label": "t:labels.page_heading",
+      "info": "t:info.page_heading",
+      "default": false
+    },
+    {
       "type": "richtext",
       "id": "text",
       "label": "t:labels.text",
@@ -156,6 +215,16 @@
       "type": "url",
       "id": "button_url",
       "label": "t:labels.button_url"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "t:labels.link_label"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "t:labels.link_url"
     },
     {
       "type": "select",

@@ -242,6 +242,62 @@ a:hover {
   transform: scaleX(1);
 }
 
+/* Line icons (snippets/icon.liquid): thin strokes that match Jost Light, always beside text */
+
+.icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon--small {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.4;
+}
+
+.icon--large {
+  width: 32px;
+  height: 32px;
+  stroke-width: 1;
+}
+
+/* A text link followed by an icon: the underline runs under the words only, and the arrow eases forward on hover */
+.link--icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.link--icon::before,
+.link--icon::after {
+  right: calc(16px + 10px);
+}
+
+.link--icon .icon {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.link--icon:hover .icon--arrow-right,
+.link--icon:focus-visible .icon--arrow-right {
+  transform: translateX(4px);
+}
+
+.link--icon:hover .icon--arrow-down,
+.link--icon:focus-visible .icon--arrow-down {
+  transform: translateY(3px);
+}
+
+.link--icon:hover .icon--arrow-up-right,
+.link--icon:focus-visible .icon--arrow-up-right {
+  transform: translate(3px, -3px);
+}
+
 /* Focus: 1px ink outline, offset 4px */
 
 :focus-visible {
@@ -283,6 +339,12 @@ a:hover {
 
 .feature-list {
   padding-bottom: var(--section-space);
+}
+
+/* Sections on ivory that only pad their foot rely on the ivory section above for space.
+   After an oatmeal band they need their own space above, or the heading sits on the band's edge. */
+.shopify-section:has(> [class*='--oatmeal']) + .shopify-section > :is(.feature-list, .year-lists, .featured-works, .columns--ivory, .size-guide--ivory) {
+  padding-top: var(--section-space);
 }
 
 /* Captions under photos: name, then muted detail */
@@ -440,6 +502,17 @@ select.field__input {
   padding: 16px 0;
   border-top: 1px solid var(--color-hairline);
   border-bottom: 1px solid var(--color-hairline);
+}
+
+.form-message--success {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.form-message--success .icon {
+  margin-top: 1px;
+  color: var(--color-moss);
 }
 
 .form-message ul {
@@ -700,6 +773,10 @@ html:has(.site-header__drawer[open]) {
   .fade-image,
   .mount__image {
     opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .link--icon .icon {
     transform: none !important;
   }
 

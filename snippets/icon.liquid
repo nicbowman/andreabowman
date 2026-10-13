@@ -1,0 +1,71 @@
+{% doc %}
+  Renders one line icon from the theme's own set: thin 1.25px strokes in the current text colour.
+  Icons are decorative (aria-hidden), so the text beside them must carry the meaning.
+
+  @param {string} name - Icon name: arrow-right, arrow-left, arrow-down, arrow-up-right, close, zoom, check,
+    mail, phone, chat, instagram, document, calendar, ruler, truck, frame, certificate, eye, lock, palette, home, pin
+  @param {string} [class] - Extra class names
+
+  @example
+  {% render 'icon', name: 'arrow-right' %}
+{% enddoc %}
+
+{%- capture paths -%}
+  {%- case name -%}
+    {%- when 'arrow-right' -%}
+      <path d="M4 12h15.5M14 6.5l5.5 5.5-5.5 5.5"/>
+    {%- when 'arrow-left' -%}
+      <path d="M20 12H4.5M10 6.5 4.5 12l5.5 5.5"/>
+    {%- when 'arrow-down' -%}
+      <path d="M12 4v15.5M6.5 14l5.5 5.5 5.5-5.5"/>
+    {%- when 'arrow-up-right' -%}
+      <path d="M6.5 17.5 17.5 6.5M8.5 6.5h9v9"/>
+    {%- when 'close' -%}
+      <path d="m5.5 5.5 13 13M18.5 5.5l-13 13"/>
+    {%- when 'zoom' -%}
+      <circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.2 15.2 5.3 5.3M10.5 7.75v5.5M7.75 10.5h5.5"/>
+    {%- when 'check' -%}
+      <path d="m4.5 12.5 4.75 4.75L19.5 7"/>
+    {%- when 'mail' -%}
+      <path d="M3 5.5h18v13H3z"/><path d="m3.5 6 8.5 7 8.5-7"/>
+    {%- when 'phone' -%}
+      <path d="M7 2.75h10v18.5H7z"/><path d="M10.75 18h2.5"/>
+    {%- when 'chat' -%}
+      <path d="M20.25 11.5a8.25 8.25 0 0 1-12.1 7.3L3.75 20.25l1.45-4.2a8.25 8.25 0 1 1 15.05-4.55z"/>
+    {%- when 'instagram' -%}
+      <rect x="3.5" y="3.5" width="17" height="17" rx="4.75"/><circle cx="12" cy="12" r="4"/><circle cx="17.1" cy="6.9" r=".6" fill="currentColor" stroke="none"/>
+    {%- when 'document' -%}
+      <path d="M5.75 2.75h8.5l4 4v14.5H5.75z"/><path d="M14.25 2.75v4h4M8.75 11.5h6.5M8.75 14.75h6.5M8.75 18h4"/>
+    {%- when 'calendar' -%}
+      <path d="M3.5 5.25h17v15.5h-17zM3.5 9.75h17M8 2.75v4.5M16 2.75v4.5"/><path d="m9 15 2 2 4-4"/>
+    {%- when 'ruler' -%}
+      <path d="M2.75 8.25h18.5v7.5H2.75z"/><path d="M6.5 8.25v3M10.25 8.25v4.5M14 8.25v3M17.75 8.25v4.5"/>
+    {%- when 'truck' -%}
+      <path d="M2.75 5.75h11v10.5h-11zM13.75 9.25h4l3.5 3.75v3.25h-7.5"/><circle cx="7" cy="17.75" r="1.75"/><circle cx="17.25" cy="17.75" r="1.75"/>
+    {%- when 'frame' -%}
+      <path d="m7.5 8.25 4.5-4.5 4.5 4.5M3.75 8.25h16.5v12.5H3.75z"/><path d="M7.25 11.75h9.5v5.5h-9.5z"/>
+    {%- when 'certificate' -%}
+      <circle cx="12" cy="9.25" r="5.75"/><path d="m8.75 14 -1.5 6.75 4.75-2.25 4.75 2.25-1.5-6.75"/>
+    {%- when 'eye' -%}
+      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.75"/>
+    {%- when 'lock' -%}
+      <path d="M5 10.5h14v10.25H5z"/><path d="M8 10.5V7.75a4 4 0 0 1 8 0v2.75"/>
+    {%- when 'palette' -%}
+      <path d="M12 3.25a8.75 8.75 0 1 0 0 17.5c1.2 0 1.85-.8 1.85-1.75 0-1.45-1.35-1.6-1.35-2.95 0-1 .8-1.65 1.85-1.65h2.15a4.25 4.25 0 0 0 4.25-4.25c0-3.8-3.9-6.9-8.75-6.9z"/><circle cx="7.6" cy="11.5" r=".9"/><circle cx="9.6" cy="7.6" r=".9"/><circle cx="14.2" cy="7.2" r=".9"/>
+    {%- when 'home' -%}
+      <path d="M3.25 11 12 3.75 20.75 11M5.75 9.25v11.5h12.5V9.25M10 20.75v-6h4v6"/>
+    {%- when 'pin' -%}
+      <path d="M12 21s-6.5-6.15-6.5-11a6.5 6.5 0 0 1 13 0c0 4.85-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.25"/>
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- if paths != blank -%}
+  <svg
+    class="icon icon--{{ name }}{% if class %} {{ class }}{% endif %}"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    focusable="false"
+  >
+    {{- paths -}}
+  </svg>
+{%- endif -%}
