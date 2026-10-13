@@ -1,0 +1,63 @@
+{% doc %}
+  Renders the Available / Sold tabs that link to the two works collections.
+  The tab for the current collection is underlined and marked as the current page.
+
+  @param {collection} [available] - Collection for available paintings
+  @param {collection} [sold] - Collection for sold paintings
+  @param {string} [current_handle] - Handle of the collection being shown, to mark its tab
+
+  @example
+  {% render 'works-tabs', available: section.settings.available_collection, sold: section.settings.sold_collection, current_handle: collection.handle %}
+{% enddoc %}
+
+{%- if available or sold -%}
+  <nav class="works-tabs" aria-label="{{ 'collections.tabs_label' | t }}">
+    {%- if available -%}
+      <a
+        class="works-tabs__link"
+        href="{{ available.url }}"
+        {% if current_handle == available.handle %}
+          aria-current="page"
+        {% endif %}
+      >
+        {{- 'collections.tab_available' | t -}}
+      </a>
+    {%- endif -%}
+    {%- if sold -%}
+      <a
+        class="works-tabs__link"
+        href="{{ sold.url }}"
+        {% if current_handle == sold.handle %}
+          aria-current="page"
+        {% endif %}
+      >
+        {{- 'collections.tab_sold' | t -}}
+      </a>
+    {%- endif -%}
+  </nav>
+{%- endif -%}
+
+{% stylesheet %}
+  .works-tabs {
+    display: flex;
+    gap: 32px;
+    font-size: var(--text-size-caption);
+    letter-spacing: 0.06em;
+  }
+
+  .works-tabs__link {
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .works-tabs__link[aria-current] {
+    border-bottom-color: var(--color-ink);
+    color: var(--color-ink);
+  }
+
+  .works-tabs__link:hover {
+    color: var(--color-moss);
+  }
+{% endstylesheet %}
