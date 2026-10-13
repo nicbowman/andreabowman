@@ -31,7 +31,7 @@
                     <a href="{{ painting.url }}">{{ painting.title | escape }}</a>.
                   {%- endif -%}
                   {%- if designer != blank -%}
-                    {%- if painting %} {% endif -%}
+                    {%- if painting -%}{{ ' ' }}{%- endif -%}
                     {{- 'features.interiors_by' | t: designer: designer -}}
                   {%- endif -%}
                 </span>
