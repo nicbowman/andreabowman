@@ -2,7 +2,20 @@
   assign source = section.settings.collection
   assign limit = section.settings.products_to_show
   assign minimum = section.settings.minimum_to_show
-  assign count = source.products_count | default: 0
+
+  # Count only products of the chosen kind, so a mixed collection never mixes paintings and candles.
+  assign kind = section.settings.kind
+  assign count = 0
+  for item in source.products limit: 50
+    assign item_type = item.type | downcase
+    assign item_kind = 'painting'
+    if item_type == 'candle'
+      assign item_kind = 'candle'
+    endif
+    if item_kind == kind
+      assign count = count | plus: 1
+    endif
+  endfor
 -%}
 
 {%- if count >= minimum or request.design_mode -%}
@@ -25,7 +38,22 @@
 
     {%- if count > 0 -%}
       <ul class="product-grid" role="list">
-        {%- for product in source.products limit: limit -%}
+        {%- assign shown = 0 -%}
+        {%- for product in source.products limit: 50 -%}
+          {%- liquid
+            if shown >= limit
+              break
+            endif
+            assign item_type = product.type | downcase
+            assign item_kind = 'painting'
+            if item_type == 'candle'
+              assign item_kind = 'candle'
+            endif
+            if item_kind != kind
+              continue
+            endif
+            assign shown = shown | plus: 1
+          -%}
           <li>{% render 'product-card', product: product %}</li>
         {%- endfor -%}
       </ul>
@@ -56,6 +84,17 @@
       "id": "collection",
       "label": "t:labels.collection",
       "info": "t:info.featured_collection"
+    },
+    {
+      "type": "select",
+      "id": "kind",
+      "label": "t:labels.kind",
+      "info": "t:info.kind",
+      "options": [
+        { "value": "painting", "label": "t:options.kind.painting" },
+        { "value": "candle", "label": "t:options.kind.candle" }
+      ],
+      "default": "painting"
     },
     {
       "type": "range",

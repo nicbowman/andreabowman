@@ -119,6 +119,7 @@
     "menu": "Menu"
   },
   "meta": {
+    "candle_title": "{{ title }}, candle by {{ artist }}",
     "page": "Page {{ page }}",
     "painting_title": "{{ title }}, original abstract painting by {{ artist }}"
   },
@@ -148,12 +149,14 @@
     },
     "framing": "Framing",
     "medium": "Medium",
+    "price_from": "From {{ price }}",
     "reserve": "Reserve for a design project",
     "reserve_message": "I would like to reserve this painting for a design project.",
     "scale_caption": "To scale beside a 1.7 m figure",
     "scale_label": "{{ title }}, {{ dimensions }}, drawn to scale beside a 1.7 m figure",
     "signature": "Signed",
     "sold": "Sold",
+    "sold_out": "Sold out",
     "view_all": "View all",
     "view_detail": "Surface detail",
     "view_full": "Full view",
