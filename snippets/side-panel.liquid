@@ -53,9 +53,22 @@
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     var opener = null;
 
+    /* After a send, show the form again (name, email and phone kept, message cleared) */
+    function showFields(scope) {
+      var sent = scope.querySelector('[data-form-sent]');
+      var fields = scope.querySelector('[data-form-fields]');
+      if (!sent || !fields || !fields.hidden) return;
+      sent.hidden = true;
+      fields.hidden = false;
+      var message = fields.querySelector('textarea');
+      if (message) message.value = '';
+    }
+
     function openPanel(panel, trigger) {
       if (!panel || typeof panel.showModal !== 'function') return false;
       if (panel.open) return true;
+      /* Opened by the visitor (not the reopen after a send): start with a fresh form */
+      if (trigger) showFields(panel);
       opener = trigger || document.activeElement;
       var drawer = document.querySelector('.site-header__drawer[open]');
       if (drawer) drawer.removeAttribute('open');
@@ -97,6 +110,15 @@
       var trigger = event.target.closest('[data-side-panel-open]');
       if (trigger) {
         if (openPanel(document.getElementById(trigger.getAttribute('data-side-panel-open')), trigger)) event.preventDefault();
+        return;
+      }
+
+      var again = event.target.closest('[data-form-again]');
+      if (again) {
+        var scope = again.closest('form') || document;
+        showFields(scope);
+        var first = scope.querySelector('[data-form-fields] input:not([type="hidden"]), [data-form-fields] textarea');
+        if (first) first.focus();
         return;
       }
 
@@ -145,6 +167,14 @@
         waiting[0] ||
         (hash && document.querySelector('[data-side-panel]#' + CSS.escape(hash)));
       if (panel) openPanel(panel);
+
+      /* Tidy the address bar, so a refresh does not reopen the thank-you */
+      if (window.location.search.indexOf('contact_posted') !== -1) {
+        var url = new URL(window.location.href);
+        url.searchParams.delete('contact_posted');
+        url.hash = '';
+        window.history.replaceState(window.history.state, '', url);
+      }
     }
 
     if (document.readyState === 'loading') {

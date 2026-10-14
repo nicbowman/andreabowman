@@ -83,11 +83,15 @@
         {%- assign enquiry_open = true -%}
       {%- endif -%}
       {%- if form.posted_successfully? -%}
+        <div class="form-sent" data-form-sent>
         <p class="form-message form-message--success" role="status">
           {%- render 'icon', name: 'check' -%}
           <span>{{ 'products.enquiry.success' | t }}</span>
         </p>
-      {%- else -%}
+          <button type="button" class="form-sent__again" data-form-again>{{ 'contact.send_another' | t }}</button>
+        </div>
+      {%- endif -%}
+      <div class="form-fields" data-form-fields{% if form.posted_successfully? %} hidden{% endif %}>
         {%- if form.errors -%}
           <div class="form-message" role="alert" id="ProductEnquiryErrors">
             {{ form.errors | default_errors }}
@@ -212,13 +216,13 @@
             rows="3"
             placeholder="{{ message_placeholder | escape }}"
           >
-            {{- form.body -}}
+            {%- unless form.posted_successfully? -%}{{- form.body -}}{%- endunless -%}
           </textarea>
         </label>
 
         <button class="button product-enquiry__submit" type="submit">{{ 'products.enquiry.submit' | t }}</button>
         {% render 'consent-note' %}
-      {%- endif -%}
+      </div>
     {%- endform -%}
 {%- endcapture -%}
 
