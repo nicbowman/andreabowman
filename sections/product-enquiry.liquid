@@ -225,33 +225,6 @@
 {% render 'side-panel', id: 'enquire', title: heading, content: panel_body, form_id: 'ProductEnquiry', open: enquiry_open %}
 
 {% stylesheet %}
-  .enquiry-summary {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-  }
-
-  .enquiry-summary__image {
-    flex: 0 0 72px;
-    width: 72px;
-  }
-
-  .enquiry-summary__text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-  }
-
-  .enquiry-summary__title {
-    font-weight: var(--font-weight-regular);
-  }
-
-  .enquiry-summary__meta {
-    font-size: var(--text-size-small);
-    color: var(--color-muted);
-  }
-
   .product-enquiry__text p {
     color: var(--color-ink-soft);
     font-size: var(--text-size-small);

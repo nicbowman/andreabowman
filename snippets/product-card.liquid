@@ -57,6 +57,35 @@
   endif
 -%}
 
+{%- liquid
+  # Enquire now opens the contact panel, pre-filled with this product (see sections/contact-panel.liquid).
+  if is_sold
+    assign enquire_label = 'products.card_enquire_sold' | t
+    assign enquire_heading = 'contact.panel_heading_similar' | t
+    assign enquire_item = 'products.enquiry.sold_painting' | t: title: product.title
+    assign enquire_meta = 'products.sold' | t
+    if is_candle
+      assign enquire_item = 'products.enquiry.sold_candle' | t: title: product.title
+      assign enquire_meta = 'products.sold_out' | t
+    endif
+  else
+    assign enquire_label = 'products.card_enquire' | t
+    assign enquire_heading = 'contact.panel_heading_painting' | t
+    if is_candle
+      assign enquire_heading = 'contact.panel_heading_candle' | t
+    endif
+    assign enquire_price = product.price | money_without_trailing_zeros | strip_html
+    if is_candle and product.price_varies
+      assign enquire_price = product.price_min | money_without_trailing_zeros | strip_html
+      assign enquire_price = 'products.price_from' | t: price: enquire_price
+    endif
+    assign enquire_item = product.title | append: ', ' | append: enquire_price
+    assign enquire_meta = enquire_price
+  endif
+  assign enquire_image = product.featured_image | image_url: width: 192
+-%}
+
+<div class="card-shell">
 <a class="card" href="{{ product.url }}">
   {% render 'painting-mount', image: card_image, alt: product.title, eager: eager, sizes: sizes, cover: card_cover %}
 
@@ -80,6 +109,35 @@
     {%- endif -%}
   </div>
 </a>
+
+  {%- comment -%}
+    Over the image on hover or keyboard focus; a quiet row under the card on touch screens.
+    Without the contact panel on the page, Enquire falls back to the product page.
+  {%- endcomment -%}
+  <div class="card__actions">
+    <a
+      class="button card__action"
+      href="{{ product.url }}#enquire"
+      data-card-enquire
+      data-side-panel-open="contact-panel"
+      data-enquire-heading="{{ enquire_heading | escape }}"
+      data-enquire-title="{{ product.title | escape }}"
+      data-enquire-item="{{ enquire_item | escape }}"
+      data-enquire-meta="{{ enquire_meta | escape }}"
+      data-enquire-image="{{ enquire_image }}"
+      aria-label="{{ 'products.card_enquire_label' | t: title: product.title | escape }}"
+    >
+      {{- enquire_label -}}
+    </a>
+    <a
+      class="button button--secondary card__action"
+      href="{{ product.url }}"
+      aria-label="{{ 'products.card_more_label' | t: title: product.title | escape }}"
+    >
+      {{- 'products.card_more' | t -}}
+    </a>
+  </div>
+</div>
 
 {% stylesheet %}
   .product-grid {
@@ -158,19 +216,96 @@
       opacity var(--dur-base) var(--ease-out);
   }
 
-  .card:hover .card__title,
-  .card:focus-visible .card__title {
+  .card-shell:hover .card__title,
+  .card-shell:focus-within .card__title {
     color: var(--color-moss);
   }
 
-  .card:hover .card__title::after,
-  .card:focus-visible .card__title::after {
+  .card-shell:hover .card__title::after,
+  .card-shell:focus-within .card__title::after {
     transform: scaleX(1);
   }
 
-  .card:hover .mount__image,
-  .card:focus-visible .mount__image {
+  .card-shell:hover .mount__image,
+  .card-shell:focus-within .mount__image {
     transform: scale(1.02);
+  }
+
+  .card-shell {
+    position: relative;
+  }
+
+  /* Enquire now and See more: over the image on hover or keyboard focus */
+  .card__actions {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10px;
+    padding: 20px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity var(--dur-base) var(--ease-fade),
+      transform var(--dur-base) var(--ease-out);
+  }
+
+  .card-shell:hover .card__actions,
+  .card-shell:focus-within .card__actions {
+    opacity: 1;
+    transform: none;
+  }
+
+  .card__action {
+    flex: 1 1 0;
+    max-width: 180px;
+    padding: 15px 12px;
+    font-size: 12px;
+    text-align: center;
+    pointer-events: auto;
+  }
+
+  .card__action.button--secondary {
+    background-color: var(--color-ivory);
+    border-color: var(--color-ivory);
+  }
+
+  .card__action.button--secondary:hover {
+    background-color: var(--color-ivory);
+    border-color: var(--color-moss);
+    color: var(--color-moss);
+  }
+
+  /* Touch screens have no hover: show the two actions as a quiet text row under the card */
+  @media (hover: none) {
+    .card__actions {
+      position: static;
+      aspect-ratio: auto;
+      justify-content: flex-start;
+      gap: 24px;
+      padding: 12px 0 0;
+      pointer-events: auto;
+      opacity: 1;
+      transform: none;
+    }
+
+    .card__action,
+    .card__action.button--secondary {
+      flex: 0 0 auto;
+      padding: 0 0 2px;
+      border: 0;
+      border-bottom: 1px solid currentColor;
+      background: none;
+      color: var(--color-ink);
+      font-size: var(--text-size-caption);
+      letter-spacing: 0.06em;
+      text-transform: none;
+    }
   }
 
   .card__meta {

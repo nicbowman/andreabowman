@@ -114,7 +114,18 @@
       }
 
       var link = event.target.closest('a[href]');
-      var contact = link && contactPanelFor(link);
+      if (!link) return;
+
+      /* A link to #<panel id> on this page opens that panel */
+      if (link.hash && link.pathname === window.location.pathname) {
+        var target = document.getElementById(link.hash.slice(1));
+        if (target && target.matches('[data-side-panel]')) {
+          if (openPanel(target, link)) event.preventDefault();
+          return;
+        }
+      }
+
+      var contact = contactPanelFor(link);
       if (contact && openPanel(contact, link)) event.preventDefault();
     });
 
@@ -245,6 +256,38 @@
     display: flex;
     flex-direction: column;
     gap: 28px;
+  }
+
+  /* The painting or candle an enquiry is about, at the top of the panel */
+  .enquiry-summary {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .enquiry-summary[hidden] {
+    display: none;
+  }
+
+  .enquiry-summary__image {
+    flex: 0 0 72px;
+    width: 72px;
+  }
+
+  .enquiry-summary__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .enquiry-summary__title {
+    font-weight: var(--font-weight-regular);
+  }
+
+  .enquiry-summary__meta {
+    font-size: var(--text-size-small);
+    color: var(--color-muted);
   }
 
   /* Forms inside a panel: one column, slightly tighter than on a page */

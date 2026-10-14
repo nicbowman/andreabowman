@@ -57,6 +57,7 @@ Every painting and candle, everywhere on the site, is displayed the same size so
 
 ## Enquiry only: remove all commerce
 - No cart icon, cart page link, cart drawer, quantity selector, add to cart, buy now, dynamic checkout buttons or quick-add anywhere.
+- **Card actions:** every product card shows "Enquire now" (opens the contact panel pre-filled with the product: heading, thumbnail, title, price, sent as `contact[Enquiring about]`) and "See more" (the product page). Over the image on hover or keyboard focus (fade and 8px rise over `--dur-base`); a quiet text row under the card on touch screens. Sold work shows "Ask about similar work".
 - Product page primary button: "ENQUIRE ABOUT THIS PAINTING", opens the enquiry side panel (`#enquire`).
 - Secondary button: "RESERVE FOR A DESIGN PROJECT", same panel with the message pre-filled with "I would like to reserve this painting for a design project."
 - **Side panels** (`snippets/side-panel.liquid`): enquiry and contact forms open in a modal dialog from the right (480px, full screen on mobile), with a painting summary at the top for product enquiries. Escape, Close and a click outside close it; focus stays inside and returns to the trigger. After posting, the panel reopens to show the thank-you or errors. Without JS, a link to the panel's #id still shows it. The product enquiry section renders as this panel (no form band on the page). A Contact panel section in the footer group opens from any link to the contact page (menu Contact), except on the contact page itself.
@@ -104,6 +105,8 @@ The Features page sections read these metaobjects. Each section also has theme e
 5. **My story** (`templates/page.about.json`): portrait (4:5) with title and opening paragraphs; How I work on oatmeal (narrow column, rich text, pull quote); In the studio (3 square images with captions); Background (exhibitions, collections, training lists, editable as blocks); closing call to action.
 6. **For interior designers** (`templates/page.designers.json`): intro, what designers get (trade pack, reservations, sizes), and a contact form with fields for studio name, project and timeline.
 7. **Contact** (`templates/page.contact.json`): simple contact form in the same style.
+
+The `enquiry-form` section has a "Show the form" setting: on the page (Contact) or in a side panel (For designers). In a panel, the page keeps a slim band with heading, text and a button, and links to the section anchor (e.g. `#trade-enquiry`) open the panel.
 
 Navigation (from the admin menu, max 6 items): Art, Candles, Features, My story, For designers, Contact. Below 900px the menu toggle replaces the links. Active page shows a 1px underline.
 
