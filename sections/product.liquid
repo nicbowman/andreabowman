@@ -1,7 +1,17 @@
 {%- liquid
+  # A product is a candle when its product type is "Candle", otherwise a painting.
+  # A painting is sold when tagged "sold"; a candle is sold out when tagged "sold" or out of stock.
+  assign product_type = product.type | downcase
+  assign is_candle = false
+  if product_type == 'candle'
+    assign is_candle = true
+  endif
+
   assign tags_lower = product.tags | join: '|' | downcase | split: '|'
   assign is_sold = false
   if tags_lower contains 'sold'
+    assign is_sold = true
+  elsif is_candle and product.available == false
     assign is_sold = true
   endif
 
@@ -15,13 +25,26 @@
   assign detail_image = product.images[1]
   assign room_image = product.metafields.custom.in_room_image.value
   assign year = product.metafields.custom.year.value
+  assign variant = product.selected_or_first_available_variant
 
+  # Paintings: full view, surface detail, in a room. Candles: product images plus the in-room image, four views at most.
   assign view_count = 0
-  if full_image
-    assign view_count = view_count | plus: 1
-  endif
-  if detail_image
-    assign view_count = view_count | plus: 1
+  if is_candle
+    assign candle_images = 4
+    if room_image
+      assign candle_images = 3
+    endif
+    assign view_count = product.images.size
+    if view_count > candle_images
+      assign view_count = candle_images
+    endif
+  else
+    if full_image
+      assign view_count = view_count | plus: 1
+    endif
+    if detail_image
+      assign view_count = view_count | plus: 1
+    endif
   endif
   if room_image
     assign view_count = view_count | plus: 1
@@ -43,126 +66,86 @@
 
 <div class="page-width product">
   <div class="product__gallery" data-gallery>
+    {%- liquid
+      assign full_id = 'ProductView-full-' | append: section.id
+      assign detail_id = 'ProductView-detail-' | append: section.id
+      assign room_id = 'ProductView-room-' | append: section.id
+      assign label_full = 'products.view_full' | t
+      assign label_detail = 'products.view_detail' | t
+      assign label_room = 'products.view_in_room' | t
+    -%}
     <div class="product__stage">
-      <div id="ProductView-full-{{ section.id }}" class="product__view is-active">
-        {%- if full_image -%}
-          <a
-            class="product__zoom"
-            href="{{ full_image | image_url: width: 2400 }}"
-            data-zoom
-            data-zoom-alt="{{ product.title | escape }}"
-            aria-label="{{ 'products.zoom' | t: view: product.title | escape }}"
-          >
-            {% render 'painting-mount', image: full_image, alt: product.title, eager: true, sizes: main_sizes %}
-            <span class="product__zoom-hint">{%- render 'icon', name: 'zoom' -%}</span>
-          </a>
+      {%- if is_candle -%}
+        {%- comment -%} Candles: the first image in the mount; further images and the in-room image fill a square frame {%- endcomment -%}
+        {%- for image in product.images limit: candle_images -%}
+          {%- liquid
+            assign view_id = 'ProductView-image-' | append: forloop.index | append: '-' | append: section.id
+            assign view_alt = image.alt | default: product.title
+          -%}
+          {% render 'product-view',
+            image: image,
+            id: view_id,
+            alt: view_alt,
+            mounted: forloop.first,
+            active: forloop.first,
+            sizes: main_sizes
+          %}
         {%- else -%}
-          {% render 'painting-mount', image: full_image, alt: product.title, eager: true, sizes: main_sizes %}
+          {% render 'product-view', id: full_id, alt: product.title, mounted: true, active: true, sizes: main_sizes %}
+        {%- endfor -%}
+      {%- else -%}
+        {% render 'product-view', image: full_image, id: full_id, alt: product.title, mounted: true, active: true, sizes: main_sizes %}
+        {%- if detail_image -%}
+          {% render 'product-view', image: detail_image, id: detail_id, alt: detail_alt, sizes: main_sizes %}
         {%- endif -%}
-      </div>
-
-      {%- if detail_image -%}
-        <div id="ProductView-detail-{{ section.id }}" class="product__view" hidden>
-          <a
-            class="product__zoom product__frame"
-            href="{{ detail_image | image_url: width: 2400 }}"
-            data-zoom
-            data-zoom-alt="{{ detail_alt | escape }}"
-            aria-label="{{ 'products.zoom' | t: view: detail_alt | escape }}"
-          >
-            {{
-              detail_image
-              | image_url: width: 2000
-              | image_tag:
-                widths: '400, 600, 800, 1000, 1200, 1500, 2000',
-                sizes: main_sizes,
-                loading: 'lazy',
-                alt: detail_alt
-            }}
-            <span class="product__zoom-hint">{%- render 'icon', name: 'zoom' -%}</span>
-          </a>
-        </div>
       {%- endif -%}
 
       {%- if room_image -%}
-        <div id="ProductView-room-{{ section.id }}" class="product__view" hidden>
-          <a
-            class="product__zoom product__frame"
-            href="{{ room_image | image_url: width: 2400 }}"
-            data-zoom
-            data-zoom-alt="{{ room_alt | escape }}"
-            aria-label="{{ 'products.zoom' | t: view: room_alt | escape }}"
-          >
-            {{
-              room_image
-              | image_url: width: 2000
-              | image_tag:
-                widths: '400, 600, 800, 1000, 1200, 1500, 2000',
-                sizes: main_sizes,
-                loading: 'lazy',
-                alt: room_alt
-            }}
-            <span class="product__zoom-hint">{%- render 'icon', name: 'zoom' -%}</span>
-          </a>
-        </div>
+        {% render 'product-view', image: room_image, id: room_id, alt: room_alt, sizes: main_sizes %}
       {%- endif -%}
     </div>
 
     {%- if view_count > 1 -%}
-      <ul class="product__thumbs" role="list" aria-label="{{ 'products.views' | t }}">
-        <li class="product__thumb">
-          <button
-            type="button"
-            class="product__thumb-button"
-            aria-controls="ProductView-full-{{ section.id }}"
-            aria-pressed="true"
-            data-gallery-thumb
-          >
-            {% render 'painting-mount', image: full_image, alt: product.title, sizes: thumb_sizes %}
-            <span class="product__thumb-label">{{ 'products.view_full' | t }}</span>
-          </button>
-        </li>
-
-        {%- if detail_image -%}
-          <li class="product__thumb">
-            <button
-              type="button"
-              class="product__thumb-button"
-              aria-controls="ProductView-detail-{{ section.id }}"
-              aria-pressed="false"
-              data-gallery-thumb
-            >
-              <span class="product__frame">
-                {{
-                  detail_image
-                  | image_url: width: 600
-                  | image_tag: widths: '200, 300, 400, 600', sizes: thumb_sizes, loading: 'lazy', alt: detail_alt
-                }}
-              </span>
-              <span class="product__thumb-label">{{ 'products.view_detail' | t }}</span>
-            </button>
-          </li>
-        {%- endif -%}
-
-        {%- if room_image -%}
-          <li class="product__thumb">
-            <button
-              type="button"
-              class="product__thumb-button"
-              aria-controls="ProductView-room-{{ section.id }}"
-              aria-pressed="false"
-              data-gallery-thumb
-            >
-              <span class="product__frame">
-                {{
-                  room_image
-                  | image_url: width: 600
-                  | image_tag: widths: '200, 300, 400, 600', sizes: thumb_sizes, loading: 'lazy', alt: room_alt
-                }}
-              </span>
-              <span class="product__thumb-label">{{ 'products.view_in_room' | t }}</span>
-            </button>
-          </li>
+      <ul
+        class="product__thumbs{% if view_count > 3 %} product__thumbs--four{% endif %}"
+        role="list"
+        aria-label="{{ 'products.views' | t }}"
+      >
+        {%- if is_candle -%}
+          {%- comment -%} Candle views have no fixed meaning, so the thumbnails have no captions; the alt text names each one {%- endcomment -%}
+          {%- for image in product.images limit: candle_images -%}
+            {%- liquid
+              assign view_id = 'ProductView-image-' | append: forloop.index | append: '-' | append: section.id
+              assign view_alt = image.alt | default: product.title
+            -%}
+            {% render 'product-thumb',
+              image: image,
+              controls: view_id,
+              alt: view_alt,
+              mounted: forloop.first,
+              pressed: forloop.first,
+              sizes: thumb_sizes
+            %}
+          {%- endfor -%}
+          {%- if room_image -%}
+            {% render 'product-thumb', image: room_image, controls: room_id, alt: room_alt, sizes: thumb_sizes %}
+          {%- endif -%}
+        {%- else -%}
+          {% render 'product-thumb',
+            image: full_image,
+            controls: full_id,
+            alt: product.title,
+            label: label_full,
+            mounted: true,
+            pressed: true,
+            sizes: thumb_sizes
+          %}
+          {%- if detail_image -%}
+            {% render 'product-thumb', image: detail_image, controls: detail_id, alt: detail_alt, label: label_detail, sizes: thumb_sizes %}
+          {%- endif -%}
+          {%- if room_image -%}
+            {% render 'product-thumb', image: room_image, controls: room_id, alt: room_alt, label: label_room, sizes: thumb_sizes %}
+          {%- endif -%}
         {%- endif -%}
       </ul>
     {%- endif -%}
@@ -171,53 +154,103 @@
   <div class="product__info">
     <div class="product__heading">
       <h1>{{ product.title | escape }}</h1>
-      {%- if year != blank -%}
+      {%- if year != blank and is_candle == false -%}
         <span class="product__year">{{ year | escape }}</span>
       {%- endif -%}
     </div>
 
-    {%- if is_sold -%}
+    {%- if is_sold and is_candle -%}
+      <span class="product__sold">{{ 'products.sold_out' | t }}</span>
+    {%- elsif is_sold -%}
       <span class="product__sold">{{ 'products.sold' | t }}</span>
+    {%- elsif is_candle -%}
+      <span class="product__price" data-variant-price>{{ variant.price | money_without_trailing_zeros }}</span>
     {%- else -%}
       <span class="product__price">{{ product.price | money_without_trailing_zeros }}</span>
     {%- endif -%}
 
+    {%- if is_candle and product.has_only_default_variant == false -%}
+      {%- comment -%}
+        The options belong to the enquiry form below (form attribute), so the chosen scent or size
+        is sent with the enquiry even without JavaScript. With JavaScript, the price, the link and the
+        enquiry's Candle field follow the choice.
+      {%- endcomment -%}
+      <div class="product__options" data-variant-picker data-product-title="{{ product.title | escape }}">
+        {%- for option in product.options_with_values -%}
+          <fieldset class="product__option">
+            <legend class="product__option-legend">{{ option.name | escape }}</legend>
+            <div class="product__option-values">
+              {%- for value in option.values -%}
+                {%- assign value_id = 'Option-' | append: section.id | append: '-' | append: option.position | append: '-' | append: forloop.index -%}
+                <input
+                  class="product__option-input visually-hidden"
+                  type="radio"
+                  id="{{ value_id }}"
+                  name="contact[{{ option.name | escape }}]"
+                  value="{{ value | escape }}"
+                  form="ProductEnquiry"
+                  data-option-position="{{ option.position }}"
+                  {% if value.selected %}
+                    checked
+                  {% endif %}
+                >
+                <label class="product__option-value{% unless value.available %} is-unavailable{% endunless %}" for="{{ value_id }}">
+                  {{- value | escape -}}
+                  {%- unless value.available -%}
+                    <span class="visually-hidden">, {{ 'products.sold_out' | t | downcase }}</span>
+                  {%- endunless -%}
+                </label>
+              {%- endfor -%}
+            </div>
+          </fieldset>
+        {%- endfor -%}
+        <script type="application/json" data-variants>
+          [
+            {%- for item in product.variants -%}
+              {
+                "id": {{ item.id | json }},
+                "title": {{ item.title | json }},
+                "options": {{ item.options | json }},
+                "price": {{ item.price | money_without_trailing_zeros | strip_html | json }},
+                "available": {{ item.available | json }}
+              }{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          ]
+        </script>
+      </div>
+    {%- endif -%}
+
     {%- liquid
-      assign medium = product.metafields.custom.medium.value
       assign dimensions = product.metafields.custom.dimensions.value
-      assign framing = product.metafields.custom.framing.value
-      assign signature = product.metafields.custom.signature.value
+      if is_candle
+        assign detail_keys = 'dimensions,burn_time,wax,notes,vessel' | split: ','
+      else
+        assign detail_keys = 'medium,dimensions,framing,signature' | split: ','
+      endif
+      assign has_details = false
+      for key in detail_keys
+        if product.metafields.custom[key].value != blank
+          assign has_details = true
+          break
+        endif
+      endfor
     -%}
-    {%- if medium != blank or dimensions != blank or framing != blank or signature != blank -%}
+    {%- if has_details -%}
       <dl class="product__details">
-        {%- if medium != blank -%}
-          <div class="product__detail">
-            <dt>{{ 'products.medium' | t }}</dt>
-            <dd>{{ medium | escape }}</dd>
-          </div>
-        {%- endif -%}
-        {%- if dimensions != blank -%}
-          <div class="product__detail">
-            <dt>{{ 'products.dimensions' | t }}</dt>
-            <dd>{{ dimensions | escape }}</dd>
-          </div>
-        {%- endif -%}
-        {%- if framing != blank -%}
-          <div class="product__detail">
-            <dt>{{ 'products.framing' | t }}</dt>
-            <dd>{{ framing | escape }}</dd>
-          </div>
-        {%- endif -%}
-        {%- if signature != blank -%}
-          <div class="product__detail">
-            <dt>{{ 'products.signature' | t }}</dt>
-            <dd>{{ signature | escape }}</dd>
-          </div>
-        {%- endif -%}
+        {%- for key in detail_keys -%}
+          {%- assign detail_value = product.metafields.custom[key].value -%}
+          {%- if detail_value != blank -%}
+            {%- assign detail_label = 'products.' | append: key -%}
+            <div class="product__detail">
+              <dt>{{ detail_label | t }}</dt>
+              <dd>{{ detail_value | escape }}</dd>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
       </dl>
     {%- endif -%}
 
-    {%- if dimensions != blank and section.settings.show_scale -%}
+    {%- if dimensions != blank and section.settings.show_scale and is_candle == false -%}
       {% render 'scale-figure', dimensions: dimensions, image: full_image, title: product.title %}
     {%- endif -%}
 
@@ -228,23 +261,34 @@
       </p>
     {%- else -%}
       <div class="product__actions">
-        <a
-          class="button button--full"
-          href="#enquire"
-          data-enquire
-          data-enquiry-type="{{ 'products.enquiry.type_enquiry' | t | escape }}"
-        >
-          {{- 'products.enquire' | t -}}
-        </a>
-        <a
-          class="button button--secondary button--full"
-          href="#enquire"
-          data-enquire
-          data-enquiry-type="{{ 'products.enquiry.type_reserve' | t | escape }}"
-          data-reserve="{{ 'products.reserve_message' | t | escape }}"
-        >
-          {{- 'products.reserve' | t -}}
-        </a>
+        {%- if is_candle -%}
+          <a
+            class="button button--full"
+            href="#enquire"
+            data-enquire
+            data-enquiry-type="{{ 'products.enquiry.type_candle' | t | escape }}"
+          >
+            {{- 'products.enquire_candle' | t -}}
+          </a>
+        {%- else -%}
+          <a
+            class="button button--full"
+            href="#enquire"
+            data-enquire
+            data-enquiry-type="{{ 'products.enquiry.type_enquiry' | t | escape }}"
+          >
+            {{- 'products.enquire' | t -}}
+          </a>
+          <a
+            class="button button--secondary button--full"
+            href="#enquire"
+            data-enquire
+            data-enquiry-type="{{ 'products.enquiry.type_reserve' | t | escape }}"
+            data-reserve="{{ 'products.reserve_message' | t | escape }}"
+          >
+            {{- 'products.reserve' | t -}}
+          </a>
+        {%- endif -%}
       </div>
 
       {%- assign reassurance = section.settings.reassurance | newline_to_br | split: '<br />' -%}
@@ -264,6 +308,8 @@
                   assign line_icon = 'eye'
                 elsif key contains 'deliver' or key contains 'courier' or key contains 'ship'
                   assign line_icon = 'truck'
+                elsif key contains 'collect' or key contains 'studio'
+                  assign line_icon = 'pin'
                 elsif key contains 'frame' or key contains 'hang'
                   assign line_icon = 'frame'
                 elsif key contains 'commission'
@@ -289,8 +335,22 @@
 
     {%- if product.description != blank -%}
       <div class="product__about">
-        <h2 class="product__about-heading">{{ 'products.about' | t }}</h2>
+        <h2 class="product__about-heading">
+          {%- if is_candle -%}
+            {{- 'products.about_candle' | t -}}
+          {%- else -%}
+            {{- 'products.about' | t -}}
+          {%- endif -%}
+        </h2>
         <div class="rte">{{ product.description }}</div>
+      </div>
+    {%- endif -%}
+
+    {%- assign care = product.metafields.custom.care.value -%}
+    {%- if is_candle and care != blank -%}
+      <div class="product__about">
+        <h2 class="product__about-heading">{{ 'products.care' | t }}</h2>
+        <div class="rte">{{ care | escape | newline_to_br }}</div>
       </div>
     {%- endif -%}
   </div>
@@ -336,6 +396,39 @@
         button.setAttribute('aria-pressed', button === thumb ? 'true' : 'false');
       });
     }
+
+    /* Candle options: the price, the page link and the enquiry's Candle field follow the choice. */
+    document.querySelectorAll('[data-variant-picker]').forEach(function (picker) {
+      var data = picker.querySelector('[data-variants]');
+      if (!data) return;
+      var variants = JSON.parse(data.textContent);
+      var price = document.querySelector('[data-variant-price]');
+
+      picker.addEventListener('change', function () {
+        var chosen = [];
+        picker.querySelectorAll('input:checked').forEach(function (input) {
+          chosen[Number(input.getAttribute('data-option-position')) - 1] = input.value;
+        });
+        var match = variants.find(function (item) {
+          return item.options.every(function (value, index) { return value === chosen[index]; });
+        });
+        if (!match) return;
+
+        if (price && price.textContent !== match.price) {
+          price.textContent = match.price;
+          if (!reduceMotion.matches && price.animate) {
+            price.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, easing: 'cubic-bezier(0.33, 0, 0.2, 1)' });
+          }
+        }
+
+        var url = new URL(window.location.href);
+        url.searchParams.set('variant', match.id);
+        window.history.replaceState(window.history.state, '', url);
+
+        var field = document.querySelector('[data-enquiry-item]');
+        if (field) field.value = [picker.getAttribute('data-product-title'), match.title, match.price].join(', ');
+      });
+    });
 
     /* Lightbox: a modal dialog traps focus natively; Escape and the backdrop close it. */
     var dialog = document.querySelector('[data-lightbox]');
@@ -669,6 +762,10 @@
     list-style: none;
   }
 
+  .product__thumbs--four {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
   .product__thumb-button {
     display: flex;
     flex-direction: column;
@@ -737,6 +834,60 @@
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--color-muted);
+  }
+
+  /* Candle options: quiet text pills with a hairline border, ink when chosen */
+  .product__options {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .product__option {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .product__option-legend {
+    margin-bottom: 12px;
+    padding: 0;
+    font-size: var(--text-size-small);
+    color: var(--color-muted);
+  }
+
+  .product__option-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .product__option-value {
+    padding: 10px 18px;
+    border: 1px solid var(--color-hairline);
+    font-size: var(--text-size-small);
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: border-color var(--dur-fast) var(--ease-fade), color var(--dur-fast) var(--ease-fade);
+  }
+
+  .product__option-value:hover {
+    border-color: var(--color-muted);
+  }
+
+  .product__option-input:checked + .product__option-value {
+    border-color: var(--color-ink);
+  }
+
+  .product__option-input:focus-visible + .product__option-value {
+    outline: 1px solid var(--color-ink);
+    outline-offset: 4px;
+  }
+
+  .product__option-value.is-unavailable {
+    color: var(--color-muted);
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
   }
 
   .product__details {
