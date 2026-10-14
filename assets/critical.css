@@ -64,6 +64,8 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* Keep the scrollbar's space when a side panel or the menu locks scrolling, so the page does not shift sideways */
+  scrollbar-gutter: stable;
 }
 
 @media (prefers-reduced-motion: no-preference) {
