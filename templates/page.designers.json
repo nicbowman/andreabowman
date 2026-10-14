@@ -20,7 +20,7 @@
         "text": "<p>Paintings can be reserved for residential and hospitality projects. Ask for a trade pack with images, dimensions and pricing.</p>",
         "button_label": "Request the trade pack",
         "button_url": "#trade-enquiry",
-        "link_label": "Browse available works",
+        "link_label": "Browse available art",
         "link_url": "shopify://collections/available-works",
         "background": "ivory"
       }
@@ -33,7 +33,7 @@
           "settings": {
             "icon": "document",
             "title": "Trade pack",
-            "text": "<p>Images, dimensions and pricing for the available works, ready to share with your client.</p>"
+            "text": "<p>Images, dimensions and pricing for the available art, ready to share with your client.</p>"
           }
         },
         "reservations": {
@@ -71,7 +71,7 @@
         "text": "<p>The available paintings, drawn to scale beside a 1.7 m figure and hung with their centres at 150 cm, a comfortable height for most rooms.</p>",
         "collection": "available-works",
         "items_to_show": 4,
-        "link_label": "View all works",
+        "link_label": "View all art",
         "background": "ivory"
       }
     },

@@ -32,7 +32,7 @@
     "more_works": {
       "type": "product-more-works",
       "settings": {
-        "heading": "More available works",
+        "heading": "More available art",
         "collection": "available-works",
         "products_to_show": "3"
       }

@@ -26,21 +26,21 @@
   },
   "collections": {
     "count_available": {
-      "one": "1 available work",
-      "other": "{{ count }} available works"
+      "one": "1 available artwork",
+      "other": "{{ count }} available artworks"
     },
     "count_sold": {
-      "one": "1 sold work",
-      "other": "{{ count }} sold works"
+      "one": "1 sold artwork",
+      "other": "{{ count }} sold artworks"
     },
-    "empty": "There are no paintings here at the moment.",
+    "empty": "There is nothing here at the moment.",
     "next": "Next",
     "page": "Page ",
     "pagination_label": "Pages",
     "previous": "Previous",
     "tab_available": "Available",
     "tab_sold": "Sold",
-    "tabs_label": "Paintings",
+    "tabs_label": "Art",
     "title": "Collections"
   },
   "contact": {

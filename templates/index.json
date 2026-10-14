@@ -37,11 +37,11 @@
     "works": {
       "type": "featured-works",
       "settings": {
-        "heading": "Available works",
+        "heading": "Available art",
         "collection": "available-works",
         "products_to_show": 6,
         "minimum_to_show": 3,
-        "view_all_label": "View all works",
+        "view_all_label": "View all art",
         "show_tabs": false,
         "available_collection": "available-works",
         "sold_collection": "sold-works"
