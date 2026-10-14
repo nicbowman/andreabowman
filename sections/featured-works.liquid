@@ -3,15 +3,15 @@
   assign limit = section.settings.products_to_show
   assign minimum = section.settings.minimum_to_show
 
-  # Count only products of the chosen kind, so a mixed collection never mixes paintings and candles.
+  # Count only products of the chosen kind, so a mixed collection never mixes paintings and pieces.
   assign kind = section.settings.kind
   assign count = 0
   for item in source.products limit: 50
     assign item_type = item.type | downcase
     assign item_kind = 'painting'
-    if item_type == 'candle'
-      assign item_kind = 'candle'
-    endif
+    unless item_type == blank or item_type == 'painting' or item_type == 'print'
+      assign item_kind = 'piece'
+    endunless
     if item_kind == kind
       assign count = count | plus: 1
     endif
@@ -46,9 +46,9 @@
             endif
             assign item_type = product.type | downcase
             assign item_kind = 'painting'
-            if item_type == 'candle'
-              assign item_kind = 'candle'
-            endif
+            unless item_type == blank or item_type == 'painting' or item_type == 'print'
+              assign item_kind = 'piece'
+            endunless
             if item_kind != kind
               continue
             endif
@@ -92,7 +92,7 @@
       "info": "t:info.kind",
       "options": [
         { "value": "painting", "label": "t:options.kind.painting" },
-        { "value": "candle", "label": "t:options.kind.candle" }
+        { "value": "piece", "label": "t:options.kind.piece" }
       ],
       "default": "painting"
     },

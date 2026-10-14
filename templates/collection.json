@@ -14,7 +14,7 @@
       "settings": {
         "available_collection": "available-works",
         "sold_collection": "sold-works",
-        "intro": "<p>Original paintings, each one of a kind. Every painting can be viewed in person by appointment.</p>",
+        "intro": "<p>Original paintings and prints, each one of a kind. Every piece can be viewed in person by appointment.</p>",
         "products_per_page": 12
       }
     }

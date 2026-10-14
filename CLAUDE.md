@@ -1,7 +1,7 @@
 # Andrea Bowman: gallery website (custom Shopify theme)
 
 ## What this is
-A custom Shopify Online Store 2.0 theme for Andrea Bowman, a painter selling original abstract paintings (around R30,000 each) and a small range of candles from Cape Town. The site is a gallery and catalogue for collectors and interior designers. **Sales of paintings and candles are by enquiry only: there is no cart and no checkout.** When something sells, Andrea sends the buyer a Shopify draft order invoice from the admin, outside the theme.
+A custom Shopify Online Store 2.0 theme for Andrea Bowman, a painter selling original abstract paintings and prints (around R30,000 each) from Cape Town, alongside two small ranges of bespoke pieces: Interiors (candles, cushions and other pieces for the home) and Garden (large pots and cement planters). The site is a gallery and catalogue for collectors and interior designers. **All sales are by enquiry only: there is no cart and no checkout.** When something sells, Andrea sends the buyer a Shopify draft order invoice from the admin, outside the theme.
 
 Andrea will manage all content herself in the Shopify admin and theme editor, so everything she might change (images, text, featured items, press, homes, events) must be editable there without code.
 
@@ -47,7 +47,7 @@ Expose these as theme settings (colour pickers) with these defaults. No other co
 - Fully responsive. Grids collapse to 2 columns on tablet and 1 on mobile; header nav collapses to a simple menu on mobile.
 
 ## The painting image rule (critical)
-Every painting and candle, everywhere on the site, is displayed the same size so grids look balanced:
+Every painting and piece, everywhere on the site, is displayed the same size so grids look balanced:
 - A **square mount** (aspect-ratio 1:1, background `mount` #EFEAE2).
 - The painting image sits centred inside it with `object-fit: contain`, its longest side at 76% of the mount.
 - This applies to collection grids, the product page main image, thumbnails and "more works".
@@ -64,20 +64,22 @@ Every painting and candle, everywhere on the site, is displayed the same size so
 - Enquiry form uses Shopify's native `{% form 'contact' %}` with fields: Painting (read-only, auto-filled with product title and price, submitted as `contact[Painting]`), Name, Email, Phone (optional), Message. Show success and error states in the same style.
 - Prices are shown in ZAR on the product page and grids.
 - Nothing in the theme may link to /cart or /checkout. Redirect /cart to the works collection if possible.
-- Online ordering for candles is a possible later phase (see `docs/specs/candles.md`, section 9). Until then candles follow these rules too.
+- Online ordering for Interiors and Garden pieces is a possible later phase (see `docs/specs/candles.md`, section 9). Until then pieces follow these rules too.
 
 ## Sold works
 - A painting is sold when it has the product tag `sold`.
 - Sold paintings: show a small "Sold" label instead of the price, no enquire buttons, and the copy "This painting has found a home. Enquire about commissions or similar works." with a link to the contact form.
 - Art page has two tabs: Available and Sold (two collections: `available-works`, `sold-works`, automated by tag and product type Painting). The visible name is "Art" (menu, headings, counts); the handles stay `available-works` and `sold-works`.
 
-## Candles
-- A product is a candle when its product type is `Candle`; anything else is a painting. Every place that renders products checks this (cards, grids, more works, header, structured data, product and enquiry sections) so the two kinds never mix.
-- Candles use the `candle` product template and the `candles` collection (automated: product type Candle, `candles` collection template, no tabs).
-- A candle is sold out when tagged `sold` or out of stock: "Sold out" label, enquiry still open to ask about restocks.
-- Candle page: options picker (radios belong to the enquiry form, so the choice is sent as `contact[<option name>]` without JS), one "ENQUIRE ABOUT THIS CANDLE" button, no year or to-scale figure.
-- Candle enquiry fields: `contact[Candle]` (title, option, price), `contact[Quantity]`, `contact[Delivery]` (choices from the theme editor).
-- Candle metafields (namespace `custom`): `dimensions`, `burn_time`, `wax`, `notes` (Scent notes), `vessel`, `care` (multi-line, "Care and safety"). Description = "About this candle".
+## Interiors and Garden pieces
+- Three areas: **Art** (paintings and prints, product type `Painting`), **Interiors** (candles, cushions and other pieces for the home) and **Garden** (large pots and cement planters).
+- A product is a painting when its product type is `Painting` or `Print` (or empty); any other type (`Candle`, `Cushion`, `Pot`, `Planter`...) is a **piece**. Every place that renders products checks this (cards, grids, more works, header, structured data, product and enquiry sections) so paintings and pieces never mix. Section setting `kind` is `painting` or `piece`.
+- Interiors and Garden are automated collections `interiors` and `garden` (product type conditions, any condition), with the `interiors` / `garden` collection templates (no tabs). A piece's area is its collection: the header underlines the menu link whose collection holds the product.
+- Product templates `interiors` and `garden` (and `candle`, kept for existing candles, pointing at Interiors): painting page layout with piece details and enquiry fields, "More for interiors" / "More for the garden".
+- A piece is sold out when tagged `sold` or out of stock: "Sold out" label, enquiry still open to ask about restocks.
+- Piece page: options picker (radios belong to the enquiry form, so the choice is sent as `contact[<option name>]` without JS), one "ENQUIRE ABOUT THIS PIECE" button, no year or to-scale figure.
+- Piece enquiry fields: `contact[Piece]` (title, option, price), `contact[Quantity]`, `contact[Delivery]` (choices from the theme editor).
+- Piece metafields (namespace `custom`, all optional): `material`, `dimensions`, `finish`, `burn_time`, `wax`, `notes` (Scent notes), `vessel`, `care` (multi-line, "Care and safety"). Description = "About this piece".
 
 ## Product data (metafields, namespace `custom`)
 Render these in the product page details list, skipping any that are empty:
@@ -99,7 +101,7 @@ The Features page sections read these metaobjects. Each section also has theme e
 ## Pages and templates
 1. **Homepage** (`templates/index.json`): header; full-width hero image (image picker, caption text); intro (heading + paragraph + link); available art grid (6 items from a chosen collection, no tabs, with a single "View all art" link to the Art page); feature block on oatmeal (image + heading + text + button to Features); For interior designers block; moss footer with newsletter sign-up (Shopify `customer` form), contact details and Instagram link.
 2. **Art** (`templates/collection.json`): same grid as homepage, tabs for Available/Sold, pagination.
-2a. **Candles** (`templates/collection.candles.json`): same grid, no tabs, candle count. **Candle** (`templates/product.candle.json`): painting page layout with candle details and enquiry fields; "More candles". Homepage has an optional Candles block (off by default).
+2a. **Interiors** and **Garden** (`templates/collection.interiors.json`, `collection.garden.json`): same grid, no tabs, piece count. **Piece** (`templates/product.interiors.json`, `product.garden.json`): painting page layout with piece details and enquiry fields. Homepage has Interiors and Garden blocks (3 items each, hidden until a collection has 3 pieces).
 3. **Painting** (`templates/product.json`): breadcrumb; mounted main image with three thumbnails (full view, surface detail, in room); title, year, price, details list, two buttons, shipping note, About this work; enquiry side panel; "More available art" (3 items).
 4. **Features** (`templates/page.features.json`): intro with anchor links; In homes grid (4:5 photos, captions with home and designer); testimonial band on oatmeal; Press list; Exhibitions and events (3:2 photos).
 5. **My story** (`templates/page.about.json`): portrait (4:5) with title and opening paragraphs; How I work on oatmeal (narrow column, rich text, pull quote); In the studio (3 square images with captions); Background (exhibitions, collections, training lists, editable as blocks); closing call to action.
@@ -108,7 +110,7 @@ The Features page sections read these metaobjects. Each section also has theme e
 
 The `enquiry-form` section has a "Show the form" setting: on the page (Contact) or in a side panel (For designers). In a panel, the page keeps a slim band with heading, text and a button, and links to the section anchor (e.g. `#trade-enquiry`) open the panel.
 
-Navigation (from the admin menu, max 6 items): Art, Candles, Features, My story, For designers, Contact. Below 900px the menu toggle replaces the links. Active page shows a 1px underline.
+Navigation (from the admin menu, max 7 items): Art, Interiors, Garden, Features, My story, For designers, Contact. Below 900px the menu toggle replaces the links. Active page shows a 1px underline.
 
 ## Copy rules
 - Never use em dashes in any text or code comments. Use commas, colons or plain hyphens.

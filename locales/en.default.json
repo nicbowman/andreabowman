@@ -29,18 +29,18 @@
     "comment_form_title": "Add a comment"
   },
   "cart_redirect": {
-    "link": "View the paintings",
-    "message": "There is no cart on this site. Choose a painting and send an enquiry from its page.",
-    "title": "Paintings are sold by enquiry"
+    "link": "View the art",
+    "message": "There is no cart on this site. Choose a piece and send an enquiry from its page.",
+    "title": "Everything is sold by enquiry"
   },
   "collections": {
     "count_available": {
       "one": "1 available artwork",
       "other": "{{ count }} available artworks"
     },
-    "count_candles": {
-      "one": "1 candle",
-      "other": "{{ count }} candles"
+    "count_pieces": {
+      "one": "1 piece",
+      "other": "{{ count }} pieces"
     },
     "count_sold": {
       "one": "1 sold artwork",
@@ -64,7 +64,7 @@
     "name": "Name",
     "on_instagram": "Instagram",
     "panel_enquiry": "General enquiry",
-    "panel_heading_candle": "Enquire about this candle",
+    "panel_heading_piece": "Enquire about this piece",
     "panel_heading_painting": "Enquire about this painting",
     "panel_heading_similar": "Ask about commissions or similar works",
     "phone": "Phone (optional)",
@@ -111,7 +111,7 @@
   },
   "forms": {
     "consent_enquiry": "I'll only use your details to reply to you.",
-    "consent_newsletter": "I'll only use your email to send news of new paintings. You can unsubscribe at any time.",
+    "consent_newsletter": "I'll only use your email to send news of new work. You can unsubscribe at any time.",
     "method_email": "Email",
     "method_phone": "Phone",
     "method_whatsapp": "WhatsApp",
@@ -137,7 +137,7 @@
     "menu": "Menu"
   },
   "meta": {
-    "candle_title": "{{ title }}, candle by {{ artist }}",
+    "piece_title": "{{ title }} by {{ artist }}",
     "page": "Page {{ page }}",
     "painting_title": "{{ title }}, original abstract painting by {{ artist }}"
   },
@@ -148,7 +148,7 @@
   },
   "products": {
     "about": "About this work",
-    "about_candle": "About this candle",
+    "about_piece": "About this piece",
     "alt_detail": "{{ title }}, surface detail",
     "alt_in_room": "{{ title }}, shown in a room for scale",
     "burn_time": "Burn time",
@@ -159,28 +159,30 @@
     "card_more_label": "See more about {{ title }}",
     "care": "Care and safety",
     "dimensions": "Dimensions",
+    "finish": "Finish",
     "enquire": "Enquire about this painting",
-    "enquire_candle": "Enquire about this candle",
+    "enquire_piece": "Enquire about this piece",
     "enquiry": {
-      "candle": "Candle",
+      "piece": "Piece",
       "delivery": "Delivery",
       "email": "Email",
       "message": "Message",
       "message_placeholder": "Anything you would like to know about this painting",
-      "message_placeholder_candle": "Scents, quantities for gifts, or delivery details",
+      "message_placeholder_piece": "Sizes, finishes, quantities or delivery details",
       "name": "Name",
       "painting": "Painting",
       "phone": "Phone (optional)",
       "quantity": "Quantity",
-      "sold_candle": "{{ title }} (sold out)",
+      "sold_piece": "{{ title }} (sold out)",
       "sold_painting": "{{ title }} (sold)",
       "submit": "Send enquiry",
       "success": "Thank you. Your enquiry has been sent, and I'll reply to you by email.",
-      "type_candle": "Candle enquiry",
+      "type_piece": "Piece enquiry",
       "type_enquiry": "Painting enquiry",
       "type_reserve": "Reservation for a design project"
     },
     "framing": "Framing",
+    "material": "Material",
     "medium": "Medium",
     "notes": "Scent notes",
     "price_from": "From {{ price }}",

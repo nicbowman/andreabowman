@@ -12,7 +12,7 @@
     "main": {
       "type": "collection",
       "settings": {
-        "kind": "candle",
+        "kind": "piece",
         "intro": "<p>Hand-poured candles in vessels chosen to be kept long after the last burn.</p>",
         "products_per_page": 12
       }

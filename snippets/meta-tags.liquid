@@ -1,6 +1,6 @@
 {% doc %}
   Outputs the charset, viewport, title, meta description, canonical, social sharing tags and,
-  on painting and candle pages, Product structured data.
+  on painting and piece pages, Product structured data.
 
   @example
   {% render 'meta-tags' %}
@@ -34,21 +34,22 @@
     assign description = settings.meta_description | default: shop.description | default: site_name
   endif
 
-  # A product is a candle when its product type is "Candle", otherwise a painting.
-  assign is_candle = false
+  # A product is a painting when its product type is "Painting" or "Print" (or empty); anything else
+  # (Candle, Cushion, Pot, Planter...) is a piece for Interiors or Garden.
+  assign is_piece = false
   if request.page_type == 'product'
     assign product_type = product.type | downcase
-    if product_type == 'candle'
-      assign is_candle = true
-    endif
+    unless product_type == blank or product_type == 'painting' or product_type == 'print'
+      assign is_piece = true
+    endunless
   endif
 
   # Title: products without a custom SEO title read "Title, original abstract painting by Andrea Bowman"
-  # or "Title, candle by Andrea Bowman".
+  # or "Title by Andrea Bowman" for an Interiors or Garden piece.
   assign title = page_title
   if request.page_type == 'product' and page_title == product.title
-    if is_candle
-      assign title = 'meta.candle_title' | t: title: product.title, artist: site_name
+    if is_piece
+      assign title = 'meta.piece_title' | t: title: product.title, artist: site_name
     else
       assign title = 'meta.painting_title' | t: title: product.title, artist: site_name
     endif
@@ -126,12 +127,12 @@
     assign availability = 'https://schema.org/InStock'
     if tags_lower contains 'sold'
       assign availability = 'https://schema.org/SoldOut'
-    elsif is_candle and product.available == false
+    elsif is_piece and product.available == false
       assign availability = 'https://schema.org/SoldOut'
     endif
     assign category = 'Painting'
-    if is_candle
-      assign category = 'Candle'
+    if is_piece
+      assign category = product.type
     endif
     assign product_url = request.origin | append: product.url
     assign price = product.price | divided_by: 100.0

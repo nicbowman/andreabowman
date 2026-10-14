@@ -2,27 +2,26 @@
   assign logo_text = section.settings.logo_text | default: shop.name
   assign menu_links = section.settings.menu.links
 
-  # On a product page, underline the collection link of the same kind: Candles for a candle, Works for a painting.
-  # A collection link counts as the candles link when its handle contains "candle".
+  # On a product page, underline the collection link the product belongs to: Interiors or Garden for a piece,
+  # Art for a painting (an Art link to available works also covers sold paintings).
   if request.page_type == 'product'
     assign product_type = product.type | downcase
     assign product_kind = 'painting'
-    if product_type == 'candle'
-      assign product_kind = 'candle'
-    endif
+    unless product_type == blank or product_type == 'painting' or product_type == 'print'
+      assign product_kind = 'piece'
+    endunless
+    assign product_collections = product.collections | map: 'handle'
   endif
 -%}
 
 {%- capture menu_items -%}
-  {%- for link in menu_links limit: 6 -%}
+  {%- for link in menu_links limit: 7 -%}
     {%- liquid
       assign kind_match = false
       if request.page_type == 'product' and link.type == 'collection_link'
-        assign link_kind = 'painting'
-        if link.object.handle contains 'candle'
-          assign link_kind = 'candle'
-        endif
-        if link_kind == product_kind
+        if product_collections contains link.object.handle
+          assign kind_match = true
+        elsif product_kind == 'painting' and link.object.handle contains 'works'
           assign kind_match = true
         endif
       endif
@@ -133,6 +132,13 @@
     display: flex;
     flex-wrap: wrap;
     gap: 40px;
+  }
+
+  /* Seven links fit beside the wordmark down to 900px with a tighter gap */
+  @media (max-width: 1199px) {
+    .site-header__menu {
+      gap: 24px;
+    }
   }
 
   .site-header__link {

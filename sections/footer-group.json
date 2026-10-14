@@ -17,7 +17,7 @@
         "heading": "Be the first to see new work",
         "hide_newsletter_on_form_pages": true,
         "name_text": "Andrea Bowman",
-        "tagline": "Original abstract paintings"
+        "tagline": "Original art, interiors and garden pieces"
       }
     },
     "contact_panel": {
@@ -25,7 +25,7 @@
       "settings": {
         "contact_page": "contact",
         "heading": "Get in touch",
-        "text": "<p>Ask about a painting, a commission or a project. I reply to every message personally, within two working days.</p>",
+        "text": "<p>Ask about a painting, a piece for your home or garden, a commission or a project. I reply to every message personally, within two working days.</p>",
         "message_placeholder": "How can I help?",
         "submit_label": "Send message",
         "success_message": "Thank you. Your message has been sent, and I will reply to you by email.",

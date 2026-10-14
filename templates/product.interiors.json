@@ -1,0 +1,47 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "product",
+      "settings": {
+        "works_collection": "interiors",
+        "shipping_note": "Delivered by courier within South Africa in 3 to 5 working days, or collect from the studio in Cape Town.",
+        "reassurance": "",
+        "show_scale": false,
+        "sold_message": "This piece is sold out for now.",
+        "sold_link_text": "Ask to be told when it is back."
+      }
+    },
+    "enquiry": {
+      "type": "product-enquiry",
+      "settings": {
+        "heading": "Enquire about this piece",
+        "sold_heading": "Ask to be told when it is back",
+        "text": "<p>Ask about sizes, finishes, quantities or delivery. I reply to every enquiry personally, within two working days.</p>",
+        "show_quantity": true,
+        "delivery_options": "Courier delivery\nCollect from the studio"
+      }
+    },
+    "more_works": {
+      "type": "product-more-works",
+      "settings": {
+        "heading": "More for interiors",
+        "collection": "interiors",
+        "products_to_show": "3"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "enquiry",
+    "more_works"
+  ]
+}
