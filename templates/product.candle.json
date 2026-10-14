@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -16,9 +25,7 @@
       "settings": {
         "heading": "Enquire about this candle",
         "sold_heading": "Ask to be told when it is back",
-        "text": "<p>Ask about scents, quantities for gifts, or delivery. I reply to every enquiry personally, within two working days.</p>",
-        "show_quantity": true,
-        "delivery_options": "Deliver to me\nCollect from the studio"
+        "text": "<p>Ask about scents, quantities for gifts, or delivery. I reply to every enquiry personally, within two working days.</p>"
       }
     },
     "more_works": {

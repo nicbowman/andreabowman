@@ -16,6 +16,10 @@
         "caption": "Bronze Horizon, 2025",
         "caption_link": "shopify://products/bronze-horizon",
         "image_2": "shopify://shop_images/hero-atlantic-seaboard.jpg",
+        "caption_2": "",
+        "caption_link_2": "",
+        "caption_3": "",
+        "caption_link_3": "",
         "link_label": "View painting",
         "caption_colour": "dark",
         "height": "tall",
@@ -40,6 +44,7 @@
       "settings": {
         "heading": "Available art",
         "collection": "available-works",
+        "kind": "painting",
         "products_to_show": 6,
         "minimum_to_show": 3,
         "view_all_label": "View all art",
@@ -55,9 +60,12 @@
         "image_ratio": "landscape",
         "image_position": "left",
         "heading": "Living with the paintings",
+        "page_heading": false,
         "text": "<p>See the paintings in the homes they now live in, along with features and exhibitions.</p>",
         "button_label": "View features",
         "button_url": "shopify://pages/features",
+        "link_label": "",
+        "link_url": "",
         "background": "oatmeal"
       }
     },
@@ -70,7 +78,9 @@
         "products_to_show": 3,
         "minimum_to_show": 3,
         "view_all_label": "View all candles",
-        "show_tabs": false
+        "show_tabs": false,
+        "available_collection": "",
+        "sold_collection": ""
       }
     },
     "designers": {
