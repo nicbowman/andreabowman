@@ -4,10 +4,10 @@
       "type": "product",
       "settings": {
         "works_collection": "candles",
-        "shipping_note": "[Delivery and collection note]",
+        "shipping_note": "Delivered by courier within South Africa in 3 to 5 working days, or collect from the studio in Cape Town.",
         "reassurance": "",
         "show_scale": false,
-        "sold_message": "[This candle is sold out for now.]",
+        "sold_message": "This candle is sold out for now.",
         "sold_link_text": "Ask to be told when it is back."
       }
     },
@@ -16,9 +16,9 @@
       "settings": {
         "heading": "Enquire about this candle",
         "sold_heading": "Ask to be told when it is back",
-        "text": "<p>Ask about scents, quantities for gifts, or delivery. I reply to every enquiry personally, [within two working days].</p>",
+        "text": "<p>Ask about scents, quantities for gifts, or delivery. I reply to every enquiry personally, within two working days.</p>",
         "show_quantity": true,
-        "delivery_options": "Deliver to me\n[Collect from the studio]"
+        "delivery_options": "Deliver to me\nCollect from the studio"
       }
     },
     "more_works": {

@@ -37,11 +37,11 @@
     "works": {
       "type": "featured-works",
       "settings": {
-        "heading": "Available works",
+        "heading": "Available art",
         "collection": "available-works",
         "products_to_show": 6,
         "minimum_to_show": 3,
-        "view_all_label": "View all works",
+        "view_all_label": "View all art",
         "show_tabs": false,
         "available_collection": "available-works",
         "sold_collection": "sold-works"
@@ -58,6 +58,19 @@
         "button_label": "View features",
         "button_url": "shopify://pages/features",
         "background": "oatmeal"
+      }
+    },
+    "candles": {
+      "type": "featured-works",
+      "disabled": true,
+      "settings": {
+        "heading": "Candles",
+        "collection": "candles",
+        "kind": "candle",
+        "products_to_show": 3,
+        "minimum_to_show": 3,
+        "view_all_label": "View all candles",
+        "show_tabs": false
       }
     },
     "designers": {
@@ -79,6 +92,7 @@
     "intro",
     "works",
     "features",
+    "candles",
     "designers"
   ]
 }

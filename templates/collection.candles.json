@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "collection",
+      "settings": {
+        "kind": "candle",
+        "intro": "<p>Hand-poured candles in vessels chosen to be kept long after the last burn.</p>",
+        "products_per_page": 12
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

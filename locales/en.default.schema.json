@@ -61,6 +61,7 @@
     "breadcrumb_collection": "Breadcrumb link for available paintings",
     "breadcrumb_sold_collection": "Breadcrumb link for sold paintings",
     "caption_colour": "Choose the colour that reads best over the photograph",
+    "collection_kind": "Candles have no Available / Sold tabs; sold out candles stay in the grid with a label.",
     "color_field_line": "Form field underlines on oatmeal",
     "color_hairline": "Dividers and borders",
     "color_ink": "Text",
@@ -81,7 +82,7 @@
     "featured_collection": "Paintings shown in the grid",
     "font": "Jost Light is the approved typeface. Regular and Medium weights load automatically.",
     "footer_contact_details": "Email, phone, WhatsApp and Instagram are set in Theme settings > Contact details.",
-    "header_menu": "Use up to 6 links: Works, Candles, Features, My story, For designers, Contact.",
+    "header_menu": "Use up to 6 links: Art, Candles, Features, My story, For designers, Contact.",
     "heading_tag": "Use Page title once per page, for the main heading",
     "hero_image": "A lifestyle or installation photograph, at least 2400px wide. It fills the full width.",
     "hero_more": "Add up to two more photographs. One of the three shows at random on each visit.",
@@ -247,7 +248,7 @@
       "tall": "Tall"
     },
     "kind": {
-      "painting": "Paintings",
+      "painting": "Art",
       "candle": "Candles"
     },
     "link_style": {
