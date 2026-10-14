@@ -19,9 +19,22 @@
         "name_text": "Andrea Bowman",
         "tagline": "Original abstract paintings"
       }
+    },
+    "contact_panel": {
+      "type": "contact-panel",
+      "settings": {
+        "contact_page": "contact",
+        "heading": "Get in touch",
+        "text": "<p>Ask about a painting, a commission or a project. I reply to every message personally, within two working days.</p>",
+        "message_placeholder": "How can I help?",
+        "submit_label": "Send message",
+        "success_message": "Thank you. Your message has been sent, and I will reply to you by email.",
+        "show_contact_details": true
+      }
     }
   },
   "order": [
-    "footer"
+    "footer",
+    "contact_panel"
   ]
 }

@@ -442,6 +442,11 @@ a:hover {
   border-bottom-color: var(--color-ink);
 }
 
+/* Fields show focus with the ink underline, not a box outline around them */
+.field__input:focus-visible {
+  outline: none;
+}
+
 .field__input[readonly] {
   font-weight: var(--font-weight-regular);
 }
