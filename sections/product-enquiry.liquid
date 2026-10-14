@@ -50,16 +50,38 @@
   assign delivery_options = section.settings.delivery_options | newline_to_br | split: '<br />'
 -%}
 
-<section id="enquire" class="section section--oatmeal product-enquiry" aria-labelledby="EnquiryHeading-{{ section.id }}">
-  <div class="page-width product-enquiry__inner">
-    <div class="product-enquiry__intro">
-      <h2 id="EnquiryHeading-{{ section.id }}">{{ heading | escape }}</h2>
-      {%- if section.settings.text != blank -%}
-        <div class="rte">{{ section.settings.text }}</div>
-      {%- endif -%}
+{%- comment -%}
+  The enquiry opens in a side panel from the Enquire and Reserve buttons (#enquire). It reopens after posting,
+  so the thank-you or any errors show where the form was.
+{%- endcomment -%}
+{%- assign enquiry_open = false -%}
+{%- capture panel_body -%}
+  <div class="enquiry-summary">
+    {% render 'painting-mount', image: product.featured_image, alt: product.title, sizes: '96px', class: 'enquiry-summary__image' %}
+    <div class="enquiry-summary__text">
+      <span class="enquiry-summary__title">{{ product.title | escape }}</span>
+      <span class="enquiry-summary__meta" data-enquiry-summary>
+        {%- if is_sold and is_candle -%}
+          {{- 'products.sold_out' | t -}}
+        {%- elsif is_sold -%}
+          {{- 'products.sold' | t -}}
+        {%- elsif is_candle and product.has_only_default_variant == false -%}
+          {{- variant.title }}, {{ price -}}
+        {%- else -%}
+          {{- price -}}
+        {%- endif -%}
+      </span>
     </div>
+  </div>
+
+  {%- if section.settings.text != blank -%}
+    <div class="rte product-enquiry__text">{{ section.settings.text }}</div>
+  {%- endif -%}
 
     {%- form 'contact', id: 'ProductEnquiry', class: 'product-enquiry__form' -%}
+      {%- if form.posted_successfully? or form.errors -%}
+        {%- assign enquiry_open = true -%}
+      {%- endif -%}
       {%- if form.posted_successfully? -%}
         <p class="form-message form-message--success" role="status">
           {%- render 'icon', name: 'check' -%}
@@ -75,18 +97,9 @@
         <input type="hidden" name="contact[Link]" value="{{ shop.url }}{{ product.url }}">
         <input type="hidden" name="contact[Enquiry]" value="{{ enquiry_type | escape }}">
 
-        <label class="field" for="ProductEnquiry-item">
-          {{- item_label -}}
-          <input
-            class="field__input"
-            id="ProductEnquiry-item"
-            type="text"
-            name="{{ item_name }}"
-            value="{{ item_value | escape }}"
-            readonly
-            data-enquiry-item
-          >
-        </label>
+        {%- comment -%} Shown in the summary above; sent with the enquiry so the email names the painting or candle {%- endcomment -%}
+        <input type="hidden" name="{{ item_name }}" value="{{ item_value | escape }}" data-enquiry-item>
+        <span class="visually-hidden">{{ item_label }}: {{ item_value | escape }}</span>
 
         {%- if is_candle and is_sold == false -%}
           {%- if section.settings.show_quantity or section.settings.delivery_options != blank -%}
@@ -207,49 +220,54 @@
         {% render 'consent-note' %}
       {%- endif -%}
     {%- endform -%}
-  </div>
-</section>
+{%- endcapture -%}
+
+{% render 'side-panel', id: 'enquire', title: heading, content: panel_body, form_id: 'ProductEnquiry', open: enquiry_open %}
 
 {% stylesheet %}
-  .product-enquiry {
-    padding-block: var(--section-space-small);
-    scroll-margin-top: 24px;
-  }
-
-  .product-enquiry__inner {
+  .enquiry-summary {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--block-gap);
+    align-items: center;
+    gap: 18px;
   }
 
-  .product-enquiry__intro {
-    flex: 1 1 380px;
-    max-width: 460px;
+  .enquiry-summary__image {
+    flex: 0 0 72px;
+    width: 72px;
+  }
+
+  .enquiry-summary__text {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 2px;
+    min-width: 0;
   }
 
-  .product-enquiry__form {
-    flex: 1 1 520px;
-    max-width: 640px;
-    display: flex;
-    flex-direction: column;
-    gap: 34px;
+  .enquiry-summary__title {
+    font-weight: var(--font-weight-regular);
+  }
+
+  .enquiry-summary__meta {
+    font-size: var(--text-size-small);
+    color: var(--color-muted);
+  }
+
+  .product-enquiry__text p {
+    color: var(--color-ink-soft);
+    font-size: var(--text-size-small);
   }
 
   .product-enquiry__row {
     display: flex;
     flex-wrap: wrap;
-    gap: 34px 32px;
+    gap: 26px 24px;
   }
 
   .product-enquiry__row .field {
-    flex: 1 1 240px;
+    flex: 1 1 160px;
   }
 
   .product-enquiry__submit {
-    align-self: flex-start;
     padding: 22px 44px;
   }
 

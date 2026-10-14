@@ -57,8 +57,9 @@ Every painting and candle, everywhere on the site, is displayed the same size so
 
 ## Enquiry only: remove all commerce
 - No cart icon, cart page link, cart drawer, quantity selector, add to cart, buy now, dynamic checkout buttons or quick-add anywhere.
-- Product page primary button: "ENQUIRE ABOUT THIS PAINTING", scrolls to the enquiry form on the same page.
-- Secondary button: "RESERVE FOR A DESIGN PROJECT", same form with the message pre-filled with "I would like to reserve this painting for a design project."
+- Product page primary button: "ENQUIRE ABOUT THIS PAINTING", opens the enquiry side panel (`#enquire`).
+- Secondary button: "RESERVE FOR A DESIGN PROJECT", same panel with the message pre-filled with "I would like to reserve this painting for a design project."
+- **Side panels** (`snippets/side-panel.liquid`): enquiry and contact forms open in a modal dialog from the right (480px, full screen on mobile), with a painting summary at the top for product enquiries. Escape, Close and a click outside close it; focus stays inside and returns to the trigger. After posting, the panel reopens to show the thank-you or errors. Without JS, a link to the panel's #id still shows it. The product enquiry section renders as this panel (no form band on the page). A Contact panel section in the footer group opens from any link to the contact page (menu Contact), except on the contact page itself.
 - Enquiry form uses Shopify's native `{% form 'contact' %}` with fields: Painting (read-only, auto-filled with product title and price, submitted as `contact[Painting]`), Name, Email, Phone (optional), Message. Show success and error states in the same style.
 - Prices are shown in ZAR on the product page and grids.
 - Nothing in the theme may link to /cart or /checkout. Redirect /cart to the works collection if possible.
@@ -98,7 +99,7 @@ The Features page sections read these metaobjects. Each section also has theme e
 1. **Homepage** (`templates/index.json`): header; full-width hero image (image picker, caption text); intro (heading + paragraph + link); available art grid (6 items from a chosen collection, no tabs, with a single "View all art" link to the Art page); feature block on oatmeal (image + heading + text + button to Features); For interior designers block; moss footer with newsletter sign-up (Shopify `customer` form), contact details and Instagram link.
 2. **Art** (`templates/collection.json`): same grid as homepage, tabs for Available/Sold, pagination.
 2a. **Candles** (`templates/collection.candles.json`): same grid, no tabs, candle count. **Candle** (`templates/product.candle.json`): painting page layout with candle details and enquiry fields; "More candles". Homepage has an optional Candles block (off by default).
-3. **Painting** (`templates/product.json`): breadcrumb; mounted main image with three thumbnails (full view, surface detail, in room); title, year, price, details list, two buttons, shipping note, About this work; enquiry form section on oatmeal; "More available works" (3 items).
+3. **Painting** (`templates/product.json`): breadcrumb; mounted main image with three thumbnails (full view, surface detail, in room); title, year, price, details list, two buttons, shipping note, About this work; enquiry side panel; "More available art" (3 items).
 4. **Features** (`templates/page.features.json`): intro with anchor links; In homes grid (4:5 photos, captions with home and designer); testimonial band on oatmeal; Press list; Exhibitions and events (3:2 photos).
 5. **My story** (`templates/page.about.json`): portrait (4:5) with title and opening paragraphs; How I work on oatmeal (narrow column, rich text, pull quote); In the studio (3 square images with captions); Background (exhibitions, collections, training lists, editable as blocks); closing call to action.
 6. **For interior designers** (`templates/page.designers.json`): intro, what designers get (trade pack, reservations, sizes), and a contact form with fields for studio name, project and timeline.
@@ -130,7 +131,8 @@ Build these:
 8. Header: translucent ivory with a soft blur over the hero, so the navigation reads on any photograph, then fades to a solid ivory background with a hairline bottom border after scrolling past the hero, over 300ms.
 9. Mobile menu: full-screen ivory overlay fades in over `--dur-swap`; menu items fade up with a 60ms stagger; closing fades out over 300ms.
 10. Forms: field underline darkens to ink on focus over `--dur-fast`; the success message fades in where the form was.
-11. Page transitions: View Transitions API (`@view-transition { navigation: auto; }`). The old page fades out over 280ms; the new page fades and rises in over `--dur-swap`. The header has its own `view-transition-name` so it stays still. Browsers without support load normally.
+11. Side panels: fade in and settle 16px from the right over `--dur-swap` over a softly dimmed page; close with a 300ms fade.
+12. Page transitions: View Transitions API (`@view-transition { navigation: auto; }`). The old page fades out over 280ms; the new page fades and rises in over `--dur-swap`. The header has its own `view-transition-name` so it stays still. Browsers without support load normally.
 
 Rules:
 - Animate only `opacity` and `transform`. Never animate width, height, top, left, margin or box-shadow.

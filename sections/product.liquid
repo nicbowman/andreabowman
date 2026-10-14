@@ -285,7 +285,7 @@
     {%- if is_sold -%}
       <p class="product__sold-message">
         {{ section.settings.sold_message | escape }}
-        <a href="#enquire">{{ section.settings.sold_link_text | escape }}</a>
+        <a href="#enquire" data-enquire data-side-panel-open="enquire">{{ section.settings.sold_link_text | escape }}</a>
       </p>
     {%- else -%}
       <div class="product__actions">
@@ -294,6 +294,7 @@
             class="button button--full"
             href="#enquire"
             data-enquire
+            data-side-panel-open="enquire"
             data-enquiry-type="{{ 'products.enquiry.type_candle' | t | escape }}"
           >
             {{- 'products.enquire_candle' | t -}}
@@ -303,6 +304,7 @@
             class="button button--full"
             href="#enquire"
             data-enquire
+            data-side-panel-open="enquire"
             data-enquiry-type="{{ 'products.enquiry.type_enquiry' | t | escape }}"
           >
             {{- 'products.enquire' | t -}}
@@ -311,6 +313,7 @@
             class="button button--secondary button--full"
             href="#enquire"
             data-enquire
+            data-side-panel-open="enquire"
             data-enquiry-type="{{ 'products.enquiry.type_reserve' | t | escape }}"
             data-reserve="{{ 'products.reserve_message' | t | escape }}"
           >
@@ -455,6 +458,8 @@
 
         var field = document.querySelector('[data-enquiry-item]');
         if (field) field.value = [picker.getAttribute('data-product-title'), match.title, match.price].join(', ');
+        var summary = document.querySelector('[data-enquiry-summary]');
+        if (summary) summary.textContent = match.title + ', ' + match.price;
       });
     });
 
