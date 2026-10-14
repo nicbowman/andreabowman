@@ -8,6 +8,16 @@
 -%}
 
 {%- capture panel_body -%}
+  {%- comment -%} Filled in when a product card's Enquire now opens the panel; empty for general contact {%- endcomment -%}
+  <div class="enquiry-summary" data-panel-item hidden>
+    {%- comment -%} The image is set by script from the card that opened the panel {%- endcomment -%}
+    {% render 'painting-mount', alt: '', class: 'enquiry-summary__image' %}
+    <div class="enquiry-summary__text">
+      <span class="enquiry-summary__title" data-panel-item-title></span>
+      <span class="enquiry-summary__meta" data-panel-item-meta></span>
+    </div>
+  </div>
+
   {%- if section.settings.text != blank -%}
     <div class="rte contact-panel__text">{{ section.settings.text }}</div>
   {%- endif -%}
@@ -28,7 +38,8 @@
         </div>
       {%- endif -%}
 
-      <input type="hidden" name="contact[Enquiry]" value="{{ 'contact.panel_enquiry' | t | escape }}">
+      <input type="hidden" name="contact[Enquiry]" value="{{ 'contact.panel_enquiry' | t | escape }}" data-panel-enquiry>
+      <input type="hidden" name="contact[Enquiring about]" value="" disabled data-panel-item-input>
       <input type="hidden" name="contact[Page]" value="{{ request.origin }}{{ request.path }}">
 
       <label class="field" for="{{ form_id }}-name">
@@ -109,6 +120,63 @@
   open: panel_open,
   contact_path: contact_path
 %}
+
+{% javascript %}
+  (function () {
+    var panel = document.getElementById('contact-panel');
+    if (!panel) return;
+    var title = panel.querySelector('.side-panel__title');
+    var defaultTitle = title ? title.textContent : '';
+    var enquiry = panel.querySelector('[data-panel-enquiry]');
+    var defaultEnquiry = enquiry ? enquiry.value : '';
+    var item = panel.querySelector('[data-panel-item]');
+    var input = panel.querySelector('[data-panel-item-input]');
+
+    function reset() {
+      if (panel.querySelector('.form-message--success')) return;
+      if (title) title.textContent = defaultTitle;
+      if (enquiry) enquiry.value = defaultEnquiry;
+      if (item) item.hidden = true;
+      if (input) {
+        input.value = '';
+        input.disabled = true;
+      }
+    }
+
+    /* A product card's Enquire now names the painting or candle in the panel and in the email;
+       any other way in (the menu's Contact link) opens the general form */
+    document.addEventListener('click', function (event) {
+      var trigger = event.target.closest('[data-card-enquire]');
+      if (!trigger) {
+        var link = event.target.closest('a[href]');
+        if (link && link.pathname === panel.getAttribute('data-contact-path')) reset();
+        return;
+      }
+      if (!item || !input) return;
+      if (title) title.textContent = trigger.getAttribute('data-enquire-heading') || defaultTitle;
+      if (enquiry) enquiry.value = trigger.getAttribute('data-enquire-heading') || defaultEnquiry;
+      item.querySelector('[data-panel-item-title]').textContent = trigger.getAttribute('data-enquire-title');
+      item.querySelector('[data-panel-item-meta]').textContent = trigger.getAttribute('data-enquire-meta') || '';
+      var mount = item.querySelector('.enquiry-summary__image');
+      var image = mount.querySelector('img');
+      if (!image) {
+        image = document.createElement('img');
+        image.className = 'mount__image';
+        image.width = 96;
+        image.height = 96;
+        mount.appendChild(image);
+      }
+      image.src = trigger.getAttribute('data-enquire-image') || '';
+      image.alt = trigger.getAttribute('data-enquire-title') || '';
+      item.hidden = false;
+      input.value = trigger.getAttribute('data-enquire-item') || '';
+      input.disabled = false;
+    }, true);
+
+    /* Back to a general contact form once closed */
+    panel.addEventListener('close', reset);
+  })();
+{% endjavascript %}
 
 {% stylesheet %}
   .contact-panel__text p {

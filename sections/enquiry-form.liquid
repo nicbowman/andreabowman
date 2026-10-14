@@ -1,16 +1,18 @@
 {%- liquid
   assign form_id = 'EnquiryForm-' | append: section.id
   assign anchor = section.settings.anchor | handleize | default: section.id
+  assign as_panel = false
+  if section.settings.display == 'panel'
+    assign as_panel = true
+  endif
+  assign form_open = false
 -%}
 
-<section id="{{ anchor }}" class="enquiry enquiry--{{ section.settings.background }}" aria-labelledby="Heading-{{ section.id }}">
-  <div class="page-width enquiry__inner">
-    <div class="enquiry__intro">
-      <h2 id="Heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
-      {%- if section.settings.text != blank -%}
-        <div class="rte">{{ section.settings.text }}</div>
-      {%- endif -%}
-
+{%- comment -%}
+  The download link and contact details are captured once and placed beside the form on the page,
+  or under it in the side panel.
+{%- endcomment -%}
+{%- capture enquiry_extras -%}
       {%- if section.settings.download_label != blank and section.settings.download_url != blank -%}
         <a class="button button--secondary enquiry__download" href="{{ section.settings.download_url }}" target="_blank" rel="noopener">
           {{- section.settings.download_label | escape -}}
@@ -56,9 +58,13 @@
           {%- endif -%}
         </ul>
       {%- endif -%}
-    </div>
+{%- endcapture -%}
 
+{%- capture enquiry_form -%}
     {%- form 'contact', id: form_id, class: 'enquiry__form' -%}
+      {%- if form.posted_successfully? or form.errors -%}
+        {%- assign form_open = true -%}
+      {%- endif -%}
       {%- if form.posted_successfully? -%}
         <p class="form-message form-message--success" role="status">
           {%- render 'icon', name: 'check' -%}
@@ -173,8 +179,45 @@
         {% render 'consent-note' %}
       {%- endif -%}
     {%- endform -%}
-  </div>
-</section>
+{%- endcapture -%}
+
+{%- if as_panel -%}
+  {%- comment -%} A slim closing band on the page; the form itself opens in a side panel at #anchor {%- endcomment -%}
+  <section class="enquiry enquiry--{{ section.settings.background }}" aria-labelledby="Heading-{{ section.id }}">
+    <div class="page-width enquiry__prompt">
+      <div class="enquiry__prompt-text">
+        <h2 id="Heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+        {%- if section.settings.text != blank -%}
+          <div class="rte">{{ section.settings.text }}</div>
+        {%- endif -%}
+      </div>
+      <a class="button" href="#{{ anchor }}" data-side-panel-open="{{ anchor }}">
+        {{- section.settings.open_label | default: section.settings.submit_label | escape -}}
+      </a>
+    </div>
+  </section>
+
+  {%- capture panel_body -%}
+    {{ enquiry_form }}
+    {%- if enquiry_extras != blank -%}
+      <div class="enquiry__panel-extras">{{ enquiry_extras }}</div>
+    {%- endif -%}
+  {%- endcapture -%}
+  {% render 'side-panel', id: anchor, title: section.settings.heading, content: panel_body, form_id: form_id, open: form_open %}
+{%- else -%}
+  <section id="{{ anchor }}" class="enquiry enquiry--{{ section.settings.background }}" aria-labelledby="Heading-{{ section.id }}">
+    <div class="page-width enquiry__inner">
+      <div class="enquiry__intro">
+        <h2 id="Heading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+        {%- if section.settings.text != blank -%}
+          <div class="rte">{{ section.settings.text }}</div>
+        {%- endif -%}
+        {{ enquiry_extras }}
+      </div>
+      {{ enquiry_form }}
+    </div>
+  </section>
+{%- endif -%}
 
 {% stylesheet %}
   .enquiry--oatmeal {
@@ -191,6 +234,35 @@
   /* On ivory straight after a page intro, the form continues the intro rather than starting a new band */
   .shopify-section:has(> .page-intro) + .shopify-section > .enquiry--ivory .enquiry__inner {
     padding-top: 8px;
+  }
+
+  /* Panel mode: one line of text and a button on the page */
+  .enquiry__prompt {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px 48px;
+    padding-block: var(--section-space-small);
+  }
+
+  .enquiry__prompt-text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 640px;
+  }
+
+  .enquiry__prompt-text p {
+    color: var(--color-ink-soft);
+  }
+
+  .enquiry__panel-extras {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-hairline);
   }
 
   .enquiry__intro {
@@ -278,6 +350,23 @@
 {
   "name": "t:general.enquiry_form",
   "settings": [
+    {
+      "type": "select",
+      "id": "display",
+      "label": "t:labels.form_display",
+      "info": "t:info.form_display",
+      "options": [
+        { "value": "page", "label": "t:options.form_display.page" },
+        { "value": "panel", "label": "t:options.form_display.panel" }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "text",
+      "id": "open_label",
+      "label": "t:labels.open_label",
+      "info": "t:info.open_label"
+    },
     {
       "type": "text",
       "id": "heading",

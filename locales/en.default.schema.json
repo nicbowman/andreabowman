@@ -94,6 +94,7 @@
     "featured_collection": "Paintings shown in the grid",
     "font": "Jost Light is the approved typeface. Regular and Medium weights load automatically.",
     "footer_contact_details": "Email, phone, WhatsApp and Instagram are set in Theme settings > Contact details.",
+    "form_display": "In a side panel, the page shows the heading, text and a button; links to the anchor below also open the panel.",
     "header_menu": "Use up to 6 links: Art, Candles, Features, My story, For designers, Contact.",
     "heading_tag": "Use Page title once per page, for the main heading",
     "hero_image": "A lifestyle or installation photograph, at least 2400px wide. It fills the full width.",
@@ -107,6 +108,7 @@
     "meta_description": "Used for search results and link previews when a page has no description of its own.",
     "minimum_to_show": "With fewer paintings than this, the section is hidden.",
     "more_works_collection": "Sold paintings and the current painting are skipped",
+    "open_label": "Button that opens the panel. Defaults to the submit button label.",
     "page_intro_heading": "Leave blank to use the page title",
     "portrait_image": "A portrait photograph, shown at 4:5 and filling the frame.",
     "press_source": "Entries come from Content > Metaobjects > Press article, newest first.",
@@ -163,6 +165,7 @@
     "enquiry_type": "Enquiry type",
     "favicon": "Favicon",
     "font": "Font",
+    "form_display": "Show the form",
     "grid_gap": "Grid spacing",
     "grid_item_width": "Grid item width",
     "heading": "Heading",
@@ -191,6 +194,7 @@
     "minimum_to_show": "Minimum paintings to show the section",
     "name_text": "Name",
     "only_with_designer": "Only show homes credited to a designer",
+    "open_label": "Panel button label",
     "padding": "Padding",
     "primary_label": "Primary button label",
     "primary_url": "Primary button link",
@@ -253,6 +257,10 @@
     "direction": {
       "horizontal": "Horizontal",
       "vertical": "Vertical"
+    },
+    "form_display": {
+      "page": "On the page",
+      "panel": "In a side panel"
     },
     "heading_tag": {
       "page_title": "Page title",

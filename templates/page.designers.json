@@ -123,6 +123,8 @@
     "enquiry": {
       "type": "enquiry-form",
       "settings": {
+        "display": "panel",
+        "open_label": "Start a trade enquiry",
         "heading": "Trade enquiries",
         "text": "<p>Tell me about your project and ask for the trade pack. I reply to every enquiry personally, within two working days.</p>",
         "download_label": "",
