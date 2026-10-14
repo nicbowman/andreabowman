@@ -30,9 +30,9 @@
     "intro": {
       "type": "split-text",
       "settings": {
-        "heading": "Original abstract paintings, made in Cape Town",
+        "heading": "Original art and pieces for the home and garden, made in Cape Town",
         "heading_tag": "h1",
-        "text": "<p>I make paintings slowly, building up layers of paint, texture and colour until the surface feels like something weathered by time. Working from my studio in Cape Town, I’m drawn to the marks that land and water leave behind. Each piece is an original, made to be lived with.</p>",
+        "text": "<p>I make paintings slowly, building up layers of paint, texture and colour until the surface feels like something weathered by time. Working from my studio in Cape Town, I’m drawn to the marks that land and water leave behind. Each piece is an original, made to be lived with.</p><p>Alongside the paintings and prints I make a small range of pieces for interiors, from candles to cushions, and large pots and cement planters for the garden.</p>",
         "link_label": "Read my story",
         "link_url": "shopify://pages/my-story",
         "link_style": "link",
@@ -60,9 +60,9 @@
         "image": "shopify://shop_images/feature-quiet-ground.jpg",
         "image_ratio": "landscape",
         "image_position": "left",
-        "heading": "Living with the paintings",
+        "heading": "Living with the work",
         "page_heading": false,
-        "text": "<p>See the paintings in the homes they now live in, along with features and exhibitions.</p>",
+        "text": "<p>See the paintings and pieces in the homes they now live in, along with features and exhibitions.</p>",
         "button_label": "View features",
         "button_url": "shopify://pages/features",
         "link_label": "",
@@ -70,15 +70,29 @@
         "background": "oatmeal"
       }
     },
-    "candles": {
+    "interiors": {
       "type": "featured-works",
       "settings": {
-        "heading": "Candles",
-        "collection": "candles",
-        "kind": "candle",
+        "heading": "Interiors",
+        "collection": "interiors",
+        "kind": "piece",
         "products_to_show": 3,
         "minimum_to_show": 3,
-        "view_all_label": "View all candles",
+        "view_all_label": "View all interiors",
+        "show_tabs": false,
+        "available_collection": "",
+        "sold_collection": ""
+      }
+    },
+    "garden": {
+      "type": "featured-works",
+      "settings": {
+        "heading": "Garden",
+        "collection": "garden",
+        "kind": "piece",
+        "products_to_show": 3,
+        "minimum_to_show": 3,
+        "view_all_label": "View all garden pieces",
         "show_tabs": false,
         "available_collection": "",
         "sold_collection": ""
@@ -89,7 +103,7 @@
       "settings": {
         "heading": "For interior designers",
         "heading_tag": "h2",
-        "text": "<p>Paintings can be reserved for residential and hospitality projects. Ask for a trade pack with images, dimensions and pricing.</p>",
+        "text": "<p>Paintings, interior pieces and garden pots can be reserved for residential and hospitality projects. Ask for a trade pack with images, dimensions and pricing.</p>",
         "link_label": "Trade enquiries",
         "link_url": "shopify://pages/for-designers",
         "link_style": "secondary",
@@ -103,7 +117,8 @@
     "intro",
     "works",
     "features",
-    "candles",
+    "interiors",
+    "garden",
     "designers"
   ]
 }

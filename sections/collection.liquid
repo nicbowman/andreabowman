@@ -8,8 +8,8 @@
     if intro == blank
       assign intro = section.settings.intro
     endif
-    if section.settings.kind == 'candle'
-      assign count_text = 'collections.count_candles' | t: count: collection.products_count
+    if section.settings.kind == 'piece'
+      assign count_text = 'collections.count_pieces' | t: count: collection.products_count
     elsif collection.handle == section.settings.sold_collection.handle
       assign count_text = 'collections.count_sold' | t: count: collection.products_count
     else
@@ -24,8 +24,8 @@
   {%- endif -%}
 
   <div class="section-heading works__bar">
-    {%- comment -%} Candles have no Available / Sold split: sold out candles stay in the grid with a label {%- endcomment -%}
-    {%- unless section.settings.kind == 'candle' -%}
+    {%- comment -%} Interiors and Garden have no Available / Sold split: sold out pieces stay in the grid with a label {%- endcomment -%}
+    {%- unless section.settings.kind == 'piece' -%}
       {% render 'works-tabs',
         available: section.settings.available_collection,
         sold: section.settings.sold_collection,
@@ -209,7 +209,7 @@
       "info": "t:info.collection_kind",
       "options": [
         { "value": "painting", "label": "t:options.kind.painting" },
-        { "value": "candle", "label": "t:options.kind.candle" }
+        { "value": "piece", "label": "t:options.kind.piece" }
       ],
       "default": "painting"
     },

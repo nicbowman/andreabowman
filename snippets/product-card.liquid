@@ -1,10 +1,10 @@
 {% doc %}
   Renders a product card for grids: the in-room photo filling the square (when the theme setting is on and the
   product has one) or the mounted product image, then title, a meta line, and the price or a Sold label.
-  A product is a candle when its product type is "Candle" (any capitalisation), otherwise a painting.
-  A painting is sold when it has the tag "sold"; a candle is sold out when tagged "sold" or out of stock.
+  A product is a painting when its product type is "Painting" or "Print" (or empty); anything else is a piece.
+  A painting is sold when it has the tag "sold"; a piece is sold out when tagged "sold" or out of stock.
 
-  @param {product} product - The painting or candle
+  @param {product} product - The painting or piece
   @param {boolean} [eager] - Load the image immediately (first row above the fold)
   @param {string} [sizes] - Sizes attribute override for the image
   @param {string} [heading_tag] - Heading element for the title. Defaults to h3.
@@ -17,15 +17,15 @@
   assign tag = heading_tag | default: 'h3'
   assign tags_lower = product.tags | join: '|' | downcase | split: '|'
   assign product_type = product.type | downcase
-  assign is_candle = false
-  if product_type == 'candle'
-    assign is_candle = true
-  endif
+  assign is_piece = false
+  unless product_type == blank or product_type == 'painting' or product_type == 'print'
+    assign is_piece = true
+  endunless
 
   assign is_sold = false
   if tags_lower contains 'sold'
     assign is_sold = true
-  elsif is_candle and product.available == false
+  elsif is_piece and product.available == false
     assign is_sold = true
   endif
 
@@ -38,9 +38,9 @@
     assign card_cover = true
   endif
 
-  if is_candle
+  if is_piece
     assign first_meta = product.metafields.custom.dimensions.value
-    assign second_meta = product.metafields.custom.burn_time.value
+    assign second_meta = product.metafields.custom.material.value | default: product.metafields.custom.burn_time.value
   else
     assign first_meta = product.metafields.custom.medium.value
     assign second_meta = product.metafields.custom.dimensions.value
@@ -64,18 +64,18 @@
     assign enquire_heading = 'contact.panel_heading_similar' | t
     assign enquire_item = 'products.enquiry.sold_painting' | t: title: product.title
     assign enquire_meta = 'products.sold' | t
-    if is_candle
-      assign enquire_item = 'products.enquiry.sold_candle' | t: title: product.title
+    if is_piece
+      assign enquire_item = 'products.enquiry.sold_piece' | t: title: product.title
       assign enquire_meta = 'products.sold_out' | t
     endif
   else
     assign enquire_label = 'products.card_enquire' | t
     assign enquire_heading = 'contact.panel_heading_painting' | t
-    if is_candle
-      assign enquire_heading = 'contact.panel_heading_candle' | t
+    if is_piece
+      assign enquire_heading = 'contact.panel_heading_piece' | t
     endif
     assign enquire_price = product.price | money_without_trailing_zeros | strip_html
-    if is_candle and product.price_varies
+    if is_piece and product.price_varies
       assign enquire_price = product.price_min | money_without_trailing_zeros | strip_html
       assign enquire_price = 'products.price_from' | t: price: enquire_price
     endif
@@ -97,11 +97,11 @@
       {%- endif -%}
     </div>
 
-    {%- if is_sold and is_candle -%}
+    {%- if is_sold and is_piece -%}
       <span class="card__sold">{{ 'products.sold_out' | t }}</span>
     {%- elsif is_sold -%}
       <span class="card__sold">{{ 'products.sold' | t }}</span>
-    {%- elsif is_candle and product.price_varies -%}
+    {%- elsif is_piece and product.price_varies -%}
       {%- assign price_min = product.price_min | money_without_trailing_zeros -%}
       <span class="card__price">{{ 'products.price_from' | t: price: price_min }}</span>
     {%- else -%}

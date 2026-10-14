@@ -60,7 +60,7 @@
   "headers": {
     "appearance": "Appearance",
     "bottom_bar": "Bottom bar",
-    "candles": "Candles",
+    "pieces": "Interiors and Garden pieces",
     "contact_details": "Contact details",
     "hero_more": "More photographs",
     "newsletter": "Newsletter",
@@ -72,7 +72,7 @@
     "breadcrumb_collection": "Breadcrumb link for available paintings",
     "breadcrumb_sold_collection": "Breadcrumb link for sold paintings",
     "caption_colour": "Choose the colour that reads best over the photograph",
-    "collection_kind": "Candles have no Available / Sold tabs; sold out candles stay in the grid with a label.",
+    "collection_kind": "Interiors and Garden have no Available / Sold tabs; sold out pieces stay in the grid with a label.",
     "color_field_line": "Form field underlines on oatmeal",
     "color_hairline": "Dividers and borders",
     "color_ink": "Text",
@@ -95,13 +95,13 @@
     "font": "Jost Light is the approved typeface. Regular and Medium weights load automatically.",
     "footer_contact_details": "Email, phone, WhatsApp and Instagram are set in Theme settings > Contact details.",
     "form_display": "In a side panel, the page shows the heading, text and a button; links to the anchor below also open the panel.",
-    "header_menu": "Use up to 6 links: Art, Candles, Features, My story, For designers, Contact.",
+    "header_menu": "Use up to 7 links: Art, Interiors, Garden, Features, My story, For designers, Contact.",
     "heading_tag": "Use Page title once per page, for the main heading",
     "hero_image": "A lifestyle or installation photograph, at least 2400px wide. It fills the full width.",
     "hero_more": "Add up to two more photographs. One of the three shows at random on each visit.",
     "hide_newsletter_on_form_pages": "Those pages already have a form, so one is enough.",
     "homes_source": "Entries come from Content > Metaobjects > Home installation.",
-    "kind": "Only products of this type are shown. Set each product's type to Painting or Candle in the admin.",
+    "kind": "Only products of this kind are shown. Art is product type Painting (prints too); any other type (Candle, Cushion, Pot, Planter) is an Interiors or Garden piece.",
     "lead_with_room": "Grids and product pages open on the in-room photo (custom.in_room_image) when a product has one, with the painting itself as the next view. Set a focal point on the photo in Content > Files to keep the painting in frame.",
     "lifestyle_image": "A lifestyle or installation photograph. It fills the frame and is not mounted.",
     "logo_text": "Shown in capitals with wide letter spacing.",
@@ -272,7 +272,7 @@
     },
     "kind": {
       "painting": "Art",
-      "candle": "Candles"
+      "piece": "Interiors and Garden"
     },
     "link_style": {
       "link": "Text link",

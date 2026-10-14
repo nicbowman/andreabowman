@@ -1,25 +1,26 @@
 {%- liquid
-  # A product is a candle when its product type is "Candle", otherwise a painting.
+  # A product is a painting when its product type is "Painting" or "Print" (or empty); anything else
+  # (Candle, Cushion, Pot, Planter...) is a piece for Interiors or Garden.
   assign product_type = product.type | downcase
-  assign is_candle = false
-  if product_type == 'candle'
-    assign is_candle = true
-  endif
+  assign is_piece = false
+  unless product_type == blank or product_type == 'painting' or product_type == 'print'
+    assign is_piece = true
+  endunless
 
   assign tags_lower = product.tags | join: '|' | downcase | split: '|'
   assign is_sold = false
   if tags_lower contains 'sold'
     assign is_sold = true
-  elsif is_candle and product.available == false
+  elsif is_piece and product.available == false
     assign is_sold = true
   endif
 
-  if is_candle
+  if is_piece
     assign variant = product.selected_or_first_available_variant
-    assign item_label = 'products.enquiry.candle' | t
-    assign item_name = 'contact[Candle]'
-    assign enquiry_type = 'products.enquiry.type_candle' | t
-    assign message_placeholder = 'products.enquiry.message_placeholder_candle' | t
+    assign item_label = 'products.enquiry.piece' | t
+    assign item_name = 'contact[Piece]'
+    assign enquiry_type = 'products.enquiry.type_piece' | t
+    assign message_placeholder = 'products.enquiry.message_placeholder_piece' | t
   else
     assign item_label = 'products.enquiry.painting' | t
     assign item_name = 'contact[Painting]'
@@ -27,13 +28,13 @@
     assign message_placeholder = 'products.enquiry.message_placeholder' | t
   endif
 
-  if is_sold and is_candle
-    assign item_value = 'products.enquiry.sold_candle' | t: title: product.title
+  if is_sold and is_piece
+    assign item_value = 'products.enquiry.sold_piece' | t: title: product.title
     assign heading = section.settings.sold_heading
   elsif is_sold
     assign item_value = 'products.enquiry.sold_painting' | t: title: product.title
     assign heading = section.settings.sold_heading
-  elsif is_candle
+  elsif is_piece
     assign price = variant.price | money_without_trailing_zeros | strip_html
     assign item_value = product.title
     unless product.has_only_default_variant
@@ -61,11 +62,11 @@
     <div class="enquiry-summary__text">
       <span class="enquiry-summary__title">{{ product.title | escape }}</span>
       <span class="enquiry-summary__meta" data-enquiry-summary>
-        {%- if is_sold and is_candle -%}
+        {%- if is_sold and is_piece -%}
           {{- 'products.sold_out' | t -}}
         {%- elsif is_sold -%}
           {{- 'products.sold' | t -}}
-        {%- elsif is_candle and product.has_only_default_variant == false -%}
+        {%- elsif is_piece and product.has_only_default_variant == false -%}
           {{- variant.title }}, {{ price -}}
         {%- else -%}
           {{- price -}}
@@ -101,11 +102,11 @@
         <input type="hidden" name="contact[Link]" value="{{ shop.url }}{{ product.url }}">
         <input type="hidden" name="contact[Enquiry]" value="{{ enquiry_type | escape }}">
 
-        {%- comment -%} Shown in the summary above; sent with the enquiry so the email names the painting or candle {%- endcomment -%}
+        {%- comment -%} Shown in the summary above; sent with the enquiry so the email names the painting or piece {%- endcomment -%}
         <input type="hidden" name="{{ item_name }}" value="{{ item_value | escape }}" data-enquiry-item>
         <span class="visually-hidden">{{ item_label }}: {{ item_value | escape }}</span>
 
-        {%- if is_candle and is_sold == false -%}
+        {%- if is_piece and is_sold == false -%}
           {%- if section.settings.show_quantity or section.settings.delivery_options != blank -%}
             <div class="product-enquiry__row">
               {%- if section.settings.show_quantity -%}
@@ -279,7 +280,7 @@
     },
     {
       "type": "header",
-      "content": "t:headers.candles"
+      "content": "t:headers.pieces"
     },
     {
       "type": "checkbox",

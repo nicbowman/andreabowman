@@ -129,7 +129,7 @@
         "id": "meta_description",
         "label": "t:labels.meta_description",
         "info": "t:info.meta_description",
-        "default": "Original abstract paintings by Andrea Bowman. Layered, textured canvases made slowly in a Cape Town studio. View available works and enquire."
+        "default": "Original abstract paintings and prints by Andrea Bowman, with pieces for interiors and the garden, made in Cape Town. View available work and enquire."
       },
       {
         "type": "image_picker",

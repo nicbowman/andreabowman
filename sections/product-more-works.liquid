@@ -2,12 +2,12 @@
   assign source = section.settings.collection
   assign limit = section.settings.products_to_show | plus: 0
 
-  # Only suggest products of the same kind as this one: candles with candles, paintings with paintings.
+  # Only suggest products of the same kind as this one: pieces with pieces, paintings with paintings.
   assign product_type = product.type | downcase
   assign kind = 'painting'
-  if product_type == 'candle'
-    assign kind = 'candle'
-  endif
+  unless product_type == blank or product_type == 'painting' or product_type == 'print'
+    assign kind = 'piece'
+  endunless
 
   assign eligible = 0
   for item in source.products limit: 24
@@ -20,9 +20,9 @@
     endif
     assign item_type = item.type | downcase
     assign item_kind = 'painting'
-    if item_type == 'candle'
-      assign item_kind = 'candle'
-    endif
+    unless item_type == blank or item_type == 'painting' or item_type == 'print'
+      assign item_kind = 'piece'
+    endunless
     if item_kind != kind
       continue
     endif
@@ -56,9 +56,9 @@
           endif
           assign item_type = item.type | downcase
           assign item_kind = 'painting'
-          if item_type == 'candle'
-            assign item_kind = 'candle'
-          endif
+          unless item_type == blank or item_type == 'painting' or item_type == 'print'
+            assign item_kind = 'piece'
+          endunless
           if item_kind != kind
             continue
           endif

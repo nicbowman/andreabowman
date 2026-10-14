@@ -13,7 +13,7 @@
       "type": "page-intro",
       "settings": {
         "heading": "Contact",
-        "text": "<p>Ask about a painting, a commission or a project. I reply to every message personally, within two working days.</p>"
+        "text": "<p>Ask about a painting, a piece for your home or garden, a commission or a project. I reply to every message personally, within two working days.</p>"
       }
     },
     "form": {
@@ -21,7 +21,7 @@
       "settings": {
         "heading": "Send a message",
         "show_contact_details": true,
-        "details_note": "Paintings can be viewed in person by appointment.",
+        "details_note": "Paintings and pieces can be viewed in person by appointment.",
         "show_project_fields": false,
         "enquiry_type": "General enquiry",
         "message_placeholder": "How can I help?",

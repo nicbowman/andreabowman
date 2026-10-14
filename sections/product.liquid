@@ -1,17 +1,18 @@
 {%- liquid
-  # A product is a candle when its product type is "Candle", otherwise a painting.
-  # A painting is sold when tagged "sold"; a candle is sold out when tagged "sold" or out of stock.
+  # A product is a painting when its product type is "Painting" or "Print" (or empty); anything else
+  # (Candle, Cushion, Pot, Planter...) is a piece for Interiors or Garden.
+  # A painting is sold when tagged "sold"; a piece is sold out when tagged "sold" or out of stock.
   assign product_type = product.type | downcase
-  assign is_candle = false
-  if product_type == 'candle'
-    assign is_candle = true
-  endif
+  assign is_piece = false
+  unless product_type == blank or product_type == 'painting' or product_type == 'print'
+    assign is_piece = true
+  endunless
 
   assign tags_lower = product.tags | join: '|' | downcase | split: '|'
   assign is_sold = false
   if tags_lower contains 'sold'
     assign is_sold = true
-  elsif is_candle and product.available == false
+  elsif is_piece and product.available == false
     assign is_sold = true
   endif
 
@@ -36,16 +37,16 @@
     assign first_active = false
   endif
 
-  # Paintings: full view, surface detail, in a room. Candles: product images plus the in-room image, four views at most.
+  # Paintings: full view, surface detail, in a room. Pieces: product images plus the in-room image, four views at most.
   assign view_count = 0
-  if is_candle
-    assign candle_images = 4
+  if is_piece
+    assign piece_images = 4
     if room_image
-      assign candle_images = 3
+      assign piece_images = 3
     endif
     assign view_count = product.images.size
-    if view_count > candle_images
-      assign view_count = candle_images
+    if view_count > piece_images
+      assign view_count = piece_images
     endif
   else
     if full_image
@@ -89,9 +90,9 @@
         {% render 'product-view', image: room_image, id: room_id, alt: room_alt, active: true, sizes: main_sizes %}
       {%- endif -%}
 
-      {%- if is_candle -%}
-        {%- comment -%} Candles: the first image in the mount; further images and the in-room image fill a square frame {%- endcomment -%}
-        {%- for image in product.images limit: candle_images -%}
+      {%- if is_piece -%}
+        {%- comment -%} Pieces: the first image in the mount; further images and the in-room image fill a square frame {%- endcomment -%}
+        {%- for image in product.images limit: piece_images -%}
           {%- liquid
             assign view_id = 'ProductView-image-' | append: forloop.index | append: '-' | append: section.id
             assign view_alt = image.alt | default: product.title
@@ -129,12 +130,12 @@
         role="list"
         aria-label="{{ 'products.views' | t }}"
       >
-        {%- if is_candle -%}
-          {%- comment -%} Candle views have no fixed meaning, so the thumbnails have no captions; the alt text names each one {%- endcomment -%}
+        {%- if is_piece -%}
+          {%- comment -%} Piece views have no fixed meaning, so the thumbnails have no captions; the alt text names each one {%- endcomment -%}
           {%- if lead_room -%}
             {% render 'product-thumb', image: room_image, controls: room_id, alt: room_alt, pressed: true, sizes: thumb_sizes %}
           {%- endif -%}
-          {%- for image in product.images limit: candle_images -%}
+          {%- for image in product.images limit: piece_images -%}
             {%- liquid
               assign view_id = 'ProductView-image-' | append: forloop.index | append: '-' | append: section.id
               assign view_alt = image.alt | default: product.title
@@ -182,26 +183,26 @@
   <div class="product__info">
     <div class="product__heading">
       <h1>{{ product.title | escape }}</h1>
-      {%- if year != blank and is_candle == false -%}
+      {%- if year != blank and is_piece == false -%}
         <span class="product__year">{{ year | escape }}</span>
       {%- endif -%}
     </div>
 
-    {%- if is_sold and is_candle -%}
+    {%- if is_sold and is_piece -%}
       <span class="product__sold">{{ 'products.sold_out' | t }}</span>
     {%- elsif is_sold -%}
       <span class="product__sold">{{ 'products.sold' | t }}</span>
-    {%- elsif is_candle -%}
+    {%- elsif is_piece -%}
       <span class="product__price" data-variant-price>{{ variant.price | money_without_trailing_zeros }}</span>
     {%- else -%}
       <span class="product__price">{{ product.price | money_without_trailing_zeros }}</span>
     {%- endif -%}
 
-    {%- if is_candle and product.has_only_default_variant == false -%}
+    {%- if is_piece and product.has_only_default_variant == false -%}
       {%- comment -%}
         The options belong to the enquiry form below (form attribute), so the chosen scent or size
         is sent with the enquiry even without JavaScript. With JavaScript, the price, the link and the
-        enquiry's Candle field follow the choice.
+        enquiry's Piece field follow the choice.
       {%- endcomment -%}
       <div class="product__options" data-variant-picker data-product-title="{{ product.title | escape }}">
         {%- for option in product.options_with_values -%}
@@ -250,8 +251,8 @@
 
     {%- liquid
       assign dimensions = product.metafields.custom.dimensions.value
-      if is_candle
-        assign detail_keys = 'dimensions,burn_time,wax,notes,vessel' | split: ','
+      if is_piece
+        assign detail_keys = 'material,dimensions,finish,burn_time,wax,notes,vessel' | split: ','
       else
         assign detail_keys = 'medium,dimensions,framing,signature' | split: ','
       endif
@@ -278,7 +279,7 @@
       </dl>
     {%- endif -%}
 
-    {%- if dimensions != blank and section.settings.show_scale and is_candle == false -%}
+    {%- if dimensions != blank and section.settings.show_scale and is_piece == false -%}
       {% render 'scale-figure', dimensions: dimensions, image: full_image, title: product.title %}
     {%- endif -%}
 
@@ -289,15 +290,15 @@
       </p>
     {%- else -%}
       <div class="product__actions">
-        {%- if is_candle -%}
+        {%- if is_piece -%}
           <a
             class="button button--full"
             href="#enquire"
             data-enquire
             data-side-panel-open="enquire"
-            data-enquiry-type="{{ 'products.enquiry.type_candle' | t | escape }}"
+            data-enquiry-type="{{ 'products.enquiry.type_piece' | t | escape }}"
           >
-            {{- 'products.enquire_candle' | t -}}
+            {{- 'products.enquire_piece' | t -}}
           </a>
         {%- else -%}
           <a
@@ -367,8 +368,8 @@
     {%- if product.description != blank -%}
       <div class="product__about">
         <h2 class="product__about-heading">
-          {%- if is_candle -%}
-            {{- 'products.about_candle' | t -}}
+          {%- if is_piece -%}
+            {{- 'products.about_piece' | t -}}
           {%- else -%}
             {{- 'products.about' | t -}}
           {%- endif -%}
@@ -378,7 +379,7 @@
     {%- endif -%}
 
     {%- assign care = product.metafields.custom.care.value -%}
-    {%- if is_candle and care != blank -%}
+    {%- if is_piece and care != blank -%}
       <div class="product__about">
         <h2 class="product__about-heading">{{ 'products.care' | t }}</h2>
         <div class="rte">{{ care | escape | newline_to_br }}</div>
@@ -428,7 +429,7 @@
       });
     }
 
-    /* Candle options: the price, the page link and the enquiry's Candle field follow the choice. */
+    /* Piece options: the price, the page link and the enquiry's Piece field follow the choice. */
     document.querySelectorAll('[data-variant-picker]').forEach(function (picker) {
       var data = picker.querySelector('[data-variants]');
       if (!data) return;
@@ -869,7 +870,7 @@
     color: var(--color-muted);
   }
 
-  /* Candle options: quiet text pills with a hairline border, ink when chosen */
+  /* Piece options: quiet text pills with a hairline border, ink when chosen */
   .product__options {
     display: flex;
     flex-direction: column;

@@ -166,7 +166,7 @@
     "cta": {
       "type": "cta-band",
       "settings": {
-        "heading": "See the paintings",
+        "heading": "See the work",
         "primary_label": "Available art",
         "primary_url": "shopify://collections/available-works",
         "secondary_label": "Get in touch",

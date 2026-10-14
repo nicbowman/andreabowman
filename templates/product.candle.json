@@ -12,7 +12,7 @@
     "main": {
       "type": "product",
       "settings": {
-        "works_collection": "candles",
+        "works_collection": "interiors",
         "shipping_note": "Delivered by courier within South Africa in 3 to 5 working days, or collect from the studio in Cape Town.",
         "reassurance": "",
         "show_scale": false,
@@ -31,8 +31,8 @@
     "more_works": {
       "type": "product-more-works",
       "settings": {
-        "heading": "More candles",
-        "collection": "candles",
+        "heading": "More for interiors",
+        "collection": "interiors",
         "products_to_show": "3"
       }
     }

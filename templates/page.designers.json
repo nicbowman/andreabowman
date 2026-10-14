@@ -15,9 +15,9 @@
         "image": "shopify://shop_images/ochre-light-room.jpg",
         "image_ratio": "square",
         "image_position": "left",
-        "heading": "Original paintings for your projects",
+        "heading": "Original art and pieces for your projects",
         "page_heading": true,
-        "text": "<p>Paintings can be reserved for residential and hospitality projects. Ask for a trade pack with images, dimensions and pricing.</p>",
+        "text": "<p>Paintings, interior pieces and garden pots can be reserved for residential and hospitality projects. Ask for a trade pack with images, dimensions and pricing.</p>",
         "button_label": "Request the trade pack",
         "button_url": "#trade-enquiry",
         "link_label": "Browse available art",
@@ -33,7 +33,7 @@
           "settings": {
             "icon": "document",
             "title": "Trade pack",
-            "text": "<p>Images, dimensions and pricing for the available art, ready to share with your client.</p>"
+            "text": "<p>Images, dimensions and pricing for the available art, interior and garden pieces, ready to share with your client.</p>"
           }
         },
         "reservations": {
@@ -133,7 +133,7 @@
         "details_note": "",
         "show_project_fields": true,
         "enquiry_type": "Trade enquiry",
-        "message_placeholder": "Rooms, colours, sizes or paintings you have in mind",
+        "message_placeholder": "Rooms, gardens, colours, sizes or pieces you have in mind",
         "submit_label": "Send trade enquiry",
         "success_message": "Thank you. Your enquiry has been sent, and I will reply to you by email.",
         "anchor": "trade-enquiry",
