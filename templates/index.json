@@ -60,6 +60,19 @@
         "background": "oatmeal"
       }
     },
+    "candles": {
+      "type": "featured-works",
+      "disabled": true,
+      "settings": {
+        "heading": "Candles",
+        "collection": "candles",
+        "kind": "candle",
+        "products_to_show": 3,
+        "minimum_to_show": 3,
+        "view_all_label": "View all candles",
+        "show_tabs": false
+      }
+    },
     "designers": {
       "type": "split-text",
       "settings": {
@@ -79,6 +92,7 @@
     "intro",
     "works",
     "features",
+    "candles",
     "designers"
   ]
 }

@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "collection",
+      "settings": {
+        "kind": "candle",
+        "intro": "<p>[Candles introduction: what they are made of and how they are made.]</p>",
+        "products_per_page": 12
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

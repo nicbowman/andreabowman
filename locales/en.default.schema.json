@@ -61,6 +61,7 @@
     "breadcrumb_collection": "Breadcrumb link for available paintings",
     "breadcrumb_sold_collection": "Breadcrumb link for sold paintings",
     "caption_colour": "Choose the colour that reads best over the photograph",
+    "collection_kind": "Candles have no Available / Sold tabs; sold out candles stay in the grid with a label.",
     "color_field_line": "Form field underlines on oatmeal",
     "color_hairline": "Dividers and borders",
     "color_ink": "Text",
@@ -247,7 +248,7 @@
       "tall": "Tall"
     },
     "kind": {
-      "painting": "Paintings",
+      "painting": "Art",
       "candle": "Candles"
     },
     "link_style": {

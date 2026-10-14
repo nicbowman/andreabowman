@@ -29,6 +29,10 @@
       "one": "1 available artwork",
       "other": "{{ count }} available artworks"
     },
+    "count_candles": {
+      "one": "1 candle",
+      "other": "{{ count }} candles"
+    },
     "count_sold": {
       "one": "1 sold artwork",
       "other": "{{ count }} sold artworks"

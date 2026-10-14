@@ -8,13 +8,15 @@
     if intro == blank
       assign intro = section.settings.intro
     endif
-    if collection.handle == section.settings.sold_collection.handle
+    if section.settings.kind == 'candle'
+      assign count_text = 'collections.count_candles' | t: count: collection.products_count
+    elsif collection.handle == section.settings.sold_collection.handle
       assign count_text = 'collections.count_sold' | t: count: collection.products_count
     else
       assign count_text = 'collections.count_available' | t: count: collection.products_count
     endif
   -%}
-  {%- comment -%} The tabs already say which works are shown, so the collection title is for search engines and screen readers only {%- endcomment -%}
+  {%- comment -%} The menu and tabs already say what is shown, so the collection title is for search engines and screen readers only {%- endcomment -%}
   <h1 class="visually-hidden">{{ collection.title | escape }}</h1>
 
   {%- if intro != blank -%}
@@ -22,11 +24,14 @@
   {%- endif -%}
 
   <div class="section-heading works__bar">
-    {% render 'works-tabs',
-      available: section.settings.available_collection,
-      sold: section.settings.sold_collection,
-      current_handle: collection.handle
-    %}
+    {%- comment -%} Candles have no Available / Sold split: sold out candles stay in the grid with a label {%- endcomment -%}
+    {%- unless section.settings.kind == 'candle' -%}
+      {% render 'works-tabs',
+        available: section.settings.available_collection,
+        sold: section.settings.sold_collection,
+        current_handle: collection.handle
+      %}
+    {%- endunless -%}
     {%- if collection.products_count > 0 -%}
       <p class="text-caption works__count">{{ count_text }}</p>
     {%- endif -%}
@@ -197,6 +202,17 @@
 {
   "name": "t:general.collection",
   "settings": [
+    {
+      "type": "select",
+      "id": "kind",
+      "label": "t:labels.kind",
+      "info": "t:info.collection_kind",
+      "options": [
+        { "value": "painting", "label": "t:options.kind.painting" },
+        { "value": "candle", "label": "t:options.kind.candle" }
+      ],
+      "default": "painting"
+    },
     {
       "type": "collection",
       "id": "available_collection",
