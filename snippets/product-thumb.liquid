@@ -1,0 +1,39 @@
+{% doc %}
+  Renders one thumbnail button in the product gallery. Choosing it crossfades the matching view into the stage.
+
+  @param {image} image - The image
+  @param {string} controls - Id of the view this thumbnail shows
+  @param {string} alt - Alt text for the image
+  @param {string} [label] - Visible caption under the thumbnail. When empty, the alt text names the button.
+  @param {boolean} [mounted] - Show in the painting mount instead of a cover frame
+  @param {boolean} [pressed] - The thumbnail of the view shown first
+  @param {string} sizes - Sizes attribute for the responsive image
+
+  @example
+  {% render 'product-thumb', image: image, controls: 'ProductView-2', alt: alt, label: 'Surface detail', sizes: thumb_sizes %}
+{% enddoc %}
+
+<li class="product__thumb">
+  <button
+    type="button"
+    class="product__thumb-button"
+    aria-controls="{{ controls }}"
+    aria-pressed="{% if pressed %}true{% else %}false{% endif %}"
+    data-gallery-thumb
+  >
+    {%- if mounted -%}
+      {% render 'painting-mount', image: image, alt: alt, sizes: sizes %}
+    {%- else -%}
+      <span class="product__frame">
+        {{
+          image
+          | image_url: width: 600
+          | image_tag: widths: '200, 300, 400, 600', sizes: sizes, loading: 'lazy', alt: alt
+        }}
+      </span>
+    {%- endif -%}
+    {%- if label != blank -%}
+      <span class="product__thumb-label">{{ label }}</span>
+    {%- endif -%}
+  </button>
+</li>

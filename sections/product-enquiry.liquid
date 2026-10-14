@@ -1,18 +1,53 @@
 {%- liquid
+  # A product is a candle when its product type is "Candle", otherwise a painting.
+  assign product_type = product.type | downcase
+  assign is_candle = false
+  if product_type == 'candle'
+    assign is_candle = true
+  endif
+
   assign tags_lower = product.tags | join: '|' | downcase | split: '|'
   assign is_sold = false
   if tags_lower contains 'sold'
     assign is_sold = true
+  elsif is_candle and product.available == false
+    assign is_sold = true
   endif
 
-  if is_sold
-    assign painting_value = 'products.enquiry.sold_painting' | t: title: product.title
+  if is_candle
+    assign variant = product.selected_or_first_available_variant
+    assign item_label = 'products.enquiry.candle' | t
+    assign item_name = 'contact[Candle]'
+    assign enquiry_type = 'products.enquiry.type_candle' | t
+    assign message_placeholder = 'products.enquiry.message_placeholder_candle' | t
+  else
+    assign item_label = 'products.enquiry.painting' | t
+    assign item_name = 'contact[Painting]'
+    assign enquiry_type = 'products.enquiry.type_enquiry' | t
+    assign message_placeholder = 'products.enquiry.message_placeholder' | t
+  endif
+
+  if is_sold and is_candle
+    assign item_value = 'products.enquiry.sold_candle' | t: title: product.title
     assign heading = section.settings.sold_heading
+  elsif is_sold
+    assign item_value = 'products.enquiry.sold_painting' | t: title: product.title
+    assign heading = section.settings.sold_heading
+  elsif is_candle
+    assign price = variant.price | money_without_trailing_zeros | strip_html
+    assign item_value = product.title
+    unless product.has_only_default_variant
+      assign item_value = item_value | append: ', ' | append: variant.title
+    endunless
+    assign item_value = item_value | append: ', ' | append: price
+    assign heading = section.settings.heading
   else
     assign price = product.price | money_without_trailing_zeros | strip_html
-    assign painting_value = product.title | append: ', ' | append: price
+    assign item_value = product.title | append: ', ' | append: price
     assign heading = section.settings.heading
   endif
+
+  assign delivery_options = section.settings.delivery_options | newline_to_br | split: '<br />'
 -%}
 
 <section id="enquire" class="section section--oatmeal product-enquiry" aria-labelledby="EnquiryHeading-{{ section.id }}">
@@ -38,19 +73,56 @@
         {%- endif -%}
 
         <input type="hidden" name="contact[Link]" value="{{ shop.url }}{{ product.url }}">
-        <input type="hidden" name="contact[Enquiry]" value="{{ 'products.enquiry.type_enquiry' | t | escape }}">
+        <input type="hidden" name="contact[Enquiry]" value="{{ enquiry_type | escape }}">
 
-        <label class="field" for="ProductEnquiry-painting">
-          {{- 'products.enquiry.painting' | t -}}
+        <label class="field" for="ProductEnquiry-item">
+          {{- item_label -}}
           <input
             class="field__input"
-            id="ProductEnquiry-painting"
+            id="ProductEnquiry-item"
             type="text"
-            name="contact[Painting]"
-            value="{{ painting_value | escape }}"
+            name="{{ item_name }}"
+            value="{{ item_value | escape }}"
             readonly
+            data-enquiry-item
           >
         </label>
+
+        {%- if is_candle and is_sold == false -%}
+          {%- if section.settings.show_quantity or section.settings.delivery_options != blank -%}
+            <div class="product-enquiry__row">
+              {%- if section.settings.show_quantity -%}
+                <label class="field" for="ProductEnquiry-quantity">
+                  {{- 'products.enquiry.quantity' | t -}}
+                  <input
+                    class="field__input"
+                    id="ProductEnquiry-quantity"
+                    type="number"
+                    name="contact[Quantity]"
+                    min="1"
+                    step="1"
+                    inputmode="numeric"
+                    value="1"
+                  >
+                </label>
+              {%- endif -%}
+
+              {%- if section.settings.delivery_options != blank -%}
+                <label class="field" for="ProductEnquiry-delivery">
+                  {{- 'products.enquiry.delivery' | t -}}
+                  <select class="field__input" id="ProductEnquiry-delivery" name="contact[Delivery]">
+                    {%- for option in delivery_options -%}
+                      {%- assign clean_option = option | strip -%}
+                      {%- if clean_option != blank -%}
+                        <option value="{{ clean_option | escape }}">{{ clean_option | escape }}</option>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </select>
+                </label>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endif -%}
 
         <div class="product-enquiry__row">
           <label class="field" for="ProductEnquiry-name">
@@ -125,7 +197,7 @@
             id="ProductEnquiry-message"
             name="contact[body]"
             rows="3"
-            placeholder="{{ 'products.enquiry.message_placeholder' | t }}"
+            placeholder="{{ message_placeholder | escape }}"
           >
             {{- form.body -}}
           </textarea>
@@ -209,6 +281,22 @@
       "id": "text",
       "label": "t:labels.text",
       "default": "<p>Ask about the work, arrange a viewing or reserve it for a project. Andrea replies personally [within two working days].</p>"
+    },
+    {
+      "type": "header",
+      "content": "t:headers.candles"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quantity",
+      "label": "t:labels.show_quantity",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "delivery_options",
+      "label": "t:labels.delivery_options",
+      "info": "t:info.delivery_options"
     }
   ],
   "enabled_on": {
