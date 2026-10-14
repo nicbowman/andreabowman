@@ -51,6 +51,7 @@ Every painting and candle, everywhere on the site, is displayed the same size so
 - A **square mount** (aspect-ratio 1:1, background `mount` #EFEAE2).
 - The painting image sits centred inside it with `object-fit: contain`, its longest side at 76% of the mount.
 - This applies to collection grids, the product page main image, thumbnails and "more works".
+- **Lead with the room (theme setting `lead_with_room`, on by default):** when a product has `custom.in_room_image`, grid cards show that photo filling the square (`painting-mount` with `cover: true`) and the product page opens on it, with the mounted painting as the next view. Room photos for cards should be square and framed on the painting (crop before upload) or have a focal point set in Content > Files, because the square crop is taken from the centre. Products without a room photo keep the mount.
 - Lifestyle and installation photos (Features page, homepage feature block, in-room views) are NOT mounted: they fill their frame with `object-fit: cover` at the ratio shown in the mockups.
 - Use Shopify `image_url` with appropriate widths and `srcset`, lazy load below the fold, always output alt text.
 

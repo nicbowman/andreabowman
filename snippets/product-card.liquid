@@ -1,5 +1,6 @@
 {% doc %}
-  Renders a product card for grids: mounted image, title, a meta line, and the price or a Sold label.
+  Renders a product card for grids: the in-room photo filling the square (when the theme setting is on and the
+  product has one) or the mounted product image, then title, a meta line, and the price or a Sold label.
   A product is a candle when its product type is "Candle" (any capitalisation), otherwise a painting.
   A painting is sold when it has the tag "sold"; a candle is sold out when tagged "sold" or out of stock.
 
@@ -28,6 +29,15 @@
     assign is_sold = true
   endif
 
+  # Lead with the in-room photo when there is one (theme setting), otherwise the mounted product image.
+  assign card_image = product.featured_image
+  assign card_cover = false
+  assign room_image = product.metafields.custom.in_room_image.value
+  if settings.lead_with_room and room_image
+    assign card_image = room_image
+    assign card_cover = true
+  endif
+
   if is_candle
     assign first_meta = product.metafields.custom.dimensions.value
     assign second_meta = product.metafields.custom.burn_time.value
@@ -48,7 +58,7 @@
 -%}
 
 <a class="card" href="{{ product.url }}">
-  {% render 'painting-mount', image: product.featured_image, alt: product.title, eager: eager, sizes: sizes %}
+  {% render 'painting-mount', image: card_image, alt: product.title, eager: eager, sizes: sizes, cover: card_cover %}
 
   <div class="card__info">
     <div class="card__text">
