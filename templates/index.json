@@ -62,7 +62,6 @@
     },
     "candles": {
       "type": "featured-works",
-      "disabled": true,
       "settings": {
         "heading": "Candles",
         "collection": "candles",
