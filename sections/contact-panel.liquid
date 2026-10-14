@@ -27,11 +27,15 @@
       {%- assign panel_open = true -%}
     {%- endif -%}
     {%- if form.posted_successfully? -%}
+      <div class="form-sent" data-form-sent>
       <p class="form-message form-message--success" role="status">
         {%- render 'icon', name: 'check' -%}
         <span>{{ section.settings.success_message | escape }}</span>
       </p>
-    {%- else -%}
+        <button type="button" class="form-sent__again" data-form-again>{{ 'contact.send_another' | t }}</button>
+      </div>
+    {%- endif -%}
+    <div class="form-fields" data-form-fields{% if form.posted_successfully? %} hidden{% endif %}>
       {%- if form.errors -%}
         <div class="form-message" role="alert" id="{{ form_id }}-errors">
           {{ form.errors | default_errors }}
@@ -80,13 +84,13 @@
             placeholder="{{ section.settings.message_placeholder | escape }}"
           {% endif %}
         >
-          {{- form.body -}}
+          {%- unless form.posted_successfully? -%}{{- form.body -}}{%- endunless -%}
         </textarea>
       </label>
 
       <button class="button" type="submit">{{ section.settings.submit_label | escape }}</button>
       {% render 'consent-note' %}
-    {%- endif -%}
+    </div>
   {%- endform -%}
 
   {%- if section.settings.show_contact_details -%}
@@ -133,7 +137,6 @@
     var input = panel.querySelector('[data-panel-item-input]');
 
     function reset() {
-      if (panel.querySelector('.form-message--success')) return;
       if (title) title.textContent = defaultTitle;
       if (enquiry) enquiry.value = defaultEnquiry;
       if (item) item.hidden = true;

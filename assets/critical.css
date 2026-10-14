@@ -527,6 +527,42 @@ select.field__input {
   padding-left: 1.2em;
 }
 
+/* After a form is sent: the thank-you, a link to send another, and the fields kept ready but hidden */
+.form-sent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.form-sent[hidden],
+.form-fields[hidden] {
+  display: none;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: inherit;
+}
+
+.form-sent__again {
+  padding: 0 0 3px;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: none;
+  color: var(--color-ink);
+  font: inherit;
+  font-size: var(--text-size-small);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: var(--transition-colour);
+}
+
+.form-sent__again:hover {
+  color: var(--color-moss);
+}
+
 /* Accessibility helpers */
 
 .visually-hidden {
