@@ -1,8 +1,9 @@
 {% doc %}
-  Renders a painting card for grids: mounted image, title, medium and dimensions, and the price or a Sold label.
-  A painting is sold when it has the tag "sold" (any capitalisation).
+  Renders a product card for grids: mounted image, title, a meta line, and the price or a Sold label.
+  A product is a candle when its product type is "Candle" (any capitalisation), otherwise a painting.
+  A painting is sold when it has the tag "sold"; a candle is sold out when tagged "sold" or out of stock.
 
-  @param {product} product - The painting
+  @param {product} product - The painting or candle
   @param {boolean} [eager] - Load the image immediately (first row above the fold)
   @param {string} [sizes] - Sizes attribute override for the image
   @param {string} [heading_tag] - Heading element for the title. Defaults to h3.
@@ -14,22 +15,35 @@
 {%- liquid
   assign tag = heading_tag | default: 'h3'
   assign tags_lower = product.tags | join: '|' | downcase | split: '|'
+  assign product_type = product.type | downcase
+  assign is_candle = false
+  if product_type == 'candle'
+    assign is_candle = true
+  endif
+
   assign is_sold = false
   if tags_lower contains 'sold'
     assign is_sold = true
+  elsif is_candle and product.available == false
+    assign is_sold = true
   endif
 
-  assign medium = product.metafields.custom.medium.value
-  assign dimensions = product.metafields.custom.dimensions.value
-  assign meta_parts = ''
-  if medium != blank
-    assign meta_parts = medium
+  if is_candle
+    assign first_meta = product.metafields.custom.dimensions.value
+    assign second_meta = product.metafields.custom.burn_time.value
+  else
+    assign first_meta = product.metafields.custom.medium.value
+    assign second_meta = product.metafields.custom.dimensions.value
   endif
-  if dimensions != blank
+  assign meta_parts = ''
+  if first_meta != blank
+    assign meta_parts = first_meta
+  endif
+  if second_meta != blank
     if meta_parts != blank
       assign meta_parts = meta_parts | append: ', '
     endif
-    assign meta_parts = meta_parts | append: dimensions
+    assign meta_parts = meta_parts | append: second_meta
   endif
 -%}
 
@@ -44,8 +58,13 @@
       {%- endif -%}
     </div>
 
-    {%- if is_sold -%}
+    {%- if is_sold and is_candle -%}
+      <span class="card__sold">{{ 'products.sold_out' | t }}</span>
+    {%- elsif is_sold -%}
       <span class="card__sold">{{ 'products.sold' | t }}</span>
+    {%- elsif is_candle and product.price_varies -%}
+      {%- assign price_min = product.price_min | money_without_trailing_zeros -%}
+      <span class="card__price">{{ 'products.price_from' | t: price: price_min }}</span>
     {%- else -%}
       <span class="card__price">{{ product.price | money_without_trailing_zeros }}</span>
     {%- endif -%}

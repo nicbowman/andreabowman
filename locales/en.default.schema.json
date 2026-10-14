@@ -79,12 +79,13 @@
     "featured_collection": "Paintings shown in the grid",
     "font": "Jost Light is the approved typeface. Regular and Medium weights load automatically.",
     "footer_contact_details": "Email, phone, WhatsApp and Instagram are set in Theme settings > Contact details.",
-    "header_menu": "Use up to 5 links: Works, Features, My story, For designers, Contact.",
+    "header_menu": "Use up to 6 links: Works, Candles, Features, My story, For designers, Contact.",
     "heading_tag": "Use Page title once per page, for the main heading",
     "hero_image": "A lifestyle or installation photograph, at least 2400px wide. It fills the full width.",
     "hero_more": "Add up to two more photographs. One of the three shows at random on each visit.",
     "hide_newsletter_on_form_pages": "Those pages already have a form, so one is enough.",
     "homes_source": "Entries come from Content > Metaobjects > Home installation.",
+    "kind": "Only products of this type are shown. Set each product's type to Painting or Candle in the admin.",
     "lifestyle_image": "A lifestyle or installation photograph. It fills the frame and is not mounted.",
     "logo_text": "Shown in capitals with wide letter spacing.",
     "meta_description": "Used for search results and link previews when a page has no description of its own.",
@@ -158,6 +159,7 @@
     "instagram_url": "Instagram link",
     "intro": "Intro",
     "items_to_show": "Items to show",
+    "kind": "Show",
     "layout_direction": "Layout direction",
     "lead": "Opening paragraph",
     "link_label": "Link label",
@@ -239,6 +241,10 @@
     "height": {
       "medium": "Medium",
       "tall": "Tall"
+    },
+    "kind": {
+      "painting": "Paintings",
+      "candle": "Candles"
     },
     "link_style": {
       "link": "Text link",

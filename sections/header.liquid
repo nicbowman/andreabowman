@@ -1,7 +1,47 @@
 {%- liquid
   assign logo_text = section.settings.logo_text | default: shop.name
   assign menu_links = section.settings.menu.links
+
+  # On a product page, underline the collection link of the same kind: Candles for a candle, Works for a painting.
+  # A collection link counts as the candles link when its handle contains "candle".
+  if request.page_type == 'product'
+    assign product_type = product.type | downcase
+    assign product_kind = 'painting'
+    if product_type == 'candle'
+      assign product_kind = 'candle'
+    endif
+  endif
 -%}
+
+{%- capture menu_items -%}
+  {%- for link in menu_links limit: 6 -%}
+    {%- liquid
+      assign kind_match = false
+      if request.page_type == 'product' and link.type == 'collection_link'
+        assign link_kind = 'painting'
+        if link.object.handle contains 'candle'
+          assign link_kind = 'candle'
+        endif
+        if link_kind == product_kind
+          assign kind_match = true
+        endif
+      endif
+    -%}
+    <li>
+      <a
+        class="site-header__link"
+        href="{{ link.url }}"
+        {% if link.current %}
+          aria-current="page"
+        {% elsif link.active or link.child_active or kind_match %}
+          aria-current="true"
+        {% endif %}
+      >
+        {{- link.title | escape -}}
+      </a>
+    </li>
+  {%- endfor -%}
+{%- endcapture -%}
 
 <header class="page-width site-header">
   <a class="site-header__logo" href="{{ routes.root_url }}">{{ logo_text | escape }}</a>
@@ -9,23 +49,7 @@
   {%- if menu_links.size > 0 -%}
     <nav class="site-header__nav" aria-label="{{ 'accessibility.main_navigation' | t }}">
       <ul class="site-header__menu" role="list">
-        {%- for link in menu_links limit: 5 -%}
-          <li>
-            <a
-              class="site-header__link"
-              href="{{ link.url }}"
-              {% if link.current %}
-                aria-current="page"
-              {% elsif link.active or link.child_active %}
-                aria-current="true"
-              {% elsif request.page_type == 'product' and link.type == 'collection_link' %}
-                aria-current="true"
-              {% endif %}
-            >
-              {{- link.title | escape -}}
-            </a>
-          </li>
-        {%- endfor -%}
+        {{- menu_items -}}
       </ul>
     </nav>
 
@@ -36,23 +60,7 @@
       </summary>
       <nav class="site-header__drawer-nav" aria-label="{{ 'accessibility.main_navigation' | t }}">
         <ul class="site-header__drawer-menu" role="list">
-          {%- for link in menu_links limit: 5 -%}
-            <li>
-              <a
-                class="site-header__link"
-                href="{{ link.url }}"
-                {% if link.current %}
-                  aria-current="page"
-                {% elsif link.active or link.child_active %}
-                  aria-current="true"
-                {% elsif request.page_type == 'product' and link.type == 'collection_link' %}
-                  aria-current="true"
-                {% endif %}
-              >
-                {{- link.title | escape -}}
-              </a>
-            </li>
-          {%- endfor -%}
+          {{- menu_items -}}
         </ul>
       </nav>
     </details>
@@ -215,6 +223,7 @@
   .site-header__drawer-menu li:nth-child(3) { --item-index: 2; }
   .site-header__drawer-menu li:nth-child(4) { --item-index: 3; }
   .site-header__drawer-menu li:nth-child(5) { --item-index: 4; }
+  .site-header__drawer-menu li:nth-child(6) { --item-index: 5; }
 
   .site-header__drawer-menu li {
     border-top: 1px solid var(--color-hairline);
@@ -237,6 +246,17 @@
     text-decoration-thickness: 1px;
   }
 
+  /* Six links need about 860px beside the wordmark, so narrower screens use the menu toggle. */
+  @media (max-width: 899px) {
+    .site-header__nav {
+      display: none;
+    }
+
+    .site-header__drawer {
+      display: block;
+    }
+  }
+
   @media (max-width: 749px) {
     .site-header {
       padding-block: 16px;
@@ -245,14 +265,6 @@
     .site-header__logo {
       font-size: 14px;
       letter-spacing: 0.28em;
-    }
-
-    .site-header__nav {
-      display: none;
-    }
-
-    .site-header__drawer {
-      display: block;
     }
   }
 {% endstylesheet %}

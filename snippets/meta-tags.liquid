@@ -1,6 +1,6 @@
 {% doc %}
   Outputs the charset, viewport, title, meta description, canonical, social sharing tags and,
-  on painting pages, Product structured data.
+  on painting and candle pages, Product structured data.
 
   @example
   {% render 'meta-tags' %}
@@ -34,10 +34,24 @@
     assign description = settings.meta_description | default: shop.description | default: site_name
   endif
 
-  # Title: paintings without a custom SEO title read "Title, original abstract painting by Andrea Bowman".
+  # A product is a candle when its product type is "Candle", otherwise a painting.
+  assign is_candle = false
+  if request.page_type == 'product'
+    assign product_type = product.type | downcase
+    if product_type == 'candle'
+      assign is_candle = true
+    endif
+  endif
+
+  # Title: products without a custom SEO title read "Title, original abstract painting by Andrea Bowman"
+  # or "Title, candle by Andrea Bowman".
   assign title = page_title
   if request.page_type == 'product' and page_title == product.title
-    assign title = 'meta.painting_title' | t: title: product.title, artist: site_name
+    if is_candle
+      assign title = 'meta.candle_title' | t: title: product.title, artist: site_name
+    else
+      assign title = 'meta.painting_title' | t: title: product.title, artist: site_name
+    endif
   endif
 
   assign share_image = page_image
@@ -109,13 +123,20 @@
 {%- if request.page_type == 'product' -%}
   {%- liquid
     assign tags_lower = product.tags | join: '|' | downcase | split: '|'
+    assign availability = 'https://schema.org/InStock'
     if tags_lower contains 'sold'
       assign availability = 'https://schema.org/SoldOut'
-    else
-      assign availability = 'https://schema.org/InStock'
+    elsif is_candle and product.available == false
+      assign availability = 'https://schema.org/SoldOut'
+    endif
+    assign category = 'Painting'
+    if is_candle
+      assign category = 'Candle'
     endif
     assign product_url = request.origin | append: product.url
     assign price = product.price | divided_by: 100.0
+    assign price_low = product.price_min | divided_by: 100.0
+    assign price_high = product.price_max | divided_by: 100.0
   -%}
   <meta property="og:price:amount" content="{{ product.price | money_without_currency | strip_html }}">
   <meta property="og:price:currency" content="{{ shop.currency }}">
@@ -130,11 +151,18 @@
         "image": {{ product.featured_image | image_url: width: 1600 | prepend: 'https:' | json }},
       {%- endif -%}
       "brand": { "@type": "Brand", "name": {{ site_name | json }} },
-      "category": "Painting",
+      "category": {{ category | json }},
       "offers": {
-        "@type": "Offer",
+        {%- if product.price_varies -%}
+          "@type": "AggregateOffer",
+          "lowPrice": {{ price_low | json }},
+          "highPrice": {{ price_high | json }},
+          "offerCount": {{ product.variants.size | json }},
+        {%- else -%}
+          "@type": "Offer",
+          "price": {{ price | json }},
+        {%- endif -%}
         "url": {{ product_url | json }},
-        "price": {{ price | json }},
         "priceCurrency": {{ shop.currency | json }},
         "availability": {{ availability | json }},
         "itemCondition": "https://schema.org/NewCondition"
