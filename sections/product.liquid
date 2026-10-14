@@ -27,6 +27,15 @@
   assign year = product.metafields.custom.year.value
   assign variant = product.selected_or_first_available_variant
 
+  assign lead_room = false
+  if settings.lead_with_room and room_image
+    assign lead_room = true
+  endif
+  assign first_active = true
+  if lead_room
+    assign first_active = false
+  endif
+
   # Paintings: full view, surface detail, in a room. Candles: product images plus the in-room image, four views at most.
   assign view_count = 0
   if is_candle
@@ -75,32 +84,41 @@
       assign label_room = 'products.view_in_room' | t
     -%}
     <div class="product__stage">
+      {%- comment -%} With the lead-with-room setting, the in-room photo opens the gallery and the painting follows {%- endcomment -%}
+      {%- if lead_room -%}
+        {% render 'product-view', image: room_image, id: room_id, alt: room_alt, active: true, sizes: main_sizes %}
+      {%- endif -%}
+
       {%- if is_candle -%}
         {%- comment -%} Candles: the first image in the mount; further images and the in-room image fill a square frame {%- endcomment -%}
         {%- for image in product.images limit: candle_images -%}
           {%- liquid
             assign view_id = 'ProductView-image-' | append: forloop.index | append: '-' | append: section.id
             assign view_alt = image.alt | default: product.title
+            assign view_active = false
+            if forloop.first and lead_room == false
+              assign view_active = true
+            endif
           -%}
           {% render 'product-view',
             image: image,
             id: view_id,
             alt: view_alt,
             mounted: forloop.first,
-            active: forloop.first,
+            active: view_active,
             sizes: main_sizes
           %}
         {%- else -%}
-          {% render 'product-view', id: full_id, alt: product.title, mounted: true, active: true, sizes: main_sizes %}
+          {% render 'product-view', id: full_id, alt: product.title, mounted: true, active: first_active, sizes: main_sizes %}
         {%- endfor -%}
       {%- else -%}
-        {% render 'product-view', image: full_image, id: full_id, alt: product.title, mounted: true, active: true, sizes: main_sizes %}
+        {% render 'product-view', image: full_image, id: full_id, alt: product.title, mounted: true, active: first_active, sizes: main_sizes %}
         {%- if detail_image -%}
           {% render 'product-view', image: detail_image, id: detail_id, alt: detail_alt, sizes: main_sizes %}
         {%- endif -%}
       {%- endif -%}
 
-      {%- if room_image -%}
+      {%- if room_image and lead_room == false -%}
         {% render 'product-view', image: room_image, id: room_id, alt: room_alt, sizes: main_sizes %}
       {%- endif -%}
     </div>
@@ -113,37 +131,47 @@
       >
         {%- if is_candle -%}
           {%- comment -%} Candle views have no fixed meaning, so the thumbnails have no captions; the alt text names each one {%- endcomment -%}
+          {%- if lead_room -%}
+            {% render 'product-thumb', image: room_image, controls: room_id, alt: room_alt, pressed: true, sizes: thumb_sizes %}
+          {%- endif -%}
           {%- for image in product.images limit: candle_images -%}
             {%- liquid
               assign view_id = 'ProductView-image-' | append: forloop.index | append: '-' | append: section.id
               assign view_alt = image.alt | default: product.title
+              assign view_active = false
+              if forloop.first and lead_room == false
+                assign view_active = true
+              endif
             -%}
             {% render 'product-thumb',
               image: image,
               controls: view_id,
               alt: view_alt,
               mounted: forloop.first,
-              pressed: forloop.first,
+              pressed: view_active,
               sizes: thumb_sizes
             %}
           {%- endfor -%}
-          {%- if room_image -%}
+          {%- if room_image and lead_room == false -%}
             {% render 'product-thumb', image: room_image, controls: room_id, alt: room_alt, sizes: thumb_sizes %}
           {%- endif -%}
         {%- else -%}
+          {%- if lead_room -%}
+            {% render 'product-thumb', image: room_image, controls: room_id, alt: room_alt, label: label_room, pressed: true, sizes: thumb_sizes %}
+          {%- endif -%}
           {% render 'product-thumb',
             image: full_image,
             controls: full_id,
             alt: product.title,
             label: label_full,
             mounted: true,
-            pressed: true,
+            pressed: first_active,
             sizes: thumb_sizes
           %}
           {%- if detail_image -%}
             {% render 'product-thumb', image: detail_image, controls: detail_id, alt: detail_alt, label: label_detail, sizes: thumb_sizes %}
           {%- endif -%}
-          {%- if room_image -%}
+          {%- if room_image and lead_room == false -%}
             {% render 'product-thumb', image: room_image, controls: room_id, alt: room_alt, label: label_room, sizes: thumb_sizes %}
           {%- endif -%}
         {%- endif -%}

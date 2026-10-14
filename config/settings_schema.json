@@ -110,6 +110,18 @@
     ]
   },
   {
+    "name": "t:general.product_images",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "lead_with_room",
+        "label": "t:labels.lead_with_room",
+        "info": "t:info.lead_with_room",
+        "default": true
+      }
+    ]
+  },
+  {
     "name": "t:general.search_sharing",
     "settings": [
       {
