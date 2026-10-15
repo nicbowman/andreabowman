@@ -14,33 +14,91 @@
   endif
 -%}
 
-{%- capture menu_items -%}
-  {%- for link in menu_links limit: 7 -%}
-    {%- liquid
-      assign kind_match = false
-      if request.page_type == 'product' and link.type == 'collection_link'
-        if product_collections contains link.object.handle
-          assign kind_match = true
-        elsif product_kind == 'painting' and link.object.handle contains 'works'
-          assign kind_match = true
+{%- comment -%}
+  A menu item with child links (e.g. Works > Art, Interiors, Garden) becomes a flyout on desktop, opened on hover,
+  focus or click, and a labelled group in the mobile menu. The parent item's own link is not used.
+{%- endcomment -%}
+{%- capture menu_items -%}{%- endcapture -%}
+{%- capture drawer_items -%}{%- endcapture -%}
+{%- for link in menu_links limit: 7 -%}
+  {%- liquid
+    # A parent renders its child links; a plain link renders itself (one item from the menu at its own position).
+    assign source = link.links
+    assign source_offset = 0
+    assign source_limit = 50
+    if link.links.size == 0
+      assign source = menu_links
+      assign source_offset = forloop.index0
+      assign source_limit = 1
+    endif
+    assign parent_active = false
+  -%}
+  {%- capture child_items -%}
+    {%- for child in source offset: source_offset limit: source_limit -%}
+      {%- liquid
+        assign kind_match = false
+        if request.page_type == 'product' and child.type == 'collection_link'
+          if product_collections contains child.object.handle
+            assign kind_match = true
+          elsif product_kind == 'painting' and child.object.handle contains 'works'
+            assign kind_match = true
+          endif
         endif
-      endif
-    -%}
-    <li>
-      <a
-        class="site-header__link"
-        href="{{ link.url }}"
-        {% if link.current %}
-          aria-current="page"
-        {% elsif link.active or link.child_active or kind_match %}
-          aria-current="true"
-        {% endif %}
-      >
-        {{- link.title | escape -}}
-      </a>
-    </li>
-  {%- endfor -%}
-{%- endcapture -%}
+        if child.current or child.active or child.child_active or kind_match
+          assign parent_active = true
+        endif
+      -%}
+      <li>
+        <a
+          class="site-header__link"
+          href="{{ child.url }}"
+          {% if child.current %}
+            aria-current="page"
+          {% elsif child.active or child.child_active or kind_match %}
+            aria-current="true"
+          {% endif %}
+        >
+          {{- child.title | escape -}}
+        </a>
+      </li>
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  {%- if link.links.size > 0 -%}
+    {%- assign flyout_id = 'HeaderFlyout-' | append: forloop.index -%}
+    {%- capture menu_item -%}
+      <li class="site-header__parent" data-flyout>
+        <button
+          type="button"
+          class="site-header__link site-header__flyout-toggle{% if parent_active %} is-active{% endif %}"
+          aria-expanded="false"
+          aria-controls="{{ flyout_id }}"
+        >
+          {{- link.title | escape -}}
+          {%- render 'icon', name: 'chevron-down', class: 'icon--small' -%}
+        </button>
+        <div class="site-header__flyout" id="{{ flyout_id }}">
+          <ul class="site-header__flyout-menu" role="list">
+            {{- child_items -}}
+          </ul>
+        </div>
+      </li>
+    {%- endcapture -%}
+    {%- capture drawer_item -%}
+      <li class="site-header__drawer-group">
+        <span class="site-header__drawer-label" id="{{ flyout_id }}-label">{{ link.title | escape }}</span>
+        <ul class="site-header__drawer-submenu" role="list" aria-labelledby="{{ flyout_id }}-label">
+          {{- child_items -}}
+        </ul>
+      </li>
+    {%- endcapture -%}
+  {%- else -%}
+    {%- assign menu_item = child_items -%}
+    {%- assign drawer_item = child_items -%}
+  {%- endif -%}
+  {%- assign menu_items = menu_items | append: menu_item -%}
+  {%- assign drawer_items = drawer_items | append: drawer_item -%}
+{%- endfor -%}
 
 <header class="page-width site-header">
   <a class="site-header__logo" href="{{ routes.root_url }}">{{ logo_text | escape }}</a>
@@ -59,7 +117,7 @@
       </summary>
       <nav class="site-header__drawer-nav" aria-label="{{ 'accessibility.main_navigation' | t }}">
         <ul class="site-header__drawer-menu" role="list">
-          {{- menu_items -}}
+          {{- drawer_items -}}
         </ul>
       </nav>
     </details>
@@ -99,6 +157,66 @@
     document.addEventListener('keydown', function (event) {
       if (event.key !== 'Escape') return;
       closeDrawer(document.querySelector('.site-header__drawer[open]'), true);
+    });
+
+    /*
+      Flyouts (e.g. Works): open on hover after a short pause, or on click, tap, Enter or Space; close softly
+      when the pointer or focus leaves, on Escape, or on a click elsewhere. Without JS, CSS :hover and
+      :focus-within still open them.
+    */
+    var OPEN_DELAY = 120;
+    var CLOSE_DELAY = 250;
+
+    function setOpen(item, open) {
+      window.clearTimeout(item._flyoutTimer);
+      item.classList.toggle('is-open', open);
+      item.querySelector('.site-header__flyout-toggle').setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    function later(item, open, delay) {
+      window.clearTimeout(item._flyoutTimer);
+      item._flyoutTimer = window.setTimeout(function () {
+        setOpen(item, open);
+      }, delay);
+    }
+
+    document.documentElement.classList.add('js-flyout');
+
+    document.querySelectorAll('[data-flyout]').forEach(function (item) {
+      var toggle = item.querySelector('.site-header__flyout-toggle');
+
+      item.addEventListener('pointerenter', function (event) {
+        if (event.pointerType === 'mouse') later(item, true, OPEN_DELAY);
+      });
+      item.addEventListener('pointerleave', function (event) {
+        if (event.pointerType === 'mouse') later(item, false, CLOSE_DELAY);
+      });
+      item.addEventListener('focusout', function (event) {
+        if (!item.contains(event.relatedTarget)) setOpen(item, false);
+      });
+      var lastPointer = '';
+      toggle.addEventListener('pointerdown', function (event) {
+        lastPointer = event.pointerType;
+      });
+      toggle.addEventListener('click', function (event) {
+        /* A mouse click on Works while hovering keeps it open; taps and keys toggle it. */
+        if (event.detail > 0 && lastPointer === 'mouse') {
+          setOpen(item, true);
+          return;
+        }
+        setOpen(item, !item.classList.contains('is-open'));
+      });
+      item.addEventListener('keydown', function (event) {
+        if (event.key !== 'Escape' || !item.classList.contains('is-open')) return;
+        setOpen(item, false);
+        toggle.focus();
+      });
+    });
+
+    document.addEventListener('click', function (event) {
+      document.querySelectorAll('[data-flyout].is-open').forEach(function (item) {
+        if (!item.contains(event.target)) setOpen(item, false);
+      });
     });
   })();
 {% endjavascript %}
@@ -167,6 +285,88 @@
   .site-header__menu .site-header__link:hover::after,
   .site-header__menu .site-header__link:focus-visible::after {
     transform: scaleX(1);
+  }
+
+  /* Flyout (e.g. Works > Art, Interiors, Garden) */
+  .site-header__parent {
+    position: relative;
+  }
+
+  .site-header__flyout-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .site-header__flyout-toggle .icon {
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+
+  .site-header__menu .site-header__flyout-toggle.is-active::after,
+  .site-header__parent.is-open .site-header__flyout-toggle::after {
+    transform: scaleX(1);
+  }
+
+  .site-header__parent.is-open .site-header__flyout-toggle .icon {
+    transform: rotate(180deg);
+  }
+
+  /* The transparent top padding bridges the gap, so the pointer can travel from Works to the panel. */
+  .site-header__flyout {
+    position: absolute;
+    top: 100%;
+    left: -28px;
+    z-index: 3;
+    min-width: 220px;
+    padding-top: 18px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition:
+      opacity 300ms var(--ease-fade),
+      transform 300ms var(--ease-out),
+      visibility 0s linear 300ms;
+  }
+
+  .site-header__parent.is-open > .site-header__flyout,
+  html:not(.js-flyout) .site-header__parent:hover > .site-header__flyout,
+  html:not(.js-flyout) .site-header__parent:focus-within > .site-header__flyout {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity var(--dur-swap) var(--ease-fade),
+      transform var(--dur-swap) var(--ease-out),
+      visibility 0s;
+  }
+
+  .site-header__flyout-menu {
+    display: grid;
+    gap: 14px;
+    margin: 0;
+    padding: 24px 28px;
+    list-style: none;
+    background-color: var(--color-ivory);
+    border: 1px solid var(--color-hairline);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header__flyout,
+    .site-header__parent.is-open > .site-header__flyout {
+      transform: none;
+      transition: none;
+    }
+
+    .site-header__flyout-toggle .icon {
+      transition: none;
+    }
   }
 
   .site-header__logo,
@@ -244,6 +444,32 @@
     padding: 20px 0;
     font-size: 22px;
     font-weight: var(--font-weight-light);
+  }
+
+  /* A group in the mobile menu: the parent's name as a quiet label above its links */
+  .site-header__drawer-group {
+    padding-block: 20px 8px;
+  }
+
+  .site-header__drawer-label {
+    display: block;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+  }
+
+  .site-header__drawer-submenu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-header__drawer-menu .site-header__drawer-submenu li {
+    border: 0;
+  }
+
+  .site-header__drawer-submenu .site-header__link {
+    padding-block: 10px;
   }
 
   .site-header__drawer-menu .site-header__link[aria-current] {

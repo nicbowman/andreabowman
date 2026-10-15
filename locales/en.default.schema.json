@@ -95,7 +95,7 @@
     "font": "Jost Light is the approved typeface. Regular and Medium weights load automatically.",
     "footer_contact_details": "Email, phone, WhatsApp and Instagram are set in Theme settings > Contact details.",
     "form_display": "In a side panel, the page shows the heading, text and a button; links to the anchor below also open the panel.",
-    "header_menu": "Use up to 7 links: Art, Interiors, Garden, Features, My story, For designers, Contact.",
+    "header_menu": "Up to 7 items. Drag links under another item to group them: Works with Art, Interiors and Garden nested under it opens as a flyout. Suggested: Works, Features, My story, For designers, Contact.",
     "heading_tag": "Use Page title once per page, for the main heading",
     "hero_image": "A lifestyle or installation photograph, at least 2400px wide. It fills the full width.",
     "hero_more": "Add up to two more photographs. One of the three shows at random on each visit.",
