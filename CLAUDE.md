@@ -110,7 +110,7 @@ The Features page sections read these metaobjects. Each section also has theme e
 
 The `enquiry-form` section has a "Show the form" setting: on the page (Contact) or in a side panel (For designers). In a panel, the page keeps a slim band with heading, text and a button, and links to the section anchor (e.g. `#trade-enquiry`) open the panel.
 
-Navigation (from the admin menu, max 7 items): Art, Interiors, Garden, Features, My story, For designers, Contact. Below 900px the menu toggle replaces the links. Active page shows a 1px underline.
+Navigation (from the admin menu, max 7 top-level items): Works (with Art, Interiors and Garden nested under it), Features, My story, For designers, Contact. A top-level item with nested links opens a flyout on hover (short pause), click, tap or Enter, fading in and settling 8px over `--dur-swap` on ivory with a hairline; in the mobile menu it shows as a muted label above its links. Below 900px the menu toggle replaces the links. Active page shows a 1px underline.
 
 ## Copy rules
 - Never use em dashes in any text or code comments. Use commas, colons or plain hyphens.

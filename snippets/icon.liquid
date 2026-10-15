@@ -2,7 +2,7 @@
   Renders one line icon from the theme's own set: thin 1.25px strokes in the current text colour.
   Icons are decorative (aria-hidden), so the text beside them must carry the meaning.
 
-  @param {string} name - Icon name: arrow-right, arrow-left, arrow-down, arrow-up-right, close, zoom, check,
+  @param {string} name - Icon name: arrow-right, arrow-left, arrow-down, chevron-down, arrow-up-right, close, zoom, check,
     mail, phone, chat, instagram, document, calendar, ruler, truck, frame, certificate, eye, lock, palette, home, pin
   @param {string} [class] - Extra class names
 
@@ -18,6 +18,8 @@
       <path d="M20 12H4.5M10 6.5 4.5 12l5.5 5.5"/>
     {%- when 'arrow-down' -%}
       <path d="M12 4v15.5M6.5 14l5.5 5.5 5.5-5.5"/>
+    {%- when 'chevron-down' -%}
+      <path d="M6.5 9.5 12 15l5.5-5.5"/>
     {%- when 'arrow-up-right' -%}
       <path d="M6.5 17.5 17.5 6.5M8.5 6.5h9v9"/>
     {%- when 'close' -%}
