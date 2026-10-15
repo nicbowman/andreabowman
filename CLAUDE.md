@@ -72,7 +72,7 @@ Every painting and piece, everywhere on the site, is displayed the same size so 
 - Art page has two tabs: Available and Sold (two collections: `available-works`, `sold-works`, automated by tag and product type Painting). The visible name is "Art" (menu, headings, counts); the handles stay `available-works` and `sold-works`.
 
 ## Interiors and Garden pieces
-- Three areas: **Art** (paintings and prints, product type `Painting`), **Interiors** (candles, cushions and other pieces for the home) and **Garden** (large pots and cement planters).
+- Three areas: **Art** (paintings and prints, product type `Painting`), **Interiors** (candles, cushions and other pieces for the home) and **Garden** (handmade cement pots and planters, made to sit naturally in the garden).
 - A product is a painting when its product type is `Painting` or `Print` (or empty); any other type (`Candle`, `Cushion`, `Pot`, `Planter`...) is a **piece**. Every place that renders products checks this (cards, grids, more works, header, structured data, product and enquiry sections) so paintings and pieces never mix. Section setting `kind` is `painting` or `piece`.
 - Interiors and Garden are automated collections `interiors` and `garden` (product type conditions, any condition), with the `interiors` / `garden` collection templates (no tabs). A piece's area is its collection: the header underlines the menu link whose collection holds the product.
 - Product templates `interiors` and `garden` (and `candle`, kept for existing candles, pointing at Interiors): painting page layout with piece details and enquiry fields, "More for interiors" / "More for the garden".
