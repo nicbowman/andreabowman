@@ -4,11 +4,22 @@
 
 <div class="page-width works">
   {%- liquid
+    # The Art intro and Available / Sold tabs belong to the two Art collections only, so any other collection
+    # left on this template (e.g. a new one before its template is chosen) shows its own description and no tabs.
+    assign is_art = false
+    if collection.handle == section.settings.available_collection.handle or collection.handle == section.settings.sold_collection.handle
+      assign is_art = true
+    endif
+
     assign intro = collection.description
     if intro == blank
-      assign intro = section.settings.intro
+      if is_art or section.settings.kind == 'piece'
+        assign intro = section.settings.intro
+      endif
     endif
-    if section.settings.kind == 'piece'
+    if section.settings.kind == 'piece' or is_art == false
+      assign count_text = 'collections.count_pieces' | t: count: collection.products_count
+    elsif collection.handle == section.settings.sold_collection.handle
       assign count_text = 'collections.count_pieces' | t: count: collection.products_count
     elsif collection.handle == section.settings.sold_collection.handle
       assign count_text = 'collections.count_sold' | t: count: collection.products_count
@@ -25,13 +36,13 @@
 
   <div class="section-heading works__bar">
     {%- comment -%} Interiors and Garden have no Available / Sold split: sold out pieces stay in the grid with a label {%- endcomment -%}
-    {%- unless section.settings.kind == 'piece' -%}
+    {%- if is_art and section.settings.kind != 'piece' -%}
       {% render 'works-tabs',
         available: section.settings.available_collection,
         sold: section.settings.sold_collection,
         current_handle: collection.handle
       %}
-    {%- endunless -%}
+    {%- endif -%}
     {%- if collection.products_count > 0 -%}
       <p class="text-caption works__count">{{ count_text }}</p>
     {%- endif -%}
