@@ -20,8 +20,6 @@
     if section.settings.kind == 'piece' or is_art == false
       assign count_text = 'collections.count_pieces' | t: count: collection.products_count
     elsif collection.handle == section.settings.sold_collection.handle
-      assign count_text = 'collections.count_pieces' | t: count: collection.products_count
-    elsif collection.handle == section.settings.sold_collection.handle
       assign count_text = 'collections.count_sold' | t: count: collection.products_count
     else
       assign count_text = 'collections.count_available' | t: count: collection.products_count
