@@ -192,6 +192,8 @@
       <span class="product__sold">{{ 'products.sold_out' | t }}</span>
     {%- elsif is_sold -%}
       <span class="product__sold">{{ 'products.sold' | t }}</span>
+    {%- elsif settings.show_prices == false -%}
+      <span class="product__price">{{ settings.price_label | escape }}</span>
     {%- elsif is_piece -%}
       <span class="product__price" data-variant-price>{{ variant.price | money_without_trailing_zeros }}</span>
     {%- else -%}
@@ -236,11 +238,17 @@
         <script type="application/json" data-variants>
           [
             {%- for item in product.variants -%}
+              {%- liquid
+                assign item_price = item.price | money_without_trailing_zeros | strip_html
+                unless settings.show_prices
+                  assign item_price = settings.price_label
+                endunless
+              -%}
               {
                 "id": {{ item.id | json }},
                 "title": {{ item.title | json }},
                 "options": {{ item.options | json }},
-                "price": {{ item.price | money_without_trailing_zeros | strip_html | json }},
+                "price": {{ item_price | json }},
                 "available": {{ item.available | json }}
               }{% unless forloop.last %},{% endunless %}
             {%- endfor -%}
@@ -867,7 +875,7 @@
     font-size: var(--text-size-label);
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--color-muted);
+    color: var(--color-sold);
   }
 
   /* Piece options: quiet text pills with a hairline border, ink when chosen */

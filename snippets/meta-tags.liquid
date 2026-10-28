@@ -139,8 +139,11 @@
     assign price_low = product.price_min | divided_by: 100.0
     assign price_high = product.price_max | divided_by: 100.0
   -%}
-  <meta property="og:price:amount" content="{{ product.price | money_without_currency | strip_html }}">
-  <meta property="og:price:currency" content="{{ shop.currency }}">
+  {%- comment -%} With prices hidden (POA), no price goes into link previews or search results either {%- endcomment -%}
+  {%- if settings.show_prices -%}
+    <meta property="og:price:amount" content="{{ product.price | money_without_currency | strip_html }}">
+    <meta property="og:price:currency" content="{{ shop.currency }}">
+  {%- endif -%}
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -152,7 +155,8 @@
         "image": {{ product.featured_image | image_url: width: 1600 | prepend: 'https:' | json }},
       {%- endif -%}
       "brand": { "@type": "Brand", "name": {{ site_name | json }} },
-      "category": {{ category | json }},
+      "category": {{ category | json }}
+      {%- if settings.show_prices -%},
       "offers": {
         {%- if product.price_varies -%}
           "@type": "AggregateOffer",
@@ -168,6 +172,7 @@
         "availability": {{ availability | json }},
         "itemCondition": "https://schema.org/NewCondition"
       }
+      {%- endif %}
     }
   </script>
 {%- endif -%}

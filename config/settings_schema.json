@@ -76,6 +76,13 @@
         "label": "t:labels.color_moss",
         "info": "t:info.color_moss",
         "default": "#3F4636"
+      },
+      {
+        "type": "color",
+        "id": "color_sold",
+        "label": "t:labels.color_sold",
+        "info": "t:info.color_sold",
+        "default": "#A3312A"
       }
     ]
   },
@@ -118,6 +125,25 @@
         "label": "t:labels.lead_with_room",
         "info": "t:info.lead_with_room",
         "default": true
+      }
+    ]
+  },
+  {
+    "name": "t:general.prices",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_prices",
+        "label": "t:labels.show_prices",
+        "info": "t:info.show_prices",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "price_label",
+        "label": "t:labels.price_label",
+        "info": "t:info.price_label",
+        "default": "POA"
       }
     ]
   },

@@ -37,7 +37,7 @@
               <div class="search-result__content">
                 <p>
                   {{ result.title | link_to: result.url }}
-                  {% if result.price %}
+                  {% if result.price and settings.show_prices %}
                     {{ result.price | money_with_currency }}
                   {% endif %}
                 </p>

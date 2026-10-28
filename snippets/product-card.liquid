@@ -79,6 +79,10 @@
       assign enquire_price = product.price_min | money_without_trailing_zeros | strip_html
       assign enquire_price = 'products.price_from' | t: price: enquire_price
     endif
+    # Theme setting: with prices hidden, the price label (POA) stands in everywhere.
+    unless settings.show_prices
+      assign enquire_price = settings.price_label
+    endunless
     assign enquire_item = product.title | append: ', ' | append: enquire_price
     assign enquire_meta = enquire_price
   endif
@@ -101,11 +105,8 @@
       <span class="card__sold">{{ 'products.sold_out' | t }}</span>
     {%- elsif is_sold -%}
       <span class="card__sold">{{ 'products.sold' | t }}</span>
-    {%- elsif is_piece and product.price_varies -%}
-      {%- assign price_min = product.price_min | money_without_trailing_zeros -%}
-      <span class="card__price">{{ 'products.price_from' | t: price: price_min }}</span>
     {%- else -%}
-      <span class="card__price">{{ product.price | money_without_trailing_zeros }}</span>
+      <span class="card__price">{{ enquire_price | escape }}</span>
     {%- endif -%}
   </div>
 </a>
@@ -322,7 +323,7 @@
     font-size: 12px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--color-muted);
+    color: var(--color-sold);
     white-space: nowrap;
   }
 {% endstylesheet %}
