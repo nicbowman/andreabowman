@@ -14,8 +14,8 @@
       "settings": {
         "image": "shopify://shop_images/portrait-artist.jpg",
         "heading": "My story",
-        "lead": "<p>I'm Andrea Bowman, an abstract painter working from a studio in Cape Town. I paint large, layered canvases about the places where land meets water.</p>",
-        "text": "<p>I grew up close to the sea, and the colours of that coastline have stayed with me: wet sand, kelp, rust on old railings, the green of fynbos after rain. I have painted full time for more than a decade, after years of drawing and printmaking.</p>"
+        "lead": "<p>I'm Andrea, a Cape Town-based artist who loves making things with my hands: large, multi-layered textured canvases, pots big enough to outlive me, and a whole collection of curiosities that have piqued my interest over time.</p>",
+        "text": "<p>I studied at the Metafora Art School in Barcelona, but I am largely self-taught. I learn by doing, by exploring, and by spending time with other people and their ideas. A lifetime of curiosity has shaped my style. I travel with a camera, and places stay with me long after I leave: the colours of a market, the heat of an Omani afternoon, a wall worn soft by weather. Sooner or later they find their way into paint, or into concrete. It still thrills me to see my work in magazines, in rooms by designers I admire.</p>"
       }
     },
     "how_i_work": {
@@ -24,19 +24,19 @@
         "text_1": {
           "type": "text",
           "settings": {
-            "text": "<p>A painting usually begins with a place rather than a picture: a walk along the Atlantic seaboard, a weathered wall, the light at the end of a winter afternoon. I lay down the first colours quickly and loosely, then live with the canvas for a while before going back in.</p><p>I build each surface over weeks, sometimes months. Acrylic and oil, sand, plaster and gold leaf go on, are scraped back with palette knives and squeegees, then layered again. Lines are scratched into wet paint, and the edges of earlier layers are left to show through, so every painting carries its own history.</p>"
+            "text": "<p>When a painting takes hold, everything else falls away. The studio fills with paint and canvas and half-finished things, the days run together, and only the moment counts. I go somewhere outside my usual self, and I don't come back until the piece is right.</p><p>I work in layers of acrylic, oil, charcoal and mixed media, building up and scraping back, so earlier layers glow through the later ones. Every painting carries the history of the days it took to make.</p>"
           }
         },
         "quote_1": {
           "type": "quote",
           "settings": {
-            "quote": "I hope people feel a kind of quiet when they live with one of my paintings, the way you breathe out when you reach the sea."
+            "quote": "I love what I make, then I can't live with it, and a month later I love it all over again."
           }
         },
         "text_2": {
           "type": "text",
           "settings": {
-            "text": "<p>A painting is finished when I stop wanting to change it. It is signed on the back, varnished, photographed and given its title, and then it waits in the studio for the home it belongs in.</p>"
+            "text": "<p>There are days I wonder if I'm only posturing, and days when it simply flows and I know it. Both keep me honest, and both keep me painting. I am ambitious about my work, and I hope I never stop growing.</p><p>Then the storm settles into careful work: framing, finishing, the small last touches that let a painting leave the studio and go home.</p><p>The same hunger drives my pots. I came back from Oman with Omani pots in my head and had to make my own. Each one took five men to lift into place. They are nearly as large as I am, and they will be standing long after I'm gone.</p>"
           }
         }
       },
@@ -87,44 +87,17 @@
     "background": {
       "type": "year-lists",
       "blocks": {
-        "exhibitions": {
+        "press": {
           "type": "group",
           "settings": {
-            "heading": "Exhibitions"
+            "heading": "Press"
           }
         },
-        "exhibition_1": {
+        "press_1": {
           "type": "entry",
           "settings": {
-            "year": "2025",
-            "text": "Tidelines, solo exhibition, Cape Town"
-          }
-        },
-        "exhibition_2": {
-          "type": "entry",
-          "settings": {
-            "year": "2024",
-            "text": "Salt and Ochre, group exhibition, Stellenbosch"
-          }
-        },
-        "collections": {
-          "type": "group",
-          "settings": {
-            "heading": "Collections"
-          }
-        },
-        "collection_1": {
-          "type": "entry",
-          "settings": {
-            "year": "2025",
-            "text": "Private collection, Constantia"
-          }
-        },
-        "collection_2": {
-          "type": "entry",
-          "settings": {
-            "year": "2024",
-            "text": "Boutique hotel collection, Franschhoek"
+            "year": "[Years]",
+            "text": "Work featured in interiors magazines, in homes by leading designers [Magazine names]"
           }
         },
         "training": {
@@ -136,28 +109,16 @@
         "training_1": {
           "type": "entry",
           "settings": {
-            "year": "2014",
-            "text": "Mentorship in mixed media and surface work, Cape Town"
-          }
-        },
-        "training_2": {
-          "type": "entry",
-          "settings": {
-            "year": "2010",
-            "text": "Drawing and printmaking studies, Cape Town"
+            "year": "[Year]",
+            "text": "Metafora Art School, Barcelona. Otherwise self-taught"
           }
         }
       },
       "block_order": [
-        "exhibitions",
-        "exhibition_1",
-        "exhibition_2",
-        "collections",
-        "collection_1",
-        "collection_2",
+        "press",
+        "press_1",
         "training",
-        "training_1",
-        "training_2"
+        "training_1"
       ],
       "settings": {
         "heading": "Background"
