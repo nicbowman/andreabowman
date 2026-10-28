@@ -36,6 +36,9 @@
     assign heading = section.settings.sold_heading
   elsif is_piece
     assign price = variant.price | money_without_trailing_zeros | strip_html
+    unless settings.show_prices
+      assign price = settings.price_label
+    endunless
     assign item_value = product.title
     unless product.has_only_default_variant
       assign item_value = item_value | append: ', ' | append: variant.title
@@ -44,6 +47,9 @@
     assign heading = section.settings.heading
   else
     assign price = product.price | money_without_trailing_zeros | strip_html
+    unless settings.show_prices
+      assign price = settings.price_label
+    endunless
     assign item_value = product.title | append: ', ' | append: price
     assign heading = section.settings.heading
   endif

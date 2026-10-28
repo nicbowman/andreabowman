@@ -25,6 +25,7 @@ The approved design is in `/design` (read `design/README.md` first). Match it cl
 | ink-soft | #4F4A43 | body paragraphs |
 | muted | #5E5850 | captions, labels, metadata |
 | moss | #3F4636 | the only accent: primary buttons, footer background, hover |
+| sold | #A3312A | the small Sold and Sold out labels only (Andrea's request, 2026-10-28) |
 
 Expose these as theme settings (colour pickers) with these defaults. No other colours, no gradients, no shadows, no rounded corners.
 
@@ -62,7 +63,7 @@ Every painting and piece, everywhere on the site, is displayed the same size so 
 - Secondary button: "RESERVE FOR A DESIGN PROJECT", same panel with the message pre-filled with "I would like to reserve this painting for a design project."
 - **Side panels** (`snippets/side-panel.liquid`): enquiry and contact forms open in a modal dialog from the right (480px, full screen on mobile), with a painting summary at the top for product enquiries. Escape, Close and a click outside close it; focus stays inside and returns to the trigger. After posting, the panel reopens to show the thank-you or errors. Without JS, a link to the panel's #id still shows it. The product enquiry section renders as this panel (no form band on the page). A Contact panel section in the footer group opens from any link to the contact page (menu Contact), except on the contact page itself.
 - Enquiry form uses Shopify's native `{% form 'contact' %}` with fields: Painting (read-only, auto-filled with product title and price, submitted as `contact[Painting]`), Name, Email, Phone (optional), Message. Show success and error states in the same style.
-- Prices are shown in ZAR on the product page and grids.
+- Prices are hidden: every price shows the theme setting `price_label` ("POA") on grids, product pages, enquiries and search, and no price goes into structured data or link previews. Theme setting `show_prices` brings ZAR prices back.
 - Nothing in the theme may link to /cart or /checkout. Redirect /cart to the works collection if possible.
 - Online ordering for Interiors and Garden pieces is a possible later phase (see `docs/specs/candles.md`, section 9). Until then pieces follow these rules too.
 
