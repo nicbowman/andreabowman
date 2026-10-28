@@ -14,8 +14,8 @@
       "settings": {
         "image": "shopify://shop_images/portrait-artist.jpg",
         "heading": "My story",
-        "lead": "<p>I'm Andrea Bowman, an abstract painter working from a studio in Cape Town. I paint large, layered canvases about the places where land meets water.</p>",
-        "text": "<p>I grew up close to the sea, and the colours of that coastline have stayed with me: wet sand, kelp, rust on old railings, the green of fynbos after rain. I have painted full time for more than a decade, after years of drawing and printmaking.</p>"
+        "lead": "<p>I'm Andrea Bowman, an artist working in Cape Town. I trained at the Metafora Art School in Barcelona, and my work has appeared in five magazines, in homes where top designers have used my art.</p>",
+        "text": "<p>I am a typical artist: untidy, full of product and unable to stop. I love what I make, then I can't live with it, and after a month I love it all over again.</p>"
       }
     },
     "how_i_work": {
@@ -24,19 +24,19 @@
         "text_1": {
           "type": "text",
           "settings": {
-            "text": "<p>A painting usually begins with a place rather than a picture: a walk along the Atlantic seaboard, a weathered wall, the light at the end of a winter afternoon. I lay down the first colours quickly and loosely, then live with the canvas for a while before going back in.</p><p>I build each surface over weeks, sometimes months. Acrylic and oil, sand, plaster and gold leaf go on, are scraped back with palette knives and squeegees, then layered again. Lines are scratched into wet paint, and the edges of earlier layers are left to show through, so every painting carries its own history.</p>"
+            "text": "<p>Making is a psychological process. It passes through pathways that take you out of your norm and into the moment. Only the moment counts until you finally stop, and it goes on for days.</p><p>Then my brain swaps from the creative space to the admin space, and it is all organisation and finishing touches for the framers and the other people who support me. Whatever I am involved in, I cannot stop until I have got where I need to be with the piece or the creation at hand.</p>"
           }
         },
         "quote_1": {
           "type": "quote",
           "settings": {
-            "quote": "I hope people feel a kind of quiet when they live with one of my paintings, the way you breathe out when you reach the sea."
+            "quote": "I have a determined ambition in art, yet I know I need to constantly grow and improve."
           }
         },
         "text_2": {
           "type": "text",
           "settings": {
-            "text": "<p>A painting is finished when I stop wanting to change it. It is signed on the back, varnished, photographed and given its title, and then it waits in the studio for the home it belongs in.</p>"
+            "text": "<p>It is that dedication that keeps me going, otherwise it plays with your mind. Either you feel you are posturing and it is not worthy, or you suddenly feel high and know it is flowing.</p><p>After returning from Oman, besides the amazing photography, I had to create the huge Omani pots I wanted. Each pot took five men to move into place and will outlive me. They are nearly as large as I am.</p>"
           }
         }
       },
@@ -87,44 +87,17 @@
     "background": {
       "type": "year-lists",
       "blocks": {
-        "exhibitions": {
+        "press": {
           "type": "group",
           "settings": {
-            "heading": "Exhibitions"
+            "heading": "Press"
           }
         },
-        "exhibition_1": {
+        "press_1": {
           "type": "entry",
           "settings": {
-            "year": "2025",
-            "text": "Tidelines, solo exhibition, Cape Town"
-          }
-        },
-        "exhibition_2": {
-          "type": "entry",
-          "settings": {
-            "year": "2024",
-            "text": "Salt and Ochre, group exhibition, Stellenbosch"
-          }
-        },
-        "collections": {
-          "type": "group",
-          "settings": {
-            "heading": "Collections"
-          }
-        },
-        "collection_1": {
-          "type": "entry",
-          "settings": {
-            "year": "2025",
-            "text": "Private collection, Constantia"
-          }
-        },
-        "collection_2": {
-          "type": "entry",
-          "settings": {
-            "year": "2024",
-            "text": "Boutique hotel collection, Franschhoek"
+            "year": "[Years]",
+            "text": "Work featured in five magazines, in interiors by top designers [Magazine names]"
           }
         },
         "training": {
@@ -136,28 +109,16 @@
         "training_1": {
           "type": "entry",
           "settings": {
-            "year": "2014",
-            "text": "Mentorship in mixed media and surface work, Cape Town"
-          }
-        },
-        "training_2": {
-          "type": "entry",
-          "settings": {
-            "year": "2010",
-            "text": "Drawing and printmaking studies, Cape Town"
+            "year": "[Year]",
+            "text": "Metafora Art School, Barcelona"
           }
         }
       },
       "block_order": [
-        "exhibitions",
-        "exhibition_1",
-        "exhibition_2",
-        "collections",
-        "collection_1",
-        "collection_2",
+        "press",
+        "press_1",
         "training",
-        "training_1",
-        "training_2"
+        "training_1"
       ],
       "settings": {
         "heading": "Background"
