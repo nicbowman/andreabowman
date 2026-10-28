@@ -62,9 +62,9 @@
         "image_position": "left",
         "heading": "Living with the work",
         "page_heading": false,
-        "text": "<p>See the paintings and pieces in the homes they now live in, along with features and exhibitions.</p>",
-        "button_label": "View features",
-        "button_url": "shopify://pages/features",
+        "text": "<p>See the paintings that have found homes, shown in the rooms they now live in.</p>",
+        "button_label": "View sold art",
+        "button_url": "shopify://collections/sold-works",
         "link_label": "",
         "link_url": "",
         "background": "oatmeal"
