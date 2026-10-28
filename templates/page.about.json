@@ -14,8 +14,8 @@
       "settings": {
         "image": "shopify://shop_images/portrait-artist.jpg",
         "heading": "My story",
-        "lead": "<p>I'm Andrea Bowman. I paint in Cape Town, and I make things with my hands: large, layered canvases, and pots big enough to outlive me.</p>",
-        "text": "<p>I trained at the Metafora Art School in Barcelona, but I learn just as much from wandering. I travel with a camera, and places stay with me long after I leave: the colours of a market, the heat of an Omani afternoon, a wall worn soft by weather. Sooner or later they find their way into paint, or into concrete. It still thrills me to see my paintings on the pages of five magazines, in rooms by designers I admire.</p>"
+        "lead": "<p>I'm Andrea, a Cape Town-based artist who loves making things with my hands: large, multi-layered textured canvases, pots big enough to outlive me, and a whole collection of curiosities that have piqued my interest over time.</p>",
+        "text": "<p>I studied at the Metafora Art School in Barcelona, but I am largely self-taught. I learn by doing, by exploring, and by spending time with other people and their ideas. A lifetime of curiosity has shaped my style. I travel with a camera, and places stay with me long after I leave: the colours of a market, the heat of an Omani afternoon, a wall worn soft by weather. Sooner or later they find their way into paint, or into concrete. It still thrills me to see my work in magazines, in rooms by designers I admire.</p>"
       }
     },
     "how_i_work": {
@@ -97,7 +97,7 @@
           "type": "entry",
           "settings": {
             "year": "[Years]",
-            "text": "Work featured in five magazines, in interiors by top designers [Magazine names]"
+            "text": "Work featured in interiors magazines, in homes by leading designers [Magazine names]"
           }
         },
         "training": {
@@ -110,7 +110,7 @@
           "type": "entry",
           "settings": {
             "year": "[Year]",
-            "text": "Metafora Art School, Barcelona"
+            "text": "Metafora Art School, Barcelona. Otherwise self-taught"
           }
         }
       },
