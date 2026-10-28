@@ -14,8 +14,8 @@
       "settings": {
         "image": "shopify://shop_images/portrait-artist.jpg",
         "heading": "My story",
-        "lead": "<p>I'm Andrea Bowman, an abstract painter working from a studio in Cape Town. I paint large, layered canvases, and I make sculptural pots for the home and garden.</p>",
-        "text": "<p>I trained at the Metafora Art School in Barcelona, and my paintings have since appeared in five magazines, chosen by leading interior designers for the homes they create. Travel feeds everything I make: the light, colour and texture of places like Oman come home with me as photographs, and find their way into paint and concrete.</p>"
+        "lead": "<p>I'm Andrea Bowman. I paint in Cape Town, and I make things with my hands: large, layered canvases, and pots big enough to outlive me.</p>",
+        "text": "<p>I trained at the Metafora Art School in Barcelona, but I learn just as much from wandering. I travel with a camera, and places stay with me long after I leave: the colours of a market, the heat of an Omani afternoon, a wall worn soft by weather. Sooner or later they find their way into paint, or into concrete. It still thrills me to see my paintings on the pages of five magazines, in rooms by designers I admire.</p>"
       }
     },
     "how_i_work": {
@@ -24,7 +24,7 @@
         "text_1": {
           "type": "text",
           "settings": {
-            "text": "<p>A painting usually begins with a place rather than a picture: a coastline, a weathered wall, the light at the end of a winter afternoon. Once I start, I find it very hard to stop. The studio fills up, days pass, and only the moment counts until the piece is where it needs to be.</p><p>I build each surface slowly, in acrylic, oil, charcoal and mixed media, scraping back and layering again so the edges of earlier layers show through. Every painting carries its own history.</p>"
+            "text": "<p>When a painting takes hold, everything else falls away. The studio fills with paint and canvas and half-finished things, the days run together, and only the moment counts. I go somewhere outside my usual self, and I don't come back until the piece is right.</p><p>I work in layers of acrylic, oil, charcoal and mixed media, building up and scraping back, so earlier layers glow through the later ones. Every painting carries the history of the days it took to make.</p>"
           }
         },
         "quote_1": {
@@ -36,7 +36,7 @@
         "text_2": {
           "type": "text",
           "settings": {
-            "text": "<p>A painting is finished when I stop wanting to change it. Then the quieter work begins: framing, finishing touches and the people who help each piece reach the home it belongs in.</p><p>The same pull goes into my pots. After a trip to Oman I had to make the huge Omani pots I had in mind. Each one took five men to move into place, stands nearly as tall as I am, and will outlive me.</p><p>I am ambitious about my work, and I know there is always more to learn. That is what keeps me going back to the studio.</p>"
+            "text": "<p>There are days I wonder if I'm only posturing, and days when it simply flows and I know it. Both keep me honest, and both keep me painting. I am ambitious about my work, and I hope I never stop growing.</p><p>Then the storm settles into careful work: framing, finishing, the small last touches that let a painting leave the studio and go home.</p><p>The same hunger drives my pots. I came back from Oman with Omani pots in my head and had to make my own. Each one took five men to lift into place. They are nearly as large as I am, and they will be standing long after I'm gone.</p>"
           }
         }
       },
