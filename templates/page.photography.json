@@ -1,0 +1,50 @@
+{
+  "sections": {
+    "intro": {
+      "type": "page-intro",
+      "settings": {
+        "heading": "Photography",
+        "text": "<p>Photographs from my travels. [A few lines about these photographs]</p>"
+      }
+    },
+    "portraits": {
+      "type": "image-row",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/photo-indian-ladies.jpg",
+            "caption": ""
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/photo-veiled-figure.jpg",
+            "caption": ""
+          }
+        },
+        "image_3": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/photo-old-man.jpg",
+            "caption": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2",
+        "image_3"
+      ],
+      "settings": {
+        "heading": "Portraits",
+        "image_ratio": "portrait"
+      }
+    }
+  },
+  "order": [
+    "intro",
+    "portraits"
+  ]
+}

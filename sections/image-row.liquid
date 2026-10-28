@@ -5,6 +5,11 @@
       assign with_images = with_images | plus: 1
     endif
   endfor
+
+  assign ratio = '1-1'
+  if section.settings.image_ratio == 'portrait'
+    assign ratio = '4-5'
+  endif
 -%}
 
 {%- if with_images > 0 or request.design_mode -%}
@@ -23,7 +28,7 @@
           <figure class="image-row__item">
             {% render 'cover-image',
               image: block.settings.image,
-              ratio: '1-1',
+              ratio: ratio,
               alt: block.settings.caption,
               captioned: true,
               sizes: '(min-width: 1320px) 380px, (min-width: 750px) 30vw, 100vw'
@@ -76,6 +81,16 @@
       "id": "heading",
       "label": "t:labels.heading",
       "default": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:labels.image_ratio",
+      "options": [
+        { "value": "square", "label": "t:options.ratio.square" },
+        { "value": "portrait", "label": "t:options.ratio.portrait" }
+      ],
+      "default": "square"
     }
   ],
   "blocks": [
