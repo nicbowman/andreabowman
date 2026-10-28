@@ -7,6 +7,11 @@
   unless product_type == blank or product_type == 'painting' or product_type == 'print'
     assign is_piece = true
   endunless
+  # Prints share the painting layout, but their wording says print
+  assign is_print = false
+  if product_type == 'print'
+    assign is_print = true
+  endif
 
   assign tags_lower = product.tags | join: '|' | downcase | split: '|'
   assign is_sold = false
@@ -14,6 +19,16 @@
     assign is_sold = true
   elsif is_piece and product.available == false
     assign is_sold = true
+  endif
+
+  # A print whose stock is tracked shows how many are left, and is sold once the edition runs out
+  assign prints_left = 0
+  if is_print and product.variants.first.inventory_management == 'shopify'
+    if product.variants.first.inventory_quantity > 0
+      assign prints_left = product.variants.first.inventory_quantity
+    else
+      assign is_sold = true
+    endif
   endif
 
   if is_sold and section.settings.sold_collection
@@ -199,6 +214,9 @@
     {%- else -%}
       <span class="product__price">{{ product.price | money_without_trailing_zeros }}</span>
     {%- endif -%}
+    {%- if prints_left > 0 -%}
+      <span class="product__stock">{{ 'products.prints_left' | t: count: prints_left }}</span>
+    {%- endif -%}
 
     {%- if is_piece and product.has_only_default_variant == false -%}
       {%- comment -%}
@@ -293,7 +311,11 @@
 
     {%- if is_sold -%}
       <p class="product__sold-message">
-        {{ section.settings.sold_message | escape }}
+        {%- if is_print -%}
+          {{ 'products.sold_message_print' | t }}
+        {%- else -%}
+          {{ section.settings.sold_message | escape }}
+        {%- endif %}
         <a href="#enquire" data-enquire data-side-panel-open="enquire">{{ section.settings.sold_link_text | escape }}</a>
       </p>
     {%- else -%}
@@ -309,14 +331,24 @@
             {{- 'products.enquire_piece' | t -}}
           </a>
         {%- else -%}
+          {%- liquid
+            assign enquire_key = 'products.enquire'
+            assign enquiry_type_key = 'products.enquiry.type_enquiry'
+            assign reserve_key = 'products.reserve_message'
+            if is_print
+              assign enquire_key = 'products.enquire_print'
+              assign enquiry_type_key = 'products.enquiry.type_print'
+              assign reserve_key = 'products.reserve_message_print'
+            endif
+          -%}
           <a
             class="button button--full"
             href="#enquire"
             data-enquire
             data-side-panel-open="enquire"
-            data-enquiry-type="{{ 'products.enquiry.type_enquiry' | t | escape }}"
+            data-enquiry-type="{{ enquiry_type_key | t | escape }}"
           >
-            {{- 'products.enquire' | t -}}
+            {{- enquire_key | t -}}
           </a>
           <a
             class="button button--secondary button--full"
@@ -324,7 +356,7 @@
             data-enquire
             data-side-panel-open="enquire"
             data-enquiry-type="{{ 'products.enquiry.type_reserve' | t | escape }}"
-            data-reserve="{{ 'products.reserve_message' | t | escape }}"
+            data-reserve="{{ reserve_key | t | escape }}"
           >
             {{- 'products.reserve' | t -}}
           </a>
@@ -869,6 +901,11 @@
   .product__price {
     font-size: 22px;
     font-weight: var(--font-weight-regular);
+  }
+
+  .product__stock {
+    font-size: var(--text-size-small);
+    color: var(--color-muted);
   }
 
   .product__sold {

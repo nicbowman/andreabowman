@@ -66,6 +66,7 @@
     "panel_enquiry": "General enquiry",
     "panel_heading_piece": "Enquire about this piece",
     "panel_heading_painting": "Enquire about this painting",
+    "panel_heading_print": "Enquire about this print",
     "panel_heading_similar": "Ask about commissions or similar works",
     "phone": "Phone (optional)",
     "project": "Project",
@@ -139,7 +140,8 @@
   "meta": {
     "piece_title": "{{ title }} by {{ artist }}",
     "page": "Page {{ page }}",
-    "painting_title": "{{ title }}, original abstract painting by {{ artist }}"
+    "painting_title": "{{ title }}, original abstract painting by {{ artist }}",
+    "print_title": "{{ title }}, print by {{ artist }}"
   },
   "password": {
     "enter": "Enter",
@@ -162,6 +164,7 @@
     "finish": "Finish",
     "enquire": "Enquire about this painting",
     "enquire_piece": "Enquire about this piece",
+    "enquire_print": "Enquire about this print",
     "enquiry": {
       "piece": "Piece",
       "delivery": "Delivery",
@@ -169,6 +172,8 @@
       "message": "Message",
       "message_placeholder": "Anything you would like to know about this painting",
       "message_placeholder_piece": "Sizes, finishes, quantities or delivery details",
+      "message_placeholder_print": "Anything you would like to know about this print",
+      "print": "Print",
       "name": "Name",
       "painting": "Painting",
       "phone": "Phone (optional)",
@@ -179,6 +184,7 @@
       "success": "Thank you. Your enquiry has been sent, and I'll reply to you by email.",
       "type_piece": "Piece enquiry",
       "type_enquiry": "Painting enquiry",
+      "type_print": "Print enquiry",
       "type_reserve": "Reservation for a design project"
     },
     "framing": "Framing",
@@ -186,12 +192,15 @@
     "medium": "Medium",
     "notes": "Scent notes",
     "price_from": "From {{ price }}",
+    "prints_left": "{{ count }} available",
     "reserve": "Reserve for a design project",
     "reserve_message": "I would like to reserve this painting for a design project.",
+    "reserve_message_print": "I would like to reserve this print for a design project.",
     "scale_caption": "To scale beside a 1.7 m figure",
     "scale_label": "{{ title }}, {{ dimensions }}, drawn to scale beside a 1.7 m figure",
     "signature": "Signed",
     "sold": "Sold",
+    "sold_message_print": "This print has found a home.",
     "sold_out": "Sold out",
     "vessel": "Vessel",
     "view_all": "View all",
