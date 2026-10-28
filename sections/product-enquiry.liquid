@@ -27,6 +27,15 @@
     assign enquiry_type = 'products.enquiry.type_enquiry' | t
     assign message_placeholder = 'products.enquiry.message_placeholder' | t
   endif
+  # Prints share the painting form, but their wording says print
+  assign is_print = false
+  if product_type == 'print'
+    assign is_print = true
+    assign item_label = 'products.enquiry.print' | t
+    assign item_name = 'contact[Print]'
+    assign enquiry_type = 'products.enquiry.type_print' | t
+    assign message_placeholder = 'products.enquiry.message_placeholder_print' | t
+  endif
 
   if is_sold and is_piece
     assign item_value = 'products.enquiry.sold_piece' | t: title: product.title
@@ -52,6 +61,9 @@
     endunless
     assign item_value = product.title | append: ', ' | append: price
     assign heading = section.settings.heading
+    if is_print
+      assign heading = 'contact.panel_heading_print' | t
+    endif
   endif
 
   assign delivery_options = section.settings.delivery_options | newline_to_br | split: '<br />'

@@ -73,6 +73,8 @@
     assign enquire_heading = 'contact.panel_heading_painting' | t
     if is_piece
       assign enquire_heading = 'contact.panel_heading_piece' | t
+    elsif product_type == 'print'
+      assign enquire_heading = 'contact.panel_heading_print' | t
     endif
     assign enquire_price = product.price | money_without_trailing_zeros | strip_html
     if is_piece and product.price_varies

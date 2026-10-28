@@ -7,6 +7,11 @@
   unless product_type == blank or product_type == 'painting' or product_type == 'print'
     assign is_piece = true
   endunless
+  # Prints share the painting layout, but their wording says print
+  assign is_print = false
+  if product_type == 'print'
+    assign is_print = true
+  endif
 
   assign tags_lower = product.tags | join: '|' | downcase | split: '|'
   assign is_sold = false
@@ -293,7 +298,11 @@
 
     {%- if is_sold -%}
       <p class="product__sold-message">
-        {{ section.settings.sold_message | escape }}
+        {%- if is_print -%}
+          {{ 'products.sold_message_print' | t }}
+        {%- else -%}
+          {{ section.settings.sold_message | escape }}
+        {%- endif %}
         <a href="#enquire" data-enquire data-side-panel-open="enquire">{{ section.settings.sold_link_text | escape }}</a>
       </p>
     {%- else -%}
@@ -309,14 +318,24 @@
             {{- 'products.enquire_piece' | t -}}
           </a>
         {%- else -%}
+          {%- liquid
+            assign enquire_key = 'products.enquire'
+            assign enquiry_type_key = 'products.enquiry.type_enquiry'
+            assign reserve_key = 'products.reserve_message'
+            if is_print
+              assign enquire_key = 'products.enquire_print'
+              assign enquiry_type_key = 'products.enquiry.type_print'
+              assign reserve_key = 'products.reserve_message_print'
+            endif
+          -%}
           <a
             class="button button--full"
             href="#enquire"
             data-enquire
             data-side-panel-open="enquire"
-            data-enquiry-type="{{ 'products.enquiry.type_enquiry' | t | escape }}"
+            data-enquiry-type="{{ enquiry_type_key | t | escape }}"
           >
-            {{- 'products.enquire' | t -}}
+            {{- enquire_key | t -}}
           </a>
           <a
             class="button button--secondary button--full"
@@ -324,7 +343,7 @@
             data-enquire
             data-side-panel-open="enquire"
             data-enquiry-type="{{ 'products.enquiry.type_reserve' | t | escape }}"
-            data-reserve="{{ 'products.reserve_message' | t | escape }}"
+            data-reserve="{{ reserve_key | t | escape }}"
           >
             {{- 'products.reserve' | t -}}
           </a>
