@@ -14,8 +14,8 @@
       "settings": {
         "image": "shopify://shop_images/portrait-artist.jpg",
         "heading": "My story",
-        "lead": "<p>I'm Andrea Bowman, an artist working in Cape Town. I trained at the Metafora Art School in Barcelona, and my work has appeared in five magazines, in homes where top designers have used my art.</p>",
-        "text": "<p>I am a typical artist: untidy, full of product and unable to stop. I love what I make, then I can't live with it, and after a month I love it all over again.</p>"
+        "lead": "<p>I'm Andrea Bowman, an abstract painter working from a studio in Cape Town. I paint large, layered canvases, and I make sculptural pots for the home and garden.</p>",
+        "text": "<p>I trained at the Metafora Art School in Barcelona, and my paintings have since appeared in five magazines, chosen by leading interior designers for the homes they create. Travel feeds everything I make: the light, colour and texture of places like Oman come home with me as photographs, and find their way into paint and concrete.</p>"
       }
     },
     "how_i_work": {
@@ -24,19 +24,19 @@
         "text_1": {
           "type": "text",
           "settings": {
-            "text": "<p>Making is a psychological process. It passes through pathways that take you out of your norm and into the moment. Only the moment counts until you finally stop, and it goes on for days.</p><p>Then my brain swaps from the creative space to the admin space, and it is all organisation and finishing touches for the framers and the other people who support me. Whatever I am involved in, I cannot stop until I have got where I need to be with the piece or the creation at hand.</p>"
+            "text": "<p>A painting usually begins with a place rather than a picture: a coastline, a weathered wall, the light at the end of a winter afternoon. Once I start, I find it very hard to stop. The studio fills up, days pass, and only the moment counts until the piece is where it needs to be.</p><p>I build each surface slowly, in acrylic, oil, charcoal and mixed media, scraping back and layering again so the edges of earlier layers show through. Every painting carries its own history.</p>"
           }
         },
         "quote_1": {
           "type": "quote",
           "settings": {
-            "quote": "I have a determined ambition in art, yet I know I need to constantly grow and improve."
+            "quote": "I love what I make, then I can't live with it, and a month later I love it all over again."
           }
         },
         "text_2": {
           "type": "text",
           "settings": {
-            "text": "<p>It is that dedication that keeps me going, otherwise it plays with your mind. Either you feel you are posturing and it is not worthy, or you suddenly feel high and know it is flowing.</p><p>After returning from Oman, besides the amazing photography, I had to create the huge Omani pots I wanted. Each pot took five men to move into place and will outlive me. They are nearly as large as I am.</p>"
+            "text": "<p>A painting is finished when I stop wanting to change it. Then the quieter work begins: framing, finishing touches and the people who help each piece reach the home it belongs in.</p><p>The same pull goes into my pots. After a trip to Oman I had to make the huge Omani pots I had in mind. Each one took five men to move into place, stands nearly as tall as I am, and will outlive me.</p><p>I am ambitious about my work, and I know there is always more to learn. That is what keeps me going back to the studio.</p>"
           }
         }
       },
