@@ -29,6 +29,16 @@
     assign is_sold = true
   endif
 
+  # A print whose stock is tracked shows how many are left, and is sold once the edition runs out
+  assign prints_left = 0
+  if product_type == 'print' and product.variants.first.inventory_management == 'shopify'
+    if product.variants.first.inventory_quantity > 0
+      assign prints_left = product.variants.first.inventory_quantity
+    else
+      assign is_sold = true
+    endif
+  endif
+
   # Lead with the in-room photo when there is one (theme setting), otherwise the mounted product image.
   assign card_image = product.featured_image
   assign card_cover = false
@@ -100,6 +110,9 @@
       <{{ tag }} class="card__title">{{ product.title | escape }}</{{ tag }}>
       {%- if meta_parts != blank -%}
         <span class="card__meta">{{ meta_parts | escape }}</span>
+      {%- endif -%}
+      {%- if prints_left > 0 -%}
+        <span class="card__meta">{{ 'products.prints_left' | t: count: prints_left }}</span>
       {%- endif -%}
     </div>
 

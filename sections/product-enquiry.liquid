@@ -35,6 +35,9 @@
     assign item_name = 'contact[Print]'
     assign enquiry_type = 'products.enquiry.type_print' | t
     assign message_placeholder = 'products.enquiry.message_placeholder_print' | t
+    if product.variants.first.inventory_management == 'shopify' and product.variants.first.inventory_quantity < 1
+      assign is_sold = true
+    endif
   endif
 
   if is_sold and is_piece

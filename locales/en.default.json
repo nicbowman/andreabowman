@@ -192,6 +192,7 @@
     "medium": "Medium",
     "notes": "Scent notes",
     "price_from": "From {{ price }}",
+    "prints_left": "{{ count }} available",
     "reserve": "Reserve for a design project",
     "reserve_message": "I would like to reserve this painting for a design project.",
     "reserve_message_print": "I would like to reserve this print for a design project.",

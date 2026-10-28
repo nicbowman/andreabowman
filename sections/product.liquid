@@ -21,6 +21,16 @@
     assign is_sold = true
   endif
 
+  # A print whose stock is tracked shows how many are left, and is sold once the edition runs out
+  assign prints_left = 0
+  if is_print and product.variants.first.inventory_management == 'shopify'
+    if product.variants.first.inventory_quantity > 0
+      assign prints_left = product.variants.first.inventory_quantity
+    else
+      assign is_sold = true
+    endif
+  endif
+
   if is_sold and section.settings.sold_collection
     assign crumb = section.settings.sold_collection
   else
@@ -203,6 +213,9 @@
       <span class="product__price" data-variant-price>{{ variant.price | money_without_trailing_zeros }}</span>
     {%- else -%}
       <span class="product__price">{{ product.price | money_without_trailing_zeros }}</span>
+    {%- endif -%}
+    {%- if prints_left > 0 -%}
+      <span class="product__stock">{{ 'products.prints_left' | t: count: prints_left }}</span>
     {%- endif -%}
 
     {%- if is_piece and product.has_only_default_variant == false -%}
@@ -888,6 +901,11 @@
   .product__price {
     font-size: 22px;
     font-weight: var(--font-weight-regular);
+  }
+
+  .product__stock {
+    font-size: var(--text-size-small);
+    color: var(--color-muted);
   }
 
   .product__sold {
